@@ -83,6 +83,7 @@ public static class RaitExtensions
             var parameterInfo = parameterInfos[index];
             switch (arg)
             {
+                
                 case MemberExpression methodBodyArgument:
                 {
                     var value = GetValue(methodBodyArgument);
