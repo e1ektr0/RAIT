@@ -2,7 +2,6 @@
 using System.Linq.Expressions;
 using System.Net.Http.Json;
 using System.Reflection;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
@@ -188,14 +187,14 @@ public static class RaitExtensions
         // Concat all IEnumerable properties into a comma separated string
         foreach (var key in propertyNames)
         {
-            var valueType = properties[key].GetType();
+            var valueType = properties[key]!.GetType();
             var valueElemType = valueType.IsGenericType
                 ? valueType.GetGenericArguments()[0]
                 : valueType.GetElementType();
-            if (valueElemType.IsPrimitive || valueElemType == typeof(string))
+            if (valueElemType!.IsPrimitive || valueElemType == typeof(string))
             {
                 var enumerable = properties[key] as IEnumerable;
-                properties[key] = string.Join(separator, enumerable.Cast<object>());
+                properties[key] = string.Join(separator, enumerable!.Cast<object>());
             }
         }
 
@@ -203,7 +202,7 @@ public static class RaitExtensions
         return string.Join("&", properties
             .Select(x => string.Concat(
                 Uri.EscapeDataString(x.Key), "=",
-                Uri.EscapeDataString(x.Value.ToString()))));
+                Uri.EscapeDataString(x.Value!.ToString()!))));
     }
 
     private static string? ConvertRout(IEnumerable<CustomAttributeData> attributes,
@@ -238,6 +237,6 @@ public static class RaitExtensions
         public object? Value { get; init; }
         public string Name { get; init; } = null!;
         public bool Used { get; set; }
-        public bool IsQuery { get; set; }
+        public bool IsQuery { get; init; }
     }
 }
