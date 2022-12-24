@@ -19,12 +19,15 @@ public class RaitTestController : ControllerBase
 
     [Route("post_body_test")]
     [HttpPost]
-    public async Task<Ok> Post([FromBody] Model model)
+    public async Task<ResponseModel> Post([FromBody] Model model)
     {
         await Task.CompletedTask;
         if (model.Id != 10)
             throw new Exception("Wrong value");
-        return new Ok();
+        return new ResponseModel
+        {
+            Id = 10
+        };
     }
 
     [Route("put_query_test")]

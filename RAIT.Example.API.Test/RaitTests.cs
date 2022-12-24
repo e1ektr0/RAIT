@@ -38,10 +38,12 @@ public sealed class RaitTests
         {
             Id = 10
         };
-        await _defaultClient.Call<RaitTestController, Ok>(n => n.Post(model));
+        var responseModel = await _defaultClient.Call<RaitTestController, ResponseModel>(n => n.Post(model));
+
+        Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
-    
-    
+
+
     [Test]
     public async Task PutFromQueryCall()
     {
@@ -51,6 +53,7 @@ public sealed class RaitTests
         };
         await _defaultClient.Call<RaitTestController, Ok>(n => n.PutFromQuery(model));
     }
+
     [Test]
     public async Task DeleteFromQueryCall()
     {
