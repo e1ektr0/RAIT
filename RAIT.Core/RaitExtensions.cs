@@ -33,6 +33,7 @@ public static class RaitExtensions
         if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
         {
             var httpResponseMessage = await httpClient.GetAsync(rout);
+            await HandleError(httpResponseMessage);
             httpResponseMessage.EnsureSuccessStatusCode();
             return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
         }
@@ -42,6 +43,7 @@ public static class RaitExtensions
             var generatedInputParameter = prepareInputParameters.FirstOrDefault(n => !n.Used);
             var jsonContent = JsonContent.Create(generatedInputParameter?.Value ?? "{}");
             var httpResponseMessage = await httpClient.PostAsync(rout, jsonContent);
+            await HandleError(httpResponseMessage);
             httpResponseMessage.EnsureSuccessStatusCode();
             return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
         }
@@ -54,6 +56,7 @@ public static class RaitExtensions
             if (generatedInputParameter == null)
                 jsonContent = null;
             var httpResponseMessage = await httpClient.PutAsync(rout, jsonContent);
+            await HandleError(httpResponseMessage);
             httpResponseMessage.EnsureSuccessStatusCode();
             return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
         }
@@ -61,11 +64,21 @@ public static class RaitExtensions
         if (customAttributeData.AttributeType == typeof(HttpDeleteAttribute))
         {
             var httpResponseMessage = await httpClient.DeleteAsync(rout);
+            await HandleError(httpResponseMessage);
             httpResponseMessage.EnsureSuccessStatusCode();
             return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
         }
 
         throw new Exception("wtf");
+    }
+
+    private static async Task HandleError(HttpResponseMessage httpResponseMessage)
+    {
+        if (!httpResponseMessage.IsSuccessStatusCode)
+        {
+            var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
+            throw new Exception(readAsStringAsync);
+        }
     }
 
     private static List<GeneratedInputParameter> PrepareInputParameters<TInput, TOutput>(
