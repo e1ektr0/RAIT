@@ -2,6 +2,11 @@
 
 Dotnet integration test with strongly type query generatio
 
+Nuget:
+```
+> dotnet add package RAIT
+``` 
+
 Example usage:
 https://github.com/e1ektr0/Library
 (https://github.com/e1ektr0/Library/blob/master/Library.API.Test/AuthTest.cs)
