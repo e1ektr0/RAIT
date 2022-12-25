@@ -29,5 +29,4 @@ Todo:
 1. Support more routing features
 2. Improve serialization
 3. Support form data models
-4. Improve using syntax 
-5. MemberInitExpression(new Model() inside expression)
+4. MemberInitExpression(new Model() inside expression)
