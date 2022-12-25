@@ -21,6 +21,9 @@ internal static class RaitParameterExtractor
             var parameterInfo = parameterInfos[index];
             switch (arg)
             {
+                case MemberInitExpression memberInitExpression:
+                    throw new NotImplementedException("new Model() not support yet");
+                    break;
                 case MemberExpression methodBodyArgument:
                 {
                     var value = GetValue(methodBodyArgument);
