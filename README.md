@@ -1,6 +1,6 @@
 # RAIT
 
-Dotnet integration test with strongly typed query generation
+Dotnet rest api integration test library
 
 Nuget:
 ```
