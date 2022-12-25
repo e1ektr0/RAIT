@@ -9,7 +9,7 @@ https://github.com/e1ektr0/Library
 
 
 How it working:<br />
-![How it working](https://media.discordapp.net/attachments/449268423638122498/1056519050668294185/AVOh1iJHrsYQAAAAAElFTkSuQmCC.png)
+![How it working](https://cdn.discordapp.com/attachments/449268423638122498/1056522060089798726/j8l3q3k3L7DXQAAAABJRU5ErkJggg.png)
 
 
 Todo:
