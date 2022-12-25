@@ -1,9 +1,41 @@
 ﻿using System.Net.Http.Json;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace RAIT.Core;
+
+public class RaitFormFile : IFormFile
+{
+    public RaitFormFile(string name)
+    {
+        Name = name;
+        FileName = name;
+    }
+
+    public Stream OpenReadStream()
+    {
+        return File.Open(Name, FileMode.Open);
+    }
+
+    public void CopyTo(Stream target)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task CopyToAsync(Stream target, CancellationToken cancellationToken = new())
+    {
+        throw new NotImplementedException();
+    }
+
+    public string? ContentType { get; } = null;
+    public string? ContentDisposition { get; } = null;
+    public IHeaderDictionary Headers { get; } = new HeaderDictionary();
+    public long Length { get; } = 0;
+    public string Name { get; }
+    public string FileName { get; }
+}
 
 internal static class RaitHttpRequester
 {
@@ -41,13 +73,33 @@ internal static class RaitHttpRequester
 
         if (httpResponseMessage == null)
             throw new Exception("Rait: Http web attribute not found.");
-        
+
         await HandleError(httpResponseMessage);
         return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
     }
 
     private static HttpContent? PrepareRequestContent(List<InputParameter> prepareInputParameters)
     {
+        if (prepareInputParameters.Any(n => n.IsForm || n.Type == typeof(RaitFormFile)))
+        {
+            // todo: serialize model to form data:
+            // HttpContent stringContent = new StringContent(paramString);
+            // HttpContent fileStreamContent = new StreamContent(paramFileStream);
+            // HttpContent bytesContent = new ByteArrayContent(paramFileBytes);
+            var formData = new MultipartFormDataContent();
+            foreach (var parameter in prepareInputParameters.Where(n => !n.Used))
+            {
+                if (parameter.Type == typeof(RaitFormFile))
+                {
+                    var parameterValue = (RaitFormFile)parameter.Value!;
+                    formData.Add(new StreamContent(parameterValue.OpenReadStream()), parameter.Name,
+                        parameterValue.FileName);
+                }
+            }
+
+            return formData;
+        }
+
         var generatedInputParameter = prepareInputParameters.FirstOrDefault(n => !n.Used);
         var jsonContent = JsonContent.Create(generatedInputParameter?.Value);
         if (generatedInputParameter == null)

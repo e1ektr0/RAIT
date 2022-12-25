@@ -7,4 +7,5 @@ internal class InputParameter
     public bool Used { get; set; }
     public bool IsQuery { get; init; }
     public bool IsForm { get; set; }
+    public Type? Type { get; set; }
 }

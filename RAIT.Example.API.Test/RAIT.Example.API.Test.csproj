@@ -25,4 +25,10 @@
       <ProjectReference Include="..\RAIT.Example.API\RAIT.Example.API.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="example.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

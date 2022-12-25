@@ -50,7 +50,8 @@ internal static class RaitParameterExtractor
             Value = value,
             Name = info.Name!,
             IsQuery = info.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute)),
-            IsForm = info.CustomAttributes.Any(n=>n.AttributeType == typeof(FromFormAttribute))
+            IsForm = info.CustomAttributes.Any(n=>n.AttributeType == typeof(FromFormAttribute)),
+            Type = value?.GetType()
         };
     }
 
