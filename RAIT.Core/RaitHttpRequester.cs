@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace RAIT.Core;
 
-public class RaitFormFile : IFormFile
+public class RaitFormFile : IFormFile, IDisposable
 {
+    private FileStream? _openReadStream;
+
     public RaitFormFile(string name, string contentType)
     {
         Name = name;
@@ -17,7 +19,8 @@ public class RaitFormFile : IFormFile
 
     public Stream OpenReadStream()
     {
-        return File.Open(Name, FileMode.Open);
+        _openReadStream = File.Open(Name, FileMode.Open);
+        return _openReadStream;
     }
 
     public void CopyTo(Stream target)
@@ -36,6 +39,13 @@ public class RaitFormFile : IFormFile
     public long Length { get; } = 0;
     public string Name { get; }
     public string FileName { get; }
+
+    public void Dispose()
+    {
+        if (_openReadStream == null) return;
+        _openReadStream.Close();
+        _openReadStream = null;
+    }
 }
 
 internal static class RaitHttpRequester
