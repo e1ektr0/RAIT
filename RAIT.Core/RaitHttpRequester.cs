@@ -93,7 +93,9 @@ internal static class RaitHttpRequester
                 if (parameter.Type == typeof(RaitFormFile))
                 {
                     var parameterValue = (RaitFormFile)parameter.Value!;
-                    formData.Add(new StreamContent(parameterValue.OpenReadStream()), parameter.Name,
+                    var streamContent = new StreamContent(parameterValue.OpenReadStream());
+                    streamContent.Headers.Add("Content-Type", parameterValue.ContentType);
+                    formData.Add(streamContent, parameter.Name,
                         parameterValue.FileName);
                 }
             }
