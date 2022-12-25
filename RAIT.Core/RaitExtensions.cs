@@ -14,6 +14,7 @@ public static class RaitExtensions
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
-        return await RaitHttpRequester.HttpRequest<TOutput>(client, methodInfo.CustomAttributes, rout, prepareInputParameters);
+        return await RaitHttpRequester.HttpRequest<TOutput>(client, methodInfo.CustomAttributes, rout,
+            prepareInputParameters);
     }
 }

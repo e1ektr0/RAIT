@@ -6,10 +6,11 @@ using RAIT.Example.API.Models;
 
 namespace RAIT.Example.API.Test;
 
-public sealed class RaitFileTests
+public sealed class RaitWrapperTests
 {
     private WebApplicationFactory<Program> _application = null!;
     private HttpClient _defaultClient = null!;
+    private RaitHttpWrapper<RaitTestController> _raitHttpWrapper = null!;
 
     [SetUp]
     public void Setup()
@@ -18,6 +19,7 @@ public sealed class RaitFileTests
             .WithWebHostBuilder(PrepareEnv);
 
         _defaultClient = _application.CreateDefaultClient();
+        _raitHttpWrapper = new RaitHttpWrapper<RaitTestController>(_defaultClient);
     }
 
     private void PrepareEnv(IWebHostBuilder _)
@@ -28,9 +30,11 @@ public sealed class RaitFileTests
     [Test]
     public async Task PostCall()
     {
-        var model = new RaitFormFile("example.txt", "image/png");
-        var responseModel =
-            await _defaultClient.Call<RaitTestFileController, ResponseModel>(n => n.Post(model));
+        var model = new Model
+        {
+            Id = 10
+        };
+        var responseModel = await _raitHttpWrapper.Call(n => n.Post(model));
 
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
