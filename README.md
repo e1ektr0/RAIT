@@ -1,6 +1,11 @@
 # RAIT
 
-Dotnet integration test with strongly type query generatio
+Dotnet integration test with strongly typed query generation
+
+Nuget:
+```
+> dotnet add package RAIT
+``` 
 
 Example usage:
 https://github.com/e1ektr0/Library
