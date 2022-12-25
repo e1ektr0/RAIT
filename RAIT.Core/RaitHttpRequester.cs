@@ -9,52 +9,50 @@ internal static class RaitHttpRequester
 {
     internal static async Task<TOutput?> HttpRequest<TOutput>(HttpClient httpClient,
         IEnumerable<CustomAttributeData> attributes, string rout,
-        List<GeneratedInputParameter> prepareInputParameters) where TOutput : class
+        List<InputParameter> prepareInputParameters) where TOutput : class
     {
         var customAttributeData =
             attributes.FirstOrDefault(n => n.AttributeType.BaseType == typeof(HttpMethodAttribute));
         if (customAttributeData == null)
             throw new Exception("Http type attribute not found");
-
+        HttpResponseMessage? httpResponseMessage = null;
         if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
         {
-            var httpResponseMessage = await httpClient.GetAsync(rout);
-            await HandleError(httpResponseMessage);
-            httpResponseMessage.EnsureSuccessStatusCode();
+            httpResponseMessage = await httpClient.GetAsync(rout);
             return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
         }
 
         if (customAttributeData.AttributeType == typeof(HttpPostAttribute))
         {
-            var generatedInputParameter = prepareInputParameters.FirstOrDefault(n => !n.Used);
-            var jsonContent = JsonContent.Create(generatedInputParameter?.Value);
-            var httpResponseMessage = await httpClient.PostAsync(rout, jsonContent);
-            await HandleError(httpResponseMessage);
-            httpResponseMessage.EnsureSuccessStatusCode();
-            return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
+            var httpContent = PrepareRequestContent(prepareInputParameters);
+            httpResponseMessage = await httpClient.PostAsync(rout, httpContent);
         }
 
         if (customAttributeData.AttributeType == typeof(HttpPutAttribute))
         {
-            var generatedInputParameter = prepareInputParameters.FirstOrDefault(n => !n.Used);
-            var jsonContent = JsonContent.Create(generatedInputParameter?.Value);
-            if (generatedInputParameter == null)
-                jsonContent = null;
-            var httpResponseMessage = await httpClient.PutAsync(rout, jsonContent);
-            await HandleError(httpResponseMessage);
-            httpResponseMessage.EnsureSuccessStatusCode();
-            return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
+            var httpContent = PrepareRequestContent(prepareInputParameters);
+            httpResponseMessage = await httpClient.PutAsync(rout, httpContent);
         }
 
         if (customAttributeData.AttributeType == typeof(HttpDeleteAttribute))
         {
-            var httpResponseMessage = await httpClient.DeleteAsync(rout);
-            await HandleError(httpResponseMessage);
-            httpResponseMessage.EnsureSuccessStatusCode();
-            return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
+            httpResponseMessage = await httpClient.DeleteAsync(rout);
         }
 
-        throw new Exception("wtf");
+        if (httpResponseMessage == null)
+            throw new Exception("Rait: Http web attribute not found.");
+        
+        await HandleError(httpResponseMessage);
+        return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
+    }
+
+    private static HttpContent? PrepareRequestContent(List<InputParameter> prepareInputParameters)
+    {
+        var generatedInputParameter = prepareInputParameters.FirstOrDefault(n => !n.Used);
+        var jsonContent = JsonContent.Create(generatedInputParameter?.Value);
+        if (generatedInputParameter == null)
+            jsonContent = null;
+        return jsonContent;
     }
 
     private static async Task HandleError(HttpResponseMessage httpResponseMessage)
@@ -62,7 +60,7 @@ internal static class RaitHttpRequester
         if (!httpResponseMessage.IsSuccessStatusCode)
         {
             var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
-            throw new Exception(readAsStringAsync);
+            throw new RaitHttpException(readAsStringAsync, httpResponseMessage.StatusCode);
         }
     }
 }

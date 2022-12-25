@@ -8,7 +8,7 @@ namespace RAIT.Core;
 internal static class RaitRouter
 {
     internal static string PrepareRout<TController, TOutput>(Expression<Func<TController, Task<TOutput>>> tree,
-        List<GeneratedInputParameter> generatedInputParameters) where TOutput : class
+        List<InputParameter> generatedInputParameters) where TOutput : class
     {
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;
@@ -36,7 +36,7 @@ internal static class RaitRouter
     }
 
     private static string? ConvertRout(IEnumerable<CustomAttributeData> attributes,
-        MemberInfo controllerType, List<GeneratedInputParameter> generatedInputParameters)
+        MemberInfo controllerType, List<InputParameter> generatedInputParameters)
     {
         var customAttributeData =
             attributes.FirstOrDefault(n => n.AttributeType == typeof(RouteAttribute));
@@ -62,14 +62,14 @@ internal static class RaitRouter
     }
 
 
-    private static string PrepareValueToQuery(GeneratedInputParameter generatedInputParameter, string name)
+    private static string PrepareValueToQuery(InputParameter inputParameter, string name)
     {
-        if (generatedInputParameter.Value is string value)
+        if (inputParameter.Value is string value)
             return name + "=" + value;
-        if (generatedInputParameter.Value!.GetType().IsValueType)
-            return name + "=" + generatedInputParameter.Value!;
+        if (inputParameter.Value!.GetType().IsValueType)
+            return name + "=" + inputParameter.Value!;
 
-        return ToQueryString(generatedInputParameter.Value);
+        return ToQueryString(inputParameter.Value);
     }
 
     private static string ToQueryString(this object request, string separator = ",")

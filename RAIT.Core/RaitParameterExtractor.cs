@@ -1,11 +1,12 @@
 ﻿using System.Linq.Expressions;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 
 namespace RAIT.Core;
 
 internal static class RaitParameterExtractor
 {
-    internal static List<GeneratedInputParameter> PrepareInputParameters<TInput, TOutput>(
+    internal static List<InputParameter> PrepareInputParameters<TInput, TOutput>(
         Expression<Func<TInput, Task<TOutput>>> tree) where TOutput : class
     {
         var methodBody = tree.Body as MethodCallExpression;
@@ -13,7 +14,7 @@ internal static class RaitParameterExtractor
         var parameterInfos = methodInfo.GetParameters();
         var arguments = methodBody.Arguments;
 
-        var parameters = new List<GeneratedInputParameter>();
+        var parameters = new List<InputParameter>();
         for (var index = 0; index < arguments.Count; index++)
         {
             var arg = arguments[index];
@@ -25,12 +26,7 @@ internal static class RaitParameterExtractor
                     var value = GetValue(methodBodyArgument);
                     if (value == null)
                         continue;
-                    parameters.Add(new GeneratedInputParameter
-                    {
-                        Value = value,
-                        Name = parameterInfo.Name!,
-                        IsQuery = parameterInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute))
-                    });
+                    parameters.Add(CreateParameter(parameterInfo, value));
                     break;
                 }
                 case ConstantExpression constantExpression:
@@ -38,13 +34,7 @@ internal static class RaitParameterExtractor
                     var value = constantExpression.Value;
                     if (value == null)
                         continue;
-
-                    parameters.Add(new GeneratedInputParameter
-                    {
-                        Value = value, //as it is
-                        Name = parameterInfo.Name!,
-                        IsQuery = parameterInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute))
-                    });
+                    parameters.Add(CreateParameter(parameterInfo, value));
                     break;
                 }
             }
@@ -53,6 +43,16 @@ internal static class RaitParameterExtractor
         return parameters;
     }
 
+    private static InputParameter CreateParameter(ParameterInfo info, object? value)
+    {
+        return new InputParameter
+        {
+            Value = value,
+            Name = info.Name!,
+            IsQuery = info.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute)),
+            IsForm = info.CustomAttributes.Any(n=>n.AttributeType == typeof(FromFormAttribute))
+        };
+    }
 
     // ReSharper disable once ReturnTypeCanBeNotNullable
     private static object? GetValue(MemberExpression member)
