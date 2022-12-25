@@ -8,10 +8,11 @@ namespace RAIT.Core;
 
 public class RaitFormFile : IFormFile
 {
-    public RaitFormFile(string name)
+    public RaitFormFile(string name, string contentType)
     {
         Name = name;
         FileName = name;
+        ContentType = contentType;
     }
 
     public Stream OpenReadStream()
@@ -29,7 +30,7 @@ public class RaitFormFile : IFormFile
         throw new NotImplementedException();
     }
 
-    public string? ContentType { get; } = null;
+    public string ContentType { get; }
     public string? ContentDisposition { get; } = null;
     public IHeaderDictionary Headers { get; } = new HeaderDictionary();
     public long Length { get; } = 0;

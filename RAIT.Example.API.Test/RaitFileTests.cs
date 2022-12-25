@@ -29,7 +29,7 @@ public sealed class RaitFileTests
     [Test]
     public async Task PostCall()
     {
-        var model = new RaitFormFile("example.txt");
+        var model = new RaitFormFile("example.txt", "text");
         var responseModel =
             await _defaultClient.Call<RaitTestFileController, ResponseModel>(n => n.Post(model));
 
