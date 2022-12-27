@@ -86,7 +86,14 @@ internal static class RaitHttpRequester
             throw new Exception("Rait: Http web attribute not found.");
 
         await HandleError(httpResponseMessage);
-        return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
+        try
+        {
+            return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Fail deserialize:" + await httpResponseMessage.Content.ReadAsStringAsync(), e);
+        }
     }
 
     private static HttpContent? PrepareRequestContent(List<InputParameter> prepareInputParameters)
