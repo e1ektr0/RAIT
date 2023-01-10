@@ -51,9 +51,15 @@ internal static class RaitRouter
             if (generatedInputParameter.Value == null)
                 continue;
 
-            var changed = convertRout.Replace($"{{{generatedInputParameter.Name}}}",
-                generatedInputParameter.Value.ToString());
-            if (changed != convertRout)
+            var preparedRout = convertRout
+                .Replace(":guid}", "}")
+                .Replace(":int}", "}")
+                .Replace(":long}", "}")
+                .Replace(":string}", "}");
+            var changed = preparedRout
+                .Replace($"{{{generatedInputParameter.Name}}}",
+                    generatedInputParameter.Value.ToString());
+            if (changed != preparedRout)
                 generatedInputParameter.Used = true;
             convertRout = changed;
         }
@@ -96,9 +102,9 @@ internal static class RaitRouter
             var valueElemType = valueType.IsGenericType
                 ? valueType.GetGenericArguments()[0]
                 : valueType.GetElementType();
-            if (!valueElemType!.IsPrimitive && valueElemType != typeof(string)) 
+            if (!valueElemType!.IsPrimitive && valueElemType != typeof(string))
                 continue;
-            
+
             var enumerable = properties[key] as IEnumerable;
             properties[key] = string.Join(separator, enumerable!.Cast<object>());
         }
