@@ -29,4 +29,12 @@ public class RaitPrimitiveTypesTestController : ControllerBase
         await Task.CompletedTask;
         return "test";
     }
+    
+    [Route("get_rout_parameter_test/get_bool")]
+    [HttpGet]
+    public async Task<bool> GetBool()
+    {
+        await Task.CompletedTask;
+        return true;
+    }
 }

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using RAIT.Core;
 using RAIT.Example.API.Controllers;
-using RAIT.Example.API.Models;
 
 namespace RAIT.Example.API.Test;
 
@@ -43,6 +42,13 @@ public sealed class RaitPrimitiveTests
     public async Task GetGuid()
     {
         var call = await _defaultClient.Call<RaitPrimitiveTypesTestController, Guid>(n => n.GetGuid());
+        Console.WriteLine(call);
+    }
+    
+    [Test]
+    public async Task GetBool()
+    {
+        var call = await _defaultClient.Call<RaitPrimitiveTypesTestController, bool>(n => n.GetBool());
         Console.WriteLine(call);
     }
 }
