@@ -51,4 +51,10 @@ public sealed class RaitPrimitiveTests
         var call = await _defaultClient.Call<RaitPrimitiveTypesTestController, bool>(n => n.GetBool());
         Console.WriteLine(call);
     }
+    [Test]
+    public async Task GetObject()
+    {
+        var call = await _defaultClient.Call<RaitPrimitiveTypesTestController, object>(n => n.GetObject());
+        Console.WriteLine(call);
+    }
 }

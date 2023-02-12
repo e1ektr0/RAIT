@@ -65,6 +65,8 @@ internal static class RaitHttpRequester
 
             var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
             //todo: extend
+            if (typeof(TOutput) == typeof(object))
+                return (TOutput)(object)readAsStringAsync;
             if (typeof(TOutput) == typeof(string))
                 return (TOutput)(object)readAsStringAsync;
             if (typeof(TOutput) == typeof(Guid))
@@ -106,6 +108,8 @@ internal static class RaitHttpRequester
         {
             //todo: extend
             var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
+            if (typeof(TOutput) == typeof(object))
+                return (TOutput)(object)readAsStringAsync;
             if (typeof(TOutput) == typeof(string))
                 return (TOutput)(object)readAsStringAsync;
             if (typeof(TOutput) == typeof(Guid))
