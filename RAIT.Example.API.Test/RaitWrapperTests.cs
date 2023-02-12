@@ -38,4 +38,14 @@ public sealed class RaitWrapperTests
 
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
+    
+    
+    [Test]
+    public async Task GetString()
+    {
+        var x = new RaitHttpWrapper<RaitPrimitiveTypesTestController>(_defaultClient);
+        var responseModel = await x.Call(n => n.GetString());
+
+        Assert.That(responseModel, Is.EqualTo("test"));
+    }
 }

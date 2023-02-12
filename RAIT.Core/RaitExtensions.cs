@@ -6,7 +6,7 @@ namespace RAIT.Core;
 public static class RaitExtensions
 {
     public static async Task<TOutput?> Call<TController, TOutput>(this HttpClient client,
-        Expression<Func<TController, Task<TOutput>>> tree) where TOutput : class where TController : ControllerBase
+        Expression<Func<TController, Task<TOutput>>> tree) where TController : ControllerBase
 
     {
         var methodBody = tree.Body as MethodCallExpression;
@@ -17,4 +17,6 @@ public static class RaitExtensions
         return await RaitHttpRequester.HttpRequest<TOutput>(client, methodInfo.CustomAttributes, rout,
             prepareInputParameters);
     }
+    
 }
+

@@ -8,7 +8,7 @@ namespace RAIT.Core;
 internal static class RaitRouter
 {
     internal static string PrepareRout<TController, TOutput>(Expression<Func<TController, Task<TOutput>>> tree,
-        List<InputParameter> generatedInputParameters) where TOutput : class
+        List<InputParameter> generatedInputParameters)
     {
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;

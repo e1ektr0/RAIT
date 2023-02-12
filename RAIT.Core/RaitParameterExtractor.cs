@@ -7,7 +7,7 @@ namespace RAIT.Core;
 internal static class RaitParameterExtractor
 {
     internal static List<InputParameter> PrepareInputParameters<TInput, TOutput>(
-        Expression<Func<TInput, Task<TOutput>>> tree) where TOutput : class
+        Expression<Func<TInput, Task<TOutput>>> tree)
     {
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;
@@ -21,9 +21,8 @@ internal static class RaitParameterExtractor
             var parameterInfo = parameterInfos[index];
             switch (arg)
             {
-                case MemberInitExpression memberInitExpression:
+                case MemberInitExpression:
                     throw new NotImplementedException("new Model() not support yet");
-                    break;
                 case MemberExpression methodBodyArgument:
                 {
                     var value = GetValue(methodBodyArgument);

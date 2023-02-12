@@ -52,7 +52,7 @@ internal static class RaitHttpRequester
 {
     internal static async Task<TOutput?> HttpRequest<TOutput>(HttpClient httpClient,
         IEnumerable<CustomAttributeData> attributes, string rout,
-        List<InputParameter> prepareInputParameters) where TOutput : class
+        List<InputParameter> prepareInputParameters)
     {
         var customAttributeData =
             attributes.FirstOrDefault(n => n.AttributeType.BaseType == typeof(HttpMethodAttribute));
@@ -62,6 +62,22 @@ internal static class RaitHttpRequester
         if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
         {
             httpResponseMessage = await httpClient.GetAsync(rout);
+
+            var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
+            //todo: extend
+            if (typeof(TOutput) == typeof(string))
+                return (TOutput)(object)readAsStringAsync;
+            if (typeof(TOutput) == typeof(Guid))
+                return (TOutput)(object)Guid.Parse(readAsStringAsync.Replace("\"", ""));
+            if (typeof(TOutput) == typeof(int))
+                return (TOutput)(object)int.Parse(readAsStringAsync);
+            if (typeof(TOutput) == typeof(long))
+                return (TOutput)(object)long.Parse(readAsStringAsync);
+            if (typeof(TOutput) == typeof(decimal))
+                return (TOutput)(object)decimal.Parse(readAsStringAsync);
+            if (typeof(TOutput) == typeof(double))
+                return (TOutput)(object)double.Parse(readAsStringAsync);
+
             return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
         }
 
@@ -88,11 +104,26 @@ internal static class RaitHttpRequester
         await HandleError(httpResponseMessage);
         try
         {
+            //todo: extend
+            var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
+            if (typeof(TOutput) == typeof(string))
+                return (TOutput)(object)readAsStringAsync;
+            if (typeof(TOutput) == typeof(Guid))
+                return (TOutput)(object)Guid.Parse(readAsStringAsync.Replace("\"", ""));
+            if (typeof(TOutput) == typeof(int))
+                return (TOutput)(object)int.Parse(readAsStringAsync);
+            if (typeof(TOutput) == typeof(long))
+                return (TOutput)(object)long.Parse(readAsStringAsync);
+            if (typeof(TOutput) == typeof(decimal))
+                return (TOutput)(object)decimal.Parse(readAsStringAsync);
+            if (typeof(TOutput) == typeof(double))
+                return (TOutput)(object)double.Parse(readAsStringAsync);
+
             return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
         }
         catch (Exception e)
         {
-            throw new Exception("Fail deserialize:" + await httpResponseMessage.Content.ReadAsStringAsync(), e);
+            throw new Exception("Fail deserialize:" + httpResponseMessage.Content.ReadAsStringAsync(), e);
         }
     }
 
