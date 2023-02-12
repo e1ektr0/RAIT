@@ -17,8 +17,9 @@ internal static class RaitRouter
         result += ConvertRout(controllerType.CustomAttributes, controllerType,
             generatedInputParameters) ?? "";
         result += "/";
-        result += ConvertRout(methodInfo.CustomAttributes, controllerType,
+        result +=  ConvertRout(methodInfo.CustomAttributes, controllerType,
             generatedInputParameters) ?? "";
+        result = result.Replace("[action]", methodInfo.Name);
 
         if (!generatedInputParameters.Any(n => n.IsQuery && !n.Used && n.Value != null))
             return result;
