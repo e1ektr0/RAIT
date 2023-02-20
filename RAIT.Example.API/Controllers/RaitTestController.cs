@@ -39,9 +39,7 @@ public class RaitTestController : ControllerBase
             throw new Exception("Wrong value");
         return new Ok();
     }
-    
-    
-    
+
     [Route("delete_query_test")]
     [HttpPut]
     public async Task<Ok> DeleteQuery([FromQuery] long id)

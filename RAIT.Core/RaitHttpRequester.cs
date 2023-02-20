@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +52,7 @@ public class RaitFormFile : IFormFile, IDisposable
 internal static class RaitHttpRequester
 {
     internal static async Task<TOutput?> HttpRequest<TOutput>(HttpClient httpClient,
-        IEnumerable<CustomAttributeData> attributes, string rout,
+        IEnumerable<CustomAttributeData> attributes, string route,
         List<InputParameter> prepareInputParameters)
     {
         var customAttributeData =
@@ -61,8 +62,10 @@ internal static class RaitHttpRequester
         HttpResponseMessage? httpResponseMessage = null;
         if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
         {
-            httpResponseMessage = await httpClient.GetAsync(rout);
-
+            httpResponseMessage = await httpClient.GetAsync(route);
+            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+                return (TOutput)(object)null!;
+            
             var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
             //todo: extend
             if (typeof(TOutput) == typeof(object))
@@ -86,24 +89,27 @@ internal static class RaitHttpRequester
         if (customAttributeData.AttributeType == typeof(HttpPostAttribute))
         {
             var httpContent = PrepareRequestContent(prepareInputParameters);
-            httpResponseMessage = await httpClient.PostAsync(rout, httpContent);
+            httpResponseMessage = await httpClient.PostAsync(route, httpContent);
         }
 
         if (customAttributeData.AttributeType == typeof(HttpPutAttribute))
         {
             var httpContent = PrepareRequestContent(prepareInputParameters);
-            httpResponseMessage = await httpClient.PutAsync(rout, httpContent);
+            httpResponseMessage = await httpClient.PutAsync(route, httpContent);
         }
 
         if (customAttributeData.AttributeType == typeof(HttpDeleteAttribute))
         {
-            httpResponseMessage = await httpClient.DeleteAsync(rout);
+            httpResponseMessage = await httpClient.DeleteAsync(route);
         }
 
         if (httpResponseMessage == null)
             throw new Exception("Rait: Http web attribute not found.");
 
         await HandleError(httpResponseMessage);
+        if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+            return (TOutput)(object)null!;
+        
         try
         {
             //todo: extend

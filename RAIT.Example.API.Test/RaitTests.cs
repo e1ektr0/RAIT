@@ -43,7 +43,6 @@ public sealed class RaitTests
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
 
-
     [Test]
     public async Task PutFromQueryCall()
     {
@@ -64,5 +63,13 @@ public sealed class RaitTests
     public async Task ActionRoutingTest()
     {
         await _defaultClient.Call<RaitActionRoutingTestController, Ok>(n => n.Get());
+    }
+    
+    [Test]
+    public async Task NullableTest()
+    {
+        var rait = new RaitHttpWrapper<RaitNullableTestController>(_defaultClient);
+        await rait.Call(n => n.Get());
+        await rait.Call(n => n.Post());
     }
 }
