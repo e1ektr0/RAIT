@@ -47,13 +47,15 @@ internal static class RaitParameterExtractor
 
     private static InputParameter CreateParameter(ParameterInfo info, object? value)
     {
+        var type = value?.GetType()!;
         return new InputParameter
         {
             Value = value,
             Name = info.Name!,
-            IsQuery = info.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute)),
-            IsForm = info.CustomAttributes.Any(n=>n.AttributeType == typeof(FromFormAttribute)),
-            Type = value?.GetType()
+            IsQuery = info.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute)) ||
+                      type.IsValueType || type == typeof(string),
+            IsForm = info.CustomAttributes.Any(n => n.AttributeType == typeof(FromFormAttribute)),
+            Type = type
         };
     }
 
