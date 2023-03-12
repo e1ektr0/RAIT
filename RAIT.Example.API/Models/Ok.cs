@@ -6,5 +6,5 @@ public class ResponseModel
 }
 public class Ok
 {
-    
+    public bool Success { get; set; }
 }

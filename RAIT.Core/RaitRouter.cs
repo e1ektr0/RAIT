@@ -24,13 +24,17 @@ internal static class RaitRouter
         if (!generatedInputParameters.Any(n => n.IsQuery && !n.Used && n.Value != null))
             return result;
         result += "?";
+        bool first = true;
         foreach (var generatedInputParameter in generatedInputParameters.Where(n =>
                      n.IsQuery && !n.Used && n.Value != null))
         {
             generatedInputParameter.Used = true;
             if (generatedInputParameter.Value == null)
                 continue;
+            if (!first)
+                result += "&";
             result += PrepareValueToQuery(generatedInputParameter, generatedInputParameter.Name);
+            first = false;
         }
 
         return result;

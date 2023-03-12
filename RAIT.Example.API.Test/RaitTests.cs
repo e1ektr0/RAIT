@@ -58,13 +58,21 @@ public sealed class RaitTests
     {
         await _defaultClient.Call<RaitTestController, Ok>(n => n.DeleteQuery(10));
     }
-    
+
     [Test]
     public async Task ActionRoutingTest()
     {
         await _defaultClient.Call<RaitActionRoutingTestController, Ok>(n => n.Get(1));
     }
-    
+
+    [Test]
+    public async Task FilterTest()
+    {
+        var call = await _defaultClient.Call<RaitFilterTestController, Ok>(n =>
+            n.GetReportsResult("fff", DateTime.Now, DateTime.Now));
+        Assert.That(call!.Success, Is.True);
+    }
+
     [Test]
     public async Task NullableTest()
     {
