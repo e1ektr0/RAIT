@@ -8,9 +8,12 @@ namespace RAIT.Example.API.Controllers;
 public class RaitActionRoutingTestController : ControllerBase
 {
     [HttpGet]
-    public async Task<Ok> Get()
+    public async Task<Ok> Get(int id)
     {
+        if (id == 0)
+            throw new Exception("Should not be default");
         await Task.CompletedTask;
         return new Ok();
     }
+    
 }

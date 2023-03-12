@@ -62,7 +62,7 @@ public sealed class RaitTests
     [Test]
     public async Task ActionRoutingTest()
     {
-        await _defaultClient.Call<RaitActionRoutingTestController, Ok>(n => n.Get());
+        await _defaultClient.Call<RaitActionRoutingTestController, Ok>(n => n.Get(1));
     }
     
     [Test]

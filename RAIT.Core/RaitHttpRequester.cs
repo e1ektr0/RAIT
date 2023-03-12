@@ -65,7 +65,7 @@ internal static class RaitHttpRequester
             httpResponseMessage = await httpClient.GetAsync(route);
             if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
                 return (TOutput)(object)null!;
-            
+
             var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
             //todo: extend
             if (typeof(TOutput) == typeof(object))
@@ -98,6 +98,12 @@ internal static class RaitHttpRequester
             httpResponseMessage = await httpClient.PutAsync(route, httpContent);
         }
 
+        if (customAttributeData.AttributeType == typeof(HttpPatchAttribute))
+        {
+            var httpContent = PrepareRequestContent(prepareInputParameters);
+            httpResponseMessage = await httpClient.PatchAsync(route, httpContent);
+        }
+
         if (customAttributeData.AttributeType == typeof(HttpDeleteAttribute))
         {
             httpResponseMessage = await httpClient.DeleteAsync(route);
@@ -109,7 +115,7 @@ internal static class RaitHttpRequester
         await HandleError(httpResponseMessage);
         if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
             return (TOutput)(object)null!;
-        
+
         try
         {
             //todo: extend
