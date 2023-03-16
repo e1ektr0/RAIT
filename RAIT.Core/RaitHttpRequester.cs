@@ -63,7 +63,7 @@ internal static class RaitHttpRequester
         if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
         {
             httpResponseMessage = await httpClient.GetAsync(route);
-            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent || typeof(TOutput) == typeof(IActionResult)) //TODO: check type 
                 return (TOutput)(object)null!;
 
             var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
