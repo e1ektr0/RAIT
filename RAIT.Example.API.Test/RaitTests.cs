@@ -86,5 +86,6 @@ public sealed class RaitTests
     {
         var rait = new RaitHttpWrapper<RaitActionResultTestController>(_defaultClient);
         await rait.Call(n => n.Get());
+        await rait.Call(n => n.Post(1));
     }
 }

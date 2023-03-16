@@ -12,4 +12,11 @@ public class RaitActionResultTestController : ControllerBase
         await Task.CompletedTask;
         return Ok();
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Post(int a)
+    {
+        await Task.CompletedTask;
+        return Ok();
+    }
 }

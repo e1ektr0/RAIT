@@ -113,7 +113,7 @@ internal static class RaitHttpRequester
             throw new Exception("Rait: Http web attribute not found.");
 
         await HandleError(httpResponseMessage);
-        if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+        if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent || typeof(TOutput) == typeof(IActionResult)) //TODO: check type 
             return (TOutput)(object)null!;
 
         try
