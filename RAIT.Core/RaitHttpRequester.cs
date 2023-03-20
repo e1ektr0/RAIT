@@ -162,6 +162,12 @@ internal static class RaitHttpRequester
                     formData.Add(streamContent, parameter.Name,
                         parameterValue.FileName);
                 }
+                else if (parameter.Type!.IsClass)
+                {
+                    foreach (var p in parameter.Type!.GetProperties())
+                        formData.Add(new StringContent(p.GetValue(parameter.Value!)!.ToString()!),
+                            $"{parameter.Name}.{p.Name}");
+                }
             }
 
             return formData;

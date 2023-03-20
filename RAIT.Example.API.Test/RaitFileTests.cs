@@ -34,4 +34,14 @@ public sealed class RaitFileTests
 
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
+
+    [Test]
+    public async Task Post2Call()
+    {
+        var file = new RaitFormFile("example.txt", "image/png");
+        var model = new Model { Id = 10 };
+        var responseModel = await _defaultClient.Call<RaitTestFileController, ResponseModel>(n => n.Post2(model, file));
+
+        Assert.That(responseModel!.Id, Is.EqualTo(model.Id));
+    }
 }

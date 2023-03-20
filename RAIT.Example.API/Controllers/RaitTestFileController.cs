@@ -46,4 +46,18 @@ public class RaitTestFileController : ControllerBase
             Id = 10
         };
     }
+    
+    [Route("post_file_test_with_model_2")]
+    [HttpPost]
+    public async Task<ResponseModel> Post2([FromForm] Model model, IFormFile file)
+    {
+        await Task.CompletedTask;
+        var readAsStringAsync = await ReadAsStringAsync(file);
+        if (!readAsStringAsync.StartsWith("10"))
+            throw new Exception("Wrong value");
+        return new ResponseModel
+        {
+            Id = model.Id
+        };
+    }
 }
