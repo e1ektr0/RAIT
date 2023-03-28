@@ -18,5 +18,9 @@ public static class RaitExtensions
             prepareInputParameters);
     }
     
+    public static  RaitHttpWrapper<TController> Rait<TController>(this HttpClient client) where TController : ControllerBase
+    {
+        return new RaitHttpWrapper<TController>(client);
+    }
 }
 
