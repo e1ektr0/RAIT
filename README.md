@@ -9,11 +9,11 @@ Dotnet rest api integration test library
 
 ## Usage
 ```csharp
-    var model = new Model
-    {
-        Id = 10
-    };
-    var responseModel = await _httpClient.Rait<RaitTestController>().Call(n => n.Post(model));
+var model = new Model
+{
+    Id = 10
+};
+var responseModel = await _httpClient.Rait<RaitTestController>().Call(n => n.Post(model));
 ```
 ![Usage](https://cdn.discordapp.com/attachments/985879181856481325/1090707824872534076/image.png)
 
