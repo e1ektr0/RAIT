@@ -18,10 +18,6 @@ var responseModel = await _httpClient.Rait<RaitTestController>().Call(n => n.Pos
 ![Usage](https://cdn.discordapp.com/attachments/985879181856481325/1090707824872534076/image.png)
 
 
-Example:
-https://github.com/e1ektr0/Library/blob/master/Library.API.Test/AuthTest.cs
-
-
 ## How it working
 ![How it working](https://cdn.discordapp.com/attachments/985879181856481325/1090709345261592606/QYpQg53F15wAAAABJRU5ErkJggg.png)
 
