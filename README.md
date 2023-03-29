@@ -1,6 +1,6 @@
 # RAIT
 
-Dotnet rest api integration test library
+Library for strongly typed integration testing ASP.NET Core Web API
 
 ## Nuget:
 ```
