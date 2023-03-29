@@ -5,6 +5,7 @@ namespace RAIT.Core;
 
 public static class RaitExtensions
 {
+    [Obsolete("Will be removed on major release")]
     public static async Task<TOutput?> Call<TController, TOutput>(this HttpClient client,
         Expression<Func<TController, Task<TOutput>>> tree) where TController : ControllerBase
 
