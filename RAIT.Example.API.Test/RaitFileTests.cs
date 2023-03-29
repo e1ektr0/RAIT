@@ -30,7 +30,7 @@ public sealed class RaitFileTests
     {
         var model = new RaitFormFile("example.txt", "image/png");
         var responseModel =
-            await _defaultClient.Call<RaitTestFileController, ResponseModel>(n => n.Post(model));
+            await _defaultClient.Rait<RaitTestFileController>().Call(n => n.Post(model));
 
         model.Dispose();
         Assert.That(responseModel!.Id, Is.EqualTo(10));
@@ -41,7 +41,7 @@ public sealed class RaitFileTests
     {
         var file = new RaitFormFile("example.txt", "image/png");
         var model = new Model { Id = 10 };
-        var responseModel = await _defaultClient.Call<RaitTestFileController, ResponseModel>(n => n.Post2(model, file));
+        var responseModel = await _defaultClient.Rait<RaitTestFileController>().Call(n => n.Post2(model, file));
         file.Dispose();
         Assert.That(responseModel!.Id, Is.EqualTo(model.Id));
     }

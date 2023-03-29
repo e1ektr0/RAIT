@@ -28,7 +28,7 @@ public sealed class RaitTests
     [Test]
     public async Task GetCall()
     {
-        await _defaultClient.Call<RaitTestController, Ok>(n => n.GetWithId(10));
+        await _defaultClient.Rait<RaitTestController>().Call(n => n.GetWithId(10));
     }
 
     [Test]
@@ -38,7 +38,7 @@ public sealed class RaitTests
         {
             Id = 10
         };
-        var responseModel = await _defaultClient.Call<RaitTestController, ResponseModel>(n => n.Post(model));
+        var responseModel = await _defaultClient.Rait<RaitTestController>().Call(n => n.Post(model));
 
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
@@ -50,25 +50,25 @@ public sealed class RaitTests
         {
             Id = 10
         };
-        await _defaultClient.Call<RaitTestController, Ok>(n => n.PutFromQuery(model));
+        await _defaultClient.Rait<RaitTestController>().Call(n => n.PutFromQuery(model));
     }
 
     [Test]
     public async Task DeleteFromQueryCall()
     {
-        await _defaultClient.Call<RaitTestController, Ok>(n => n.DeleteQuery(10));
+        await _defaultClient.Rait<RaitTestController>().Call(n => n.DeleteQuery(10));
     }
 
     [Test]
     public async Task ActionRoutingTest()
     {
-        await _defaultClient.Call<RaitActionRoutingTestController, Ok>(n => n.Get(1));
+        await _defaultClient.Rait<RaitActionRoutingTestController>().Call(n => n.Get(1));
     }
 
     [Test]
     public async Task FilterTest()
     {
-        var call = await _defaultClient.Call<RaitFilterTestController, Ok>(n =>
+        var call = await _defaultClient.Rait<RaitFilterTestController>().Call(n =>
             n.GetReportsResult("fff", DateTime.Now, DateTime.Now));
         Assert.That(call!.Success, Is.True);
     }
@@ -76,16 +76,14 @@ public sealed class RaitTests
     [Test]
     public async Task NullableTest()
     {
-        var rait = new RaitHttpWrapper<RaitNullableTestController>(_defaultClient);
-        await rait.Call(n => n.Get());
-        await rait.Call(n => n.Post());
+        await _defaultClient.Rait<RaitNullableTestController>().Call(n => n.Get());
+        await _defaultClient.Rait<RaitNullableTestController>().Call(n => n.Post());
     }  
     
     [Test]
     public async Task ActionResultTest()
     {
-        var rait = new RaitHttpWrapper<RaitActionResultTestController>(_defaultClient);
-        await rait.Call(n => n.Get());
-        await rait.Call(n => n.Post(1));
+        await _defaultClient.Rait<RaitActionResultTestController>().Call(n => n.Get());
+        await _defaultClient.Rait<RaitActionResultTestController>().Call(n => n.Post(1));
     }
 }
