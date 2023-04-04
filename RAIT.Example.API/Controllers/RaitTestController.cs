@@ -41,7 +41,7 @@ public class RaitTestController : ControllerBase
     }
 
     [Route("delete_query_test")]
-    [HttpPut]
+    [HttpDelete]
     public async Task<Ok> DeleteQuery([FromQuery] long id)
     {
         await Task.CompletedTask;
