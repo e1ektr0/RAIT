@@ -5,6 +5,7 @@ namespace RAIT.Core;
 
 public static class RaitExtensions
 {
+    [Obsolete("Will be removed on major release")]
     public static async Task<TOutput?> Call<TController, TOutput>(this HttpClient client,
         Expression<Func<TController, Task<TOutput>>> tree) where TController : ControllerBase
 
@@ -18,5 +19,9 @@ public static class RaitExtensions
             prepareInputParameters);
     }
     
+    public static  RaitHttpWrapper<TController> Rait<TController>(this HttpClient client) where TController : ControllerBase
+    {
+        return new RaitHttpWrapper<TController>(client);
+    }
 }
 

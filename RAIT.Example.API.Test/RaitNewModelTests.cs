@@ -9,7 +9,7 @@ namespace RAIT.Example.API.Test;
 public sealed class RaitNewModelTests
 {
     private WebApplicationFactory<Program> _application = null!;
-    private HttpClient _defaultClient = null!;
+    private HttpClient _httpClient = null!;
 
     [SetUp]
     public void Setup()
@@ -17,7 +17,7 @@ public sealed class RaitNewModelTests
         _application = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(PrepareEnv);
 
-        _defaultClient = _application.CreateDefaultClient();
+        _httpClient = _application.CreateDefaultClient();
     }
 
     private void PrepareEnv(IWebHostBuilder _)
@@ -27,13 +27,13 @@ public sealed class RaitNewModelTests
 
 
     [Test]
-    [Ignore("Not implemented")]
     public async Task PostCall()
     {
-        var responseModel = await _defaultClient.Call<RaitTestController, ResponseModel>(n => n.Post(new Model
-        {
-            Id = 10
-        }));
+        var responseModel = await _httpClient.Rait<RaitTestController>()
+            .Call(n => n.Post(new Model
+            {
+                Id = 10
+            }));
 
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }

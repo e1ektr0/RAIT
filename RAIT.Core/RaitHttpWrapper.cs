@@ -12,8 +12,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         _client = client;
     }
 
-    public async Task<TOutput?> Call<TOutput>(Expression<Func<TController, Task<TOutput>>> tree) where TOutput : class?
-
+    public async Task<TOutput?> Call<TOutput>(Expression<Func<TController, Task<TOutput>>> tree)
     {
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;

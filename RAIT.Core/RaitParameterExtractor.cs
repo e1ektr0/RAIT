@@ -22,7 +22,10 @@ internal static class RaitParameterExtractor
             switch (arg)
             {
                 case MemberInitExpression:
-                    throw new NotImplementedException("new Model() not support yet");
+                    var func = Expression.Lambda<Func<object>>(arg).Compile();
+                    var o = func();
+                    parameters.Add(CreateParameter(parameterInfo, o));
+                    break;
                 case MemberExpression methodBodyArgument:
                 {
                     var value = GetValue(methodBodyArgument);

@@ -27,34 +27,35 @@ public sealed class RaitPrimitiveTests
     [Test]
     public async Task GetInt()
     {
-        var call = await _defaultClient.Call<RaitPrimitiveTypesTestController, int>(n => n.GetInt());
+        var call = await _defaultClient.Rait<RaitPrimitiveTypesTestController>().Call(n => n.GetInt());
         Console.WriteLine(call);
     }
 
     [Test]
     public async Task GetString()
     {
-        var call = await _defaultClient.Call<RaitPrimitiveTypesTestController, string>(n => n.GetString());
+        var call = await _defaultClient.Rait<RaitPrimitiveTypesTestController>().Call(n => n.GetString());
         Console.WriteLine(call);
     }
 
     [Test]
     public async Task GetGuid()
     {
-        var call = await _defaultClient.Call<RaitPrimitiveTypesTestController, Guid>(n => n.GetGuid());
+        var call = await _defaultClient.Rait<RaitPrimitiveTypesTestController>().Call(n => n.GetGuid());
         Console.WriteLine(call);
     }
-    
+
     [Test]
     public async Task GetBool()
     {
-        var call = await _defaultClient.Call<RaitPrimitiveTypesTestController, bool>(n => n.GetBool());
+        var call = await _defaultClient.Rait<RaitPrimitiveTypesTestController>().Call(n => n.GetBool());
         Console.WriteLine(call);
     }
+
     [Test]
     public async Task GetObject()
     {
-        var call = await _defaultClient.Call<RaitPrimitiveTypesTestController, object>(n => n.GetObject());
+        var call = await _defaultClient.Rait<RaitPrimitiveTypesTestController>().Call(n => n.GetObject());
         Console.WriteLine(call);
     }
 }
