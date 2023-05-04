@@ -29,11 +29,11 @@ public sealed class RaitNewModelTests
     [Test]
     public async Task PostCall()
     {
-        var responseModel = await _httpClient.Rait<RaitTestController>()
-            .Call(n => n.Post(new Model
-            {
-                Id = 10
-            }));
+        var model = new Model
+        {
+            Id = 10
+        };
+        var responseModel = await _httpClient.Rait<RaitTestController>().Call(n => n.Post(model));
 
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }

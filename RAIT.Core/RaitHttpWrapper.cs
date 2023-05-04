@@ -22,4 +22,18 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         return await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters);
     }
+    
+    public async Task<TOutput> CallR<TOutput>(Expression<Func<TController, Task<TOutput>>> tree)
+    {
+        var methodBody = tree.Body as MethodCallExpression;
+        var methodInfo = methodBody!.Method;
+
+        var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
+        var output = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
+            prepareInputParameters);
+        if (output == null)
+            throw new ArgumentNullException();
+        return output;
+    }
 }
