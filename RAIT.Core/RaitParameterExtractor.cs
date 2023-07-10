@@ -10,6 +10,18 @@ internal static class RaitParameterExtractor
         Expression<Func<TInput, Task<TOutput>>> tree)
     {
         var methodBody = tree.Body as MethodCallExpression;
+        return InputParameters(methodBody);
+    }
+
+    internal static List<InputParameter> PrepareInputParameters<TInput>(
+        Expression<Func<TInput, Task>> tree)
+    {
+        var methodBody = tree.Body as MethodCallExpression;
+        return InputParameters(methodBody);
+    }
+
+    private static List<InputParameter> InputParameters(MethodCallExpression? methodBody)
+    {
         var methodInfo = methodBody!.Method;
         var parameterInfos = methodInfo.GetParameters();
         var arguments = methodBody.Arguments;

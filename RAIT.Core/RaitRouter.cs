@@ -11,13 +11,26 @@ internal static class RaitRouter
         List<InputParameter> generatedInputParameters)
     {
         var methodBody = tree.Body as MethodCallExpression;
+        return Result<TController>(generatedInputParameters, methodBody);
+    }
+
+    internal static string PrepareRout<TController>(Expression<Func<TController, Task>> tree,
+        List<InputParameter> generatedInputParameters)
+    {
+        var methodBody = tree.Body as MethodCallExpression;
+        return Result<TController>(generatedInputParameters, methodBody);
+    }
+
+    private static string Result<TController>(List<InputParameter> generatedInputParameters,
+        MethodCallExpression? methodBody)
+    {
         var methodInfo = methodBody!.Method;
         var result = "";
         var controllerType = typeof(TController);
         result += ConvertRout(controllerType.CustomAttributes, controllerType,
             generatedInputParameters) ?? "";
         result += "/";
-        result +=  ConvertRout(methodInfo.CustomAttributes, controllerType,
+        result += ConvertRout(methodInfo.CustomAttributes, controllerType,
             generatedInputParameters) ?? "";
         result = result.Replace("[action]", methodInfo.Name);
 

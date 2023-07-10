@@ -12,6 +12,15 @@ internal static class RaitHttpRequester
         IEnumerable<CustomAttributeData> attributes, string route,
         List<InputParameter> prepareInputParameters)
     {
+        var memberInfo = typeof(TOutput);
+        var result = await HttpRequest(httpClient, attributes, route, prepareInputParameters, memberInfo);
+        return (TOutput?)result;
+    }
+
+    internal static async Task<object?> HttpRequest(HttpClient httpClient, IEnumerable<CustomAttributeData> attributes, string route,
+        List<InputParameter> prepareInputParameters, Type memberInfo)
+    {
+        object? result;
         var customAttributeData =
             attributes.FirstOrDefault(n => n.AttributeType.BaseType == typeof(HttpMethodAttribute));
         if (customAttributeData == null)
@@ -20,79 +29,78 @@ internal static class RaitHttpRequester
         if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
         {
             httpResponseMessage = await httpClient.GetAsync(route);
-            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent || typeof(TOutput) == typeof(IActionResult)) //TODO: check type 
-                return (TOutput)(object)null!;
-
-            var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
-            //todo: extend
-            if (typeof(TOutput) == typeof(object))
-                return (TOutput)(object)readAsStringAsync;
-            if (typeof(TOutput) == typeof(string))
-                return (TOutput)(object)readAsStringAsync;
-            if (typeof(TOutput) == typeof(Guid))
-                return (TOutput)(object)Guid.Parse(readAsStringAsync.Replace("\"", ""));
-            if (typeof(TOutput) == typeof(int))
-                return (TOutput)(object)int.Parse(readAsStringAsync);
-            if (typeof(TOutput) == typeof(long))
-                return (TOutput)(object)long.Parse(readAsStringAsync);
-            if (typeof(TOutput) == typeof(decimal))
-                return (TOutput)(object)decimal.Parse(readAsStringAsync);
-            if (typeof(TOutput) == typeof(double))
-                return (TOutput)(object)double.Parse(readAsStringAsync);
-
-            return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
+            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent ||
+                memberInfo == typeof(IActionResult)) //TODO: check type 
+                result = null!;
+            else
+                result = await ProcessHttpResult(memberInfo, httpResponseMessage);
         }
-
-        if (customAttributeData.AttributeType == typeof(HttpPostAttribute))
+        else
         {
-            var httpContent = PrepareRequestContent(prepareInputParameters);
-            httpResponseMessage = await httpClient.PostAsync(route, httpContent);
+            if (customAttributeData.AttributeType == typeof(HttpPostAttribute))
+            {
+                var httpContent = PrepareRequestContent(prepareInputParameters);
+                httpResponseMessage = await httpClient.PostAsync(route, httpContent);
+            }
+            else if (customAttributeData.AttributeType == typeof(HttpPutAttribute))
+            {
+                var httpContent = PrepareRequestContent(prepareInputParameters);
+                httpResponseMessage = await httpClient.PutAsync(route, httpContent);
+            }
+            else if (customAttributeData.AttributeType == typeof(HttpPatchAttribute))
+            {
+                var httpContent = PrepareRequestContent(prepareInputParameters);
+                httpResponseMessage = await httpClient.PatchAsync(route, httpContent);
+            }
+            else if (customAttributeData.AttributeType == typeof(HttpDeleteAttribute))
+            {
+                httpResponseMessage = await httpClient.DeleteAsync(route);
+            }
+            else if (httpResponseMessage == null)
+                throw new Exception("Rait: Http web attribute not found.");
+
+            await HandleError(httpResponseMessage);
+
+            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent ||
+                memberInfo == typeof(IActionResult)) //TODO: check type 
+                result = null;
+            else
+            {
+                result = await ProcessHttpResult(memberInfo, httpResponseMessage);
+            }
         }
 
-        if (customAttributeData.AttributeType == typeof(HttpPutAttribute))
-        {
-            var httpContent = PrepareRequestContent(prepareInputParameters);
-            httpResponseMessage = await httpClient.PutAsync(route, httpContent);
-        }
+        return result;
+    }
 
-        if (customAttributeData.AttributeType == typeof(HttpPatchAttribute))
-        {
-            var httpContent = PrepareRequestContent(prepareInputParameters);
-            httpResponseMessage = await httpClient.PatchAsync(route, httpContent);
-        }
-
-        if (customAttributeData.AttributeType == typeof(HttpDeleteAttribute))
-        {
-            httpResponseMessage = await httpClient.DeleteAsync(route);
-        }
-
-        if (httpResponseMessage == null)
-            throw new Exception("Rait: Http web attribute not found.");
-
-        await HandleError(httpResponseMessage);
-        if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent || typeof(TOutput) == typeof(IActionResult)) //TODO: check type 
-            return (TOutput)(object)null!;
-
+    private static async Task<object?> ProcessHttpResult(Type memberInfo,
+        HttpResponseMessage httpResponseMessage)
+    {
         try
         {
+            var response = await httpResponseMessage.Content.ReadAsStringAsync();
+            object? result;
+            if (memberInfo == typeof(EmptyResponse))
+                return null;
+            
             //todo: extend
-            var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
-            if (typeof(TOutput) == typeof(object))
-                return (TOutput)(object)readAsStringAsync;
-            if (typeof(TOutput) == typeof(string))
-                return (TOutput)(object)readAsStringAsync;
-            if (typeof(TOutput) == typeof(Guid))
-                return (TOutput)(object)Guid.Parse(readAsStringAsync.Replace("\"", ""));
-            if (typeof(TOutput) == typeof(int))
-                return (TOutput)(object)int.Parse(readAsStringAsync);
-            if (typeof(TOutput) == typeof(long))
-                return (TOutput)(object)long.Parse(readAsStringAsync);
-            if (typeof(TOutput) == typeof(decimal))
-                return (TOutput)(object)decimal.Parse(readAsStringAsync);
-            if (typeof(TOutput) == typeof(double))
-                return (TOutput)(object)double.Parse(readAsStringAsync);
-
-            return await httpResponseMessage.Content.ReadFromJsonAsync<TOutput>();
+            if (memberInfo == typeof(object))
+                result = response;
+            else if (memberInfo == typeof(string))
+                result = response;
+            else if (memberInfo == typeof(Guid))
+                result = Guid.Parse(response.Replace("\"", ""));
+            else if (memberInfo == typeof(int))
+                result = int.Parse(response);
+            else if (memberInfo == typeof(long))
+                result = long.Parse(response);
+            else if (memberInfo == typeof(decimal))
+                result = decimal.Parse(response);
+            else if (memberInfo == typeof(double))
+                result = double.Parse(response);
+            else
+                result = await httpResponseMessage.Content.ReadFromJsonAsync(memberInfo);
+            return result;
         }
         catch (Exception e)
         {
