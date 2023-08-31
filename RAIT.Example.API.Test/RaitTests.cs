@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using RAIT.Core;
@@ -78,12 +80,20 @@ public sealed class RaitTests
     {
         await _defaultClient.Rait<RaitNullableTestController>().Call(n => n.Get());
         await _defaultClient.Rait<RaitNullableTestController>().Call(n => n.Post());
-    }  
-    
+    }
+
     [Test]
     public async Task ActionResultTest()
     {
         await _defaultClient.Rait<RaitActionResultTestController>().Call(n => n.Get());
         await _defaultClient.Rait<RaitActionResultTestController>().Call(n => n.Post(1));
+    }
+
+    [Test]
+    public async Task ResponseEnumTest()
+    {
+        RaitConfig.SerializationOptions = new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() } };
+        var r = await _defaultClient.Rait<RaitEnumTestController>().Call(n => n.Get());
+        Assert.That(r, Is.Not.Null);
     }
 }

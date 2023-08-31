@@ -13,7 +13,7 @@ public class RaitNullableTestController : ControllerBase
         await Task.CompletedTask;
         return null;
     }
-    
+
     [HttpPost]
     public async Task<Ok?> Post()
     {

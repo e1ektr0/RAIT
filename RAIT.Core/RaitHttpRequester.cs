@@ -99,7 +99,7 @@ internal static class RaitHttpRequester
             else if (memberInfo == typeof(double))
                 result = double.Parse(response);
             else
-                result = await httpResponseMessage.Content.ReadFromJsonAsync(memberInfo);
+                result = await httpResponseMessage.Content.ReadFromJsonAsync(memberInfo, RaitConfig.SerializationOptions);
             return result;
         }
         catch (Exception e)
