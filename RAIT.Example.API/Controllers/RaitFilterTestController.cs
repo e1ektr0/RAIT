@@ -17,6 +17,8 @@ public class RaitFilterTestController : ControllerBase
         
         if (from == default)
             throw new Exception("Parameter should not be default");
+        
+        await Task.CompletedTask;
         return new Ok
         {
             Success = true
