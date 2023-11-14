@@ -32,7 +32,7 @@ internal static class RaitHttpRequester
             httpResponseMessage = await httpClient.GetAsync(route);
             if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
                 result = null!;
-            if (memberInfo == typeof(IActionResult))
+            else if (memberInfo == typeof(IActionResult))
                 result = new StatusCodeResult((int)httpResponseMessage.StatusCode);
             else
                 result = await ProcessHttpResult(memberInfo, httpResponseMessage);
