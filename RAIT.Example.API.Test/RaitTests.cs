@@ -85,7 +85,8 @@ public sealed class RaitTests
     [Test]
     public async Task ActionResultTest()
     {
-        await _defaultClient.Rait<RaitActionResultTestController>().Call(n => n.Get());
+        var r1 = await _defaultClient.Rait<RaitActionResultTestController>().Call(n => n.Get());
+        var r2 = await _defaultClient.Rait<RaitActionResultTestController>().Call(n => n.Get2());
         await _defaultClient.Rait<RaitActionResultTestController>().Call(n => n.Post(1));
     }
 

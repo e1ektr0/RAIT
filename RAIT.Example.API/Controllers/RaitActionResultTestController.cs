@@ -12,6 +12,13 @@ public class RaitActionResultTestController : ControllerBase
         await Task.CompletedTask;
         return Ok();
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> Get2()
+    {
+        await Task.CompletedTask;
+        return StatusCode(401);
+    }
 
     [HttpPost]
     public async Task<IActionResult> Post(int a)

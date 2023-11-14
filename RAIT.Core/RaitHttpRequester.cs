@@ -17,7 +17,8 @@ internal static class RaitHttpRequester
         return (TOutput?)result;
     }
 
-    internal static async Task<object?> HttpRequest(HttpClient httpClient, IEnumerable<CustomAttributeData> attributes, string route,
+    internal static async Task<object?> HttpRequest(HttpClient httpClient, IEnumerable<CustomAttributeData> attributes,
+        string route,
         List<InputParameter> prepareInputParameters, Type memberInfo)
     {
         object? result;
@@ -29,9 +30,10 @@ internal static class RaitHttpRequester
         if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
         {
             httpResponseMessage = await httpClient.GetAsync(route);
-            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent ||
-                memberInfo == typeof(IActionResult)) //TODO: check type 
+            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
                 result = null!;
+            if (memberInfo == typeof(IActionResult))
+                result = new StatusCodeResult((int)httpResponseMessage.StatusCode);
             else
                 result = await ProcessHttpResult(memberInfo, httpResponseMessage);
         }
@@ -82,7 +84,7 @@ internal static class RaitHttpRequester
             object? result;
             if (memberInfo == typeof(EmptyResponse))
                 return null;
-            
+
             //todo: extend
             if (memberInfo == typeof(object))
                 result = response;
@@ -99,7 +101,8 @@ internal static class RaitHttpRequester
             else if (memberInfo == typeof(double))
                 result = double.Parse(response);
             else
-                result = await httpResponseMessage.Content.ReadFromJsonAsync(memberInfo, RaitConfig.SerializationOptions);
+                result = await httpResponseMessage.Content.ReadFromJsonAsync(memberInfo,
+                    RaitConfig.SerializationOptions);
             return result;
         }
         catch (Exception e)
