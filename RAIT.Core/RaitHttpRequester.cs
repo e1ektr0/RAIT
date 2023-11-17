@@ -63,9 +63,10 @@ internal static class RaitHttpRequester
 
             await HandleError(httpResponseMessage);
 
-            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent ||
-                memberInfo == typeof(IActionResult)) //TODO: check type 
+            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
                 result = null;
+            else if (memberInfo == typeof(IActionResult))
+                result = new StatusCodeResult((int)httpResponseMessage.StatusCode);
             else
             {
                 result = await ProcessHttpResult(memberInfo, httpResponseMessage);
