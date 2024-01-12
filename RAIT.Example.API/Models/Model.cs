@@ -5,6 +5,12 @@ public class Model
     public long Id { get; set; }
 }
 
+public class ModelWithNullValues
+{
+    public long Id { get; set; }
+    public string? NullValue { get; set; }
+}
+
 public class ModelWithFile
 {
     public long Id { get; set; }

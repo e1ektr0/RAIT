@@ -97,4 +97,12 @@ public sealed class RaitTests
         var r = await _defaultClient.Rait<RaitEnumTestController>().Call(n => n.Get());
         Assert.That(r, Is.Not.Null);
     }
+    
+    [Test]
+    public async Task FormModelNullTest()
+    {
+        var model = new ModelWithNullValues { Id = 10 };
+        var responseModel = await _defaultClient.Rait<RaitTestController>().Call(n => n.FormModelNull(model));
+        Assert.That(responseModel!.Id, Is.EqualTo(model.Id));
+    }
 }

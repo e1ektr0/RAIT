@@ -49,4 +49,15 @@ public class RaitTestController : ControllerBase
             throw new Exception("Wrong value");
         return new Ok();
     }
+    
+    [Route("form_model_with-null_value")]
+    [HttpPost]
+    public async Task<ResponseModel> FormModelNull([FromForm] ModelWithNullValues model)
+    {
+        await Task.CompletedTask;
+        return new ResponseModel
+        {
+            Id = model.Id
+        };
+    }
 }
