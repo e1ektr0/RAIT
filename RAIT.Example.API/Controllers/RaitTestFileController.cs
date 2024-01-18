@@ -14,11 +14,9 @@ public class RaitTestFileController : ControllerBase
     {
         await Task.CompletedTask;
         var readAsStringAsync = await ReadAsStringAsync(file);
-        if (!readAsStringAsync.StartsWith("10"))
-            throw new Exception("Wrong value");
         return new ResponseModel
         {
-            Id = 10
+            Id = int.Parse(readAsStringAsync)
         };
     }
 

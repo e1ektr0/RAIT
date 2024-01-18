@@ -4,18 +4,26 @@ namespace RAIT.Core;
 
 public class RaitFormFile : IFormFile, IDisposable
 {
-    private FileStream? _openReadStream;
+    private Stream? _openReadStream;
+    private readonly byte[]? _content;
 
-    public RaitFormFile(string name, string contentType)
+    public RaitFormFile(string name, string contentType, byte[]? content = null)
     {
         Name = name;
         FileName = name;
         ContentType = contentType;
+        _content = content;
     }
 
     public Stream OpenReadStream()
     {
-        _openReadStream = File.Open(Name, FileMode.Open);
+        if (_content != null)
+        {
+            _openReadStream = new MemoryStream(_content);
+        }
+        else
+            _openReadStream = File.Open(Name, FileMode.Open);
+
         return _openReadStream;
     }
 
