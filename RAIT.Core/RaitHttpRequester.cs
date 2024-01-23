@@ -135,9 +135,24 @@ internal static class RaitHttpRequester
                 {
                     foreach (var p in parameter.Type!.GetProperties())
                     {
-                        if (p.GetValue(parameter.Value) == null) continue;
-                        formData.Add(new StringContent(p.GetValue(parameter.Value!)!.ToString()!),
-                            $"{parameter.Name}.{p.Name}");
+                        var val = p.GetValue(parameter.Value);
+                        switch (val)
+                        {
+                            case null:
+                                continue;
+                            case IEnumerable<Guid> listVal:
+                            {
+                                var index = 0;
+                                foreach (var v in listVal)
+                                    formData.Add(new StringContent(v.ToString()),
+                                        $"{parameter.Name}.{p.Name}[{index++}]");
+                                continue;
+                            }
+                            default:
+                                formData.Add(new StringContent(p.GetValue(parameter.Value!)!.ToString()!),
+                                    $"{parameter.Name}.{p.Name}");
+                                break;
+                        }
                     }
                 }
             }

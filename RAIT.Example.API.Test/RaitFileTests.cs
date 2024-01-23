@@ -40,7 +40,7 @@ public sealed class RaitFileTests
     public async Task Post2Call()
     {
         var file = new RaitFormFile("example.txt", "image/png");
-        var model = new Model { Id = 10 };
+        var model = new Model { Id = 10, List = new List<Guid>{Guid.NewGuid()}};
         var responseModel = await _defaultClient.Rait<RaitTestFileController>().Call(n => n.Post2(model, file));
         file.Dispose();
         Assert.That(responseModel!.Id, Is.EqualTo(model.Id));

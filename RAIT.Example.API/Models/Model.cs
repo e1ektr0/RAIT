@@ -3,6 +3,7 @@
 public class Model
 {
     public long Id { get; set; }
+    public List<Guid>? List { get; set; }
 }
 
 public class ModelWithNullValues
