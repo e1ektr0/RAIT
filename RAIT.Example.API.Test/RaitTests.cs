@@ -105,4 +105,11 @@ public sealed class RaitTests
         var responseModel = await _defaultClient.Rait<RaitTestController>().Call(n => n.FormModelNull(model));
         Assert.That(responseModel!.Id, Is.EqualTo(model.Id));
     }
+    
+    [Test]
+    public async Task DerivedRespTest() 
+    {
+        var response = await _defaultClient.Rait<RaitDerivedResponseController>().Call<ChildResp, BaseResp>(n => n.GetChildResp());
+        Assert.That(response, Is.Not.Null);
+    }
 }
