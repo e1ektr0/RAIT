@@ -112,4 +112,15 @@ public sealed class RaitTests
         var response = await _defaultClient.Rait<RaitDerivedResponseController>().Call<ChildResp, BaseResp>(n => n.GetChildResp());
         Assert.That(response, Is.Not.Null);
     }
+    
+    [Test]
+    public async Task RespWithoutDeserializationTest()
+    {
+        var response = await _defaultClient.Rait<RaitTestController>().CallWithoutDeserialization(n => n.Get());
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.GetType(), Is.EqualTo(typeof(string)));
+            Assert.That(response, Is.Not.Null);
+        });
+    }
 }

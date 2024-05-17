@@ -88,4 +88,14 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         await RaitHttpRequester.HttpRequest(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters, typeof(EmptyResponse));
     }
+    public async Task<string> CallWithoutDeserialization(Expression<Func<TController, Task>> tree)
+    {
+        var methodBody = tree.Body as MethodCallExpression;
+        var methodInfo = methodBody!.Method;
+
+        var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
+        return await RaitHttpRequester.HttpRequestWithoutDeserialization(_client, methodInfo.CustomAttributes, rout,
+            prepareInputParameters);
+    }
 }

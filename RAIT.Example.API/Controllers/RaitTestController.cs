@@ -60,4 +60,12 @@ public class RaitTestController : ControllerBase
             Id = model.Id
         };
     }
+    
+    [Route("")]
+    [HttpGet]
+    public async Task<Ok> Get()
+    {
+        await Task.CompletedTask;
+        return new Ok();
+    }
 }
