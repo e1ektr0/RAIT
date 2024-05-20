@@ -49,7 +49,7 @@ public class RaitTestController : ControllerBase
             throw new Exception("Wrong value");
         return new Ok();
     }
-    
+
     [Route("form_model_with-null_value")]
     [HttpPost]
     public async Task<ResponseModel> FormModelNull([FromForm] ModelWithNullValues model)
@@ -60,12 +60,20 @@ public class RaitTestController : ControllerBase
             Id = model.Id
         };
     }
-    
+
     [Route("")]
     [HttpGet]
     public async Task<Ok> Get()
     {
         await Task.CompletedTask;
         return new Ok();
+    }
+
+    [Route("get_with_array")]
+    [HttpGet]
+    public async Task<ArrayValueRequest> GetWithArray([FromQuery] ArrayValueRequest request)
+    {
+        await Task.CompletedTask;
+        return request;
     }
 }

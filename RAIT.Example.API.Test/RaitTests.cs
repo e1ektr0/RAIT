@@ -123,4 +123,12 @@ public sealed class RaitTests
             Assert.That(response, Is.Not.Null);
         });
     }
+    
+    [Test]
+    public async Task GetWithGuidArrayTest()
+    {
+        var request = new ArrayValueRequest{Array = new List<Guid>{Guid.NewGuid(), Guid.NewGuid()}};
+        var response = await _defaultClient.Rait<RaitTestController>().CallR(n => n.GetWithArray(request));
+        Assert.That(response.Array, Is.Not.Empty);
+    }
 }

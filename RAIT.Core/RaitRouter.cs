@@ -107,30 +107,29 @@ internal static class RaitRouter
             .Where(x => x.GetValue(request, null) != null)
             .ToDictionary(x => x.Name, x => x.GetValue(request, null));
 
-        // Get names for all IEnumerable properties (excl. string)
+        var notArrayProperties = properties.Where(x => x.Value is not IEnumerable);
+        var queryParams = notArrayProperties.Select(x =>
+            string.Concat(Uri.EscapeDataString(x.Key), "=", Uri.EscapeDataString(x.Value!.ToString()!))).ToList();
+
+        // Get names for all IEnumerable properties (excl. string, Guid)
         var propertyNames = properties
-            .Where(x => !(x.Value is string) && x.Value is IEnumerable)
+            .Where(x => x.Value is not string && x.Value is not Guid && x.Value is IEnumerable)
             .Select(x => x.Key)
             .ToList();
 
-        // Concat all IEnumerable properties into a comma separated string
         foreach (var key in propertyNames)
         {
             var valueType = properties[key]!.GetType();
             var valueElemType = valueType.IsGenericType
                 ? valueType.GetGenericArguments()[0]
                 : valueType.GetElementType();
-            if (!valueElemType!.IsPrimitive && valueElemType != typeof(string))
+            if (!valueElemType!.IsPrimitive && valueElemType != typeof(string) && valueElemType != typeof(Guid))
                 continue;
 
             var enumerable = properties[key] as IEnumerable;
-            properties[key] = string.Join(separator, enumerable!.Cast<object>());
+            queryParams.AddRange(enumerable!.Cast<object>().Select(n => $"{key}={n}"));
         }
 
-        // Concat all key/value pairs into a string separated by ampersand
-        return string.Join("&", properties
-            .Select(x => string.Concat(
-                Uri.EscapeDataString(x.Key), "=",
-                Uri.EscapeDataString(x.Value!.ToString()!))));
+        return string.Join("&", queryParams);
     }
 }
