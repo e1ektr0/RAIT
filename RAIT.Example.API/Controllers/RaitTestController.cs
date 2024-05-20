@@ -76,4 +76,12 @@ public class RaitTestController : ControllerBase
         await Task.CompletedTask;
         return request;
     }
+    
+    [Route("get_with_date")]
+    [HttpGet]
+    public async Task<DateTimeRequest> GetWithDate([FromQuery] DateTimeRequest request)
+    {
+        await Task.CompletedTask;
+        return request;
+    }
 }

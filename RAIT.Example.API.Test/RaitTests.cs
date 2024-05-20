@@ -71,7 +71,7 @@ public sealed class RaitTests
     public async Task FilterTest()
     {
         var call = await _defaultClient.Rait<RaitFilterTestController>().Call(n =>
-            n.GetReportsResult("fff", "qqq","sss"));
+            n.GetReportsResult("fff", "qqq", "sss"));
         Assert.That(call!.Success, Is.True);
     }
 
@@ -97,7 +97,7 @@ public sealed class RaitTests
         var r = await _defaultClient.Rait<RaitEnumTestController>().Call(n => n.Get());
         Assert.That(r, Is.Not.Null);
     }
-    
+
     [Test]
     public async Task FormModelNullTest()
     {
@@ -105,14 +105,15 @@ public sealed class RaitTests
         var responseModel = await _defaultClient.Rait<RaitTestController>().Call(n => n.FormModelNull(model));
         Assert.That(responseModel!.Id, Is.EqualTo(model.Id));
     }
-    
+
     [Test]
-    public async Task DerivedRespTest() 
+    public async Task DerivedRespTest()
     {
-        var response = await _defaultClient.Rait<RaitDerivedResponseController>().Call<ChildResp, BaseResp>(n => n.GetChildResp());
+        var response = await _defaultClient.Rait<RaitDerivedResponseController>()
+            .Call<ChildResp, BaseResp>(n => n.GetChildResp());
         Assert.That(response, Is.Not.Null);
     }
-    
+
     [Test]
     public async Task RespWithoutDeserializationTest()
     {
@@ -123,12 +124,20 @@ public sealed class RaitTests
             Assert.That(response, Is.Not.Null);
         });
     }
-    
+
     [Test]
     public async Task GetWithGuidArrayTest()
     {
-        var request = new ArrayValueRequest{Array = new List<Guid>{Guid.NewGuid(), Guid.NewGuid()}};
+        var request = new ArrayValueRequest { Array = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() } };
         var response = await _defaultClient.Rait<RaitTestController>().CallR(n => n.GetWithArray(request));
         Assert.That(response.Array, Is.Not.Empty);
+    }
+
+    [Test]
+    public async Task GetWithDateTest()
+    {
+        var request = new DateTimeRequest { DateTime = DateTime.UtcNow };
+        var response = await _defaultClient.Rait<RaitTestController>().CallR(n => n.GetWithDate(request));
+        Assert.That(response.DateTime, Is.EqualTo(request.DateTime));
     }
 }

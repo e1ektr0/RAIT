@@ -109,7 +109,7 @@ internal static class RaitRouter
 
         var notArrayProperties = properties.Where(x => x.Value is not IEnumerable);
         var queryParams = notArrayProperties.Select(x =>
-            string.Concat(Uri.EscapeDataString(x.Key), "=", Uri.EscapeDataString(x.Value!.ToString()!))).ToList();
+            string.Concat(Uri.EscapeDataString(x.Key), "=", ValueToString(x.Value!))).ToList();
 
         // Get names for all IEnumerable properties (excl. string, Guid)
         var propertyNames = properties
@@ -131,5 +131,12 @@ internal static class RaitRouter
         }
 
         return string.Join("&", queryParams);
+    }
+
+    private static string ValueToString(object value)
+    {
+        if (value is DateTime dt)
+            return dt.ToString("O");
+        return Uri.EscapeDataString(value.ToString()!);
     }
 }
