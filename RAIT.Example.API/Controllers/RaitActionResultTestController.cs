@@ -14,7 +14,7 @@ public class RaitActionResultTestController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> Get2()
+    public async Task<IActionResult> Get401StatusCode()
     {
         await Task.CompletedTask;
         return StatusCode(401);

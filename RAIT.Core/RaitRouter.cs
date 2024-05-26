@@ -107,7 +107,7 @@ internal static class RaitRouter
             .Where(x => x.GetValue(request, null) != null)
             .ToDictionary(x => x.Name, x => x.GetValue(request, null));
 
-        var notArrayProperties = properties.Where(x => x.Value is not IEnumerable);
+        var notArrayProperties = properties.Where(x => x.Value is not IEnumerable or string);
         var queryParams = notArrayProperties.Select(x =>
             string.Concat(Uri.EscapeDataString(x.Key), "=", ValueToString(x.Value!))).ToList();
 

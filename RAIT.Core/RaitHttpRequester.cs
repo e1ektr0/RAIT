@@ -30,6 +30,9 @@ internal static class RaitHttpRequester
         if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
         {
             httpResponseMessage = await httpClient.GetAsync(route);
+            
+            await HandleError(httpResponseMessage);
+            
             if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
                 result = null!;
             else if (memberInfo == typeof(IActionResult))
@@ -75,8 +78,9 @@ internal static class RaitHttpRequester
 
         return result;
     }
-    
-    internal static async Task<string> HttpRequestWithoutDeserialization(HttpClient httpClient, IEnumerable<CustomAttributeData> attributes,
+
+    internal static async Task<string> HttpRequestWithoutDeserialization(HttpClient httpClient,
+        IEnumerable<CustomAttributeData> attributes,
         string route, List<InputParameter> prepareInputParameters)
     {
         var customAttributeData =

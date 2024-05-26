@@ -4,6 +4,7 @@ public class Model
 {
     public long Id { get; set; }
     public List<Guid>? List { get; set; }
+    public string? Domain { get; set; }
 }
 
 public class ModelWithNullValues

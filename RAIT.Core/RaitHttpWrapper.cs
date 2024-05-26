@@ -5,7 +5,6 @@ namespace RAIT.Core;
 
 public class EmptyResponse
 {
-    
 }
 
 public class RaitHttpWrapper<TController> where TController : ControllerBase
@@ -27,7 +26,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         return await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters);
     }
-    
+
     public async Task<TOutput?> Call<TOutput>(Expression<Func<TController, Task<TOutput>>> tree)
     {
         var methodBody = tree.Body as MethodCallExpression;
@@ -38,7 +37,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         return await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters);
     }
-    
+
     public async Task<TOutput> CallR<TOutput, TOut>(Expression<Func<TController, Task<TOut>>> tree) where TOutput : TOut
     {
         var methodBody = tree.Body as MethodCallExpression;
@@ -52,7 +51,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
             throw new ArgumentNullException();
         return output;
     }
-    
+
     public async Task<TOutput> CallR<TOutput>(Expression<Func<TController, Task<TOutput>>> tree)
     {
         var methodBody = tree.Body as MethodCallExpression;
@@ -66,7 +65,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
             throw new ArgumentNullException();
         return output;
     }
-    
+
     public async Task Call(Expression<Func<TController, Task>> tree)
     {
         var methodBody = tree.Body as MethodCallExpression;
@@ -77,7 +76,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         await RaitHttpRequester.HttpRequest(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters, typeof(EmptyResponse));
     }
-    
+
     public async Task CallR(Expression<Func<TController, Task>> tree)
     {
         var methodBody = tree.Body as MethodCallExpression;
@@ -88,6 +87,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         await RaitHttpRequester.HttpRequest(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters, typeof(EmptyResponse));
     }
+
     public async Task<string> CallWithoutDeserialization(Expression<Func<TController, Task>> tree)
     {
         var methodBody = tree.Body as MethodCallExpression;
