@@ -119,13 +119,6 @@ internal static class RaitRouter
 
         foreach (var key in propertyNames)
         {
-            var valueType = properties[key]!.GetType();
-            var valueElemType = valueType.IsGenericType
-                ? valueType.GetGenericArguments()[0]
-                : valueType.GetElementType();
-            if (!valueElemType!.IsPrimitive && valueElemType != typeof(string) && valueElemType != typeof(Guid))
-                continue;
-
             var enumerable = properties[key] as IEnumerable;
             queryParams.AddRange(enumerable!.Cast<object>().Select(n => $"{key}={n}"));
         }

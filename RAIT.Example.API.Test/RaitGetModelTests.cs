@@ -36,7 +36,11 @@ public sealed class RaitGetModelTests
                 Guid.NewGuid(),
                 Guid.NewGuid()
             },
-            Domain = "google.com"
+            Domain = "google.com",
+            EnumList = new List<EnumExample>
+            {
+                EnumExample.One, EnumExample.Three
+            }
         };
         var response = await _defaultClient.Rait<RaitGetModelController>()
             .CallR(n => n.Ping(request));
@@ -44,6 +48,8 @@ public sealed class RaitGetModelTests
         Assert.That(response.Id, Is.EqualTo(request.Id));
         Assert.That(response.List![1], Is.EqualTo(request.List[1]));
         Assert.That(response.Domain, Is.EqualTo(request.Domain));
+        Assert.That(response.EnumList!.First(), Is.EqualTo(EnumExample.One));
+        Assert.That(response.EnumList!.Last(), Is.EqualTo(EnumExample.Three));
     }
 
 

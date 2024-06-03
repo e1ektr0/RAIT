@@ -1,9 +1,16 @@
 ﻿namespace RAIT.Example.API.Models;
 
+public enum EnumExample
+{
+    One,
+    Two,
+    Three
+}
 public class Model
 {
     public long Id { get; set; }
     public List<Guid>? List { get; set; }
+    public List<EnumExample>? EnumList { get; set; }
     public string? Domain { get; set; }
 }
 

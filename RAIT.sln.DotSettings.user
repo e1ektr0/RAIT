@@ -1,4 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b52fbd70_002D625a_002D4020_002D8e0b_002D94ec50c8ee88/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DerivedRespTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="D:\Projects\Rait\RAIT\RAIT.Example.API.Test" Presentation="&amp;lt;RAIT.Example.API.Test&amp;gt;" /&gt;&#xD;
+  &lt;And&gt;&#xD;
+    &lt;Namespace&gt;RAIT.Example.API.Test&lt;/Namespace&gt;&#xD;
+    &lt;Project Location="C:\Users\E1ektr0\RiderProjects\RAIT\RAIT.Example.API.Test" Presentation="&amp;lt;RAIT.Example.API.Test&amp;gt;" /&gt;&#xD;
+  &lt;/And&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
