@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Net.Http.Headers;
 
 namespace RAIT.Core;
 
@@ -30,9 +31,10 @@ internal static class RaitHttpRequester
         if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
         {
             httpResponseMessage = await httpClient.GetAsync(route);
-            
+
             await HandleError(httpResponseMessage);
-            
+            SetCookies(httpClient, httpResponseMessage);
+
             if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
                 result = null!;
             else if (memberInfo == typeof(IActionResult))
@@ -65,6 +67,7 @@ internal static class RaitHttpRequester
                 throw new Exception("Rait: Http web attribute not found.");
 
             await HandleError(httpResponseMessage);
+            SetCookies(httpClient, httpResponseMessage);
 
             if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
                 result = null;
@@ -115,6 +118,7 @@ internal static class RaitHttpRequester
                 throw new Exception("Rait: Http web attribute not found.");
 
             await HandleError(httpResponseMessage);
+            SetCookies(httpClient, httpResponseMessage);
         }
 
         return await httpResponseMessage.Content.ReadAsStringAsync();
@@ -218,5 +222,11 @@ internal static class RaitHttpRequester
             var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
             throw new RaitHttpException(readAsStringAsync, httpResponseMessage.StatusCode);
         }
+    }
+
+    private static void SetCookies(HttpClient httpClient, HttpResponseMessage httpResponseMessage)
+    {
+        var cookies = httpResponseMessage.Headers.GetValues(HeaderNames.SetCookie);
+        httpClient.DefaultRequestHeaders.Add("Cookie", cookies);
     }
 }
