@@ -226,7 +226,7 @@ internal static class RaitHttpRequester
 
     private static void SetCookies(HttpClient httpClient, HttpResponseMessage httpResponseMessage)
     {
-        var cookies = httpResponseMessage.Headers.GetValues(HeaderNames.SetCookie);
-        httpClient.DefaultRequestHeaders.Add("Cookie", cookies);
+        if (httpResponseMessage.Headers.TryGetValues(HeaderNames.SetCookie, out var cookies))
+            httpClient.DefaultRequestHeaders.Add("Cookie", cookies);
     }
 }
