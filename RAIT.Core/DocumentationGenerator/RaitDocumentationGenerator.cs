@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
+using Microsoft.AspNetCore.Http;
 using RAIT.Core.DocumentationGenerator.XmlDoc;
 
 namespace RAIT.Core.DocumentationGenerator;
@@ -109,8 +110,10 @@ internal class RaitDocumentationGenerator
                 continue;
             var assembly = parameter.Type!.Assembly.GetName().Name!;
 
-            foreach (var propertyInfo in parameter.Type.GetProperties())
+            foreach (var propertyInfo in parameter.Type.GetProperties().Where(p => p.GetIndexParameters().Length == 0))
             {
+                if(propertyInfo.GetCustomAttribute<RaitDocIgnoreAttribute>() != null )
+                    continue;
                 var value = propertyInfo.GetValue(parameter.Value);
                 if (value == null)
                     continue;

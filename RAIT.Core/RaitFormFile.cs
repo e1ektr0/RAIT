@@ -2,6 +2,10 @@
 
 namespace RAIT.Core;
 
+public class RaitDocIgnoreAttribute : Attribute
+{
+    
+}
 public class RaitFormFile : IFormFile, IDisposable
 {
     private Stream? _openReadStream;
@@ -39,6 +43,7 @@ public class RaitFormFile : IFormFile, IDisposable
 
     public string ContentType { get; }
     public string? ContentDisposition { get; } = null;
+    [RaitDocIgnore]
     public IHeaderDictionary Headers { get; } = new HeaderDictionary();
     public long Length { get; } = 0;
     public string Name { get; }
