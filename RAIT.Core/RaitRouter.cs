@@ -112,12 +112,12 @@ internal static class RaitRouter
             string.Concat(Uri.EscapeDataString(x.Key), "=", ValueToString(x.Value!))).ToList();
 
         // Get names for all IEnumerable properties (excl. string, Guid)
-        var propertyNames = properties
+        var array = properties
             .Where(x => x.Value is not string && x.Value is not Guid && x.Value is IEnumerable)
             .Select(x => x.Key)
             .ToList();
 
-        foreach (var key in propertyNames)
+        foreach (var key in array)
         {
             var enumerable = properties[key] as IEnumerable;
             queryParams.AddRange(enumerable!.Cast<object>().Select(n => $"{key}={n}"));

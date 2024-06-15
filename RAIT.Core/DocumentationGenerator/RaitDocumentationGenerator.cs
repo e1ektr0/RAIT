@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Collections;
+using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
 using RAIT.Core.DocumentationGenerator.XmlDoc;
@@ -115,8 +116,8 @@ internal class RaitDocumentationGenerator
 
                 var key = $"P:{parameter.Type}.{propertyInfo.Name}";
                 example.Type = key;
-                example.SerializedValue = JsonSerializer.Serialize(value);
-                example.Value = value.ToString()!;
+               
+                example.Value = value.ToStringParam()!;
                 if (raitDocumentationReport.PropertyExamples.TryAdd(assembly,
                         new Dictionary<string, PropertyExample>()))
                     continue;
