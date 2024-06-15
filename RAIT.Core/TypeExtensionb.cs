@@ -10,6 +10,8 @@ public static class TypeExtension
             return null;
         if (value is not IEnumerable || value is string)
         {
+            if (value is Uri)
+                return value.ToString();
             if (value.GetType().IsClass && value is not string)
                 return null;
             return value.ToString()!;

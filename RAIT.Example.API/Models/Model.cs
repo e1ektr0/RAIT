@@ -19,6 +19,7 @@ public class Model
 public class ModelIncluded
 {
     public string Secret { get; set; }
+    public Uri? Uri { get; set; }
 }
 public class ModelWithNullValues
 {
