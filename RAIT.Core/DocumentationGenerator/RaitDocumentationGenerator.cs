@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Reflection;
 using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
@@ -52,6 +53,7 @@ internal class RaitDocumentationGenerator
                 new StreamWriter(Path.Combine(AppContext.BaseDirectory,
                     xmlDocFilePath.Replace(".xml", "_rait.xml")));
             serializer.Serialize(writer, doc);
+            RaitConfig.DocState = doc;
         }
     }
 
@@ -86,6 +88,7 @@ internal class RaitDocumentationGenerator
 
         Generate(raitDocumentationReport);
 
+        //todo: on dispose server
         Save(raitDocumentationReport, raitDocReport);
     }
 
@@ -98,12 +101,13 @@ internal class RaitDocumentationGenerator
     private static void UpdateRaitDoc(List<InputParameter> prepareInputParameters,
         RaitDocumentationReport raitDocumentationReport)
     {
-        foreach (var parameter in prepareInputParameters.Where(n => n.Type != null))
+        var inputParameters = prepareInputParameters.Where(n => n.Type != null).ToList();
+        for (var index = 0; index < inputParameters.Count; index++)
         {
+            var parameter = inputParameters[index];
             if (parameter.Type == typeof(string))
                 continue;
             var assembly = parameter.Type!.Assembly.GetName().Name!;
-          
 
             foreach (var propertyInfo in parameter.Type.GetProperties())
             {
@@ -116,8 +120,20 @@ internal class RaitDocumentationGenerator
                 };
                 var key = $"P:{parameter.Type}.{propertyInfo.Name}";
                 example.Type = key;
+                var stringParam = value.ToStringParam();
+                if (stringParam != null)
+                {
+                    example.Value = stringParam!;
+                }
+                else
+                {
+                    inputParameters.Add(new InputParameter
+                    {
+                        Value = value,
+                        Type = value.GetType()
+                    });
+                }
 
-                example.Value = value.ToStringParam()!;
                 if (raitDocumentationReport.PropertyExamples.TryAdd(assembly,
                         new Dictionary<string, PropertyExample>()))
                     continue;

@@ -18,6 +18,18 @@ public class RaitGetModelController : ControllerBase
         return request;
     }
     
+    
+    /// <summary>
+    /// Submit request to answer
+    /// </summary>
+    [HttpPost]
+    [Route("Ping")]
+    public async Task<Model> PingPost([FromBody] Model request)
+    {
+        await Task.CompletedTask;
+        return request;
+    }
+    
     /// <summary>
     /// Will return 415 error
     /// </summary>

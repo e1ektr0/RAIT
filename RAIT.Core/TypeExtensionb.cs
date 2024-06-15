@@ -9,7 +9,11 @@ public static class TypeExtension
         if (value == null)
             return null;
         if (value is not IEnumerable || value is string)
+        {
+            if (value.GetType().IsClass && value is not string)
+                return null;
             return value.ToString()!;
+        }
         var enumerable = (IEnumerable)value;
         var type = enumerable.GetType();
         var genericArguments = type.GetGenericArguments();
