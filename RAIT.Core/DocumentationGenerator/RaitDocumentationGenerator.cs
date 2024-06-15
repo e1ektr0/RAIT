@@ -59,7 +59,7 @@ internal class RaitDocumentationGenerator
     {
         return new Member
         {
-            Name = propertyMember.Value.Type,
+            Name = propertyMember.Key,
             Example = propertyMember.Value.Value //fix for classes
         };
     }

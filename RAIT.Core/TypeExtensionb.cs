@@ -14,13 +14,13 @@ public static class TypeExtension
         var type = enumerable.GetType();
         var genericArguments = type.GetGenericArguments();
         var variables = enumerable.Cast<object>().Select(n=>n.ToString()).ToList();
-        if (genericArguments.Any())
+        if (!genericArguments.Any()) 
+            return null;
+        
+        var genericType = genericArguments.FirstOrDefault();
+        if ( genericType is string || !genericType.IsClass)
         {
-            var genericType = genericArguments.FirstOrDefault();
-            if ( genericType is string || !genericType.IsClass)
-            {
-                return string.Join(",", variables);
-            }
+            return string.Join(",", variables);
         }
 
         return null;
