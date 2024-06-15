@@ -37,7 +37,7 @@ internal static class RaitRouter
         if (!generatedInputParameters.Any(n => n.IsQuery && !n.Used && n.Value != null))
             return result;
         result += "?";
-        bool first = true;
+        var first = true;
         foreach (var generatedInputParameter in generatedInputParameters.Where(n =>
                      n.IsQuery && !n.Used && n.Value != null))
         {

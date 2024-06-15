@@ -8,7 +8,7 @@ public static class TypeExtension
     {
         if (value == null)
             return null;
-        if (value is not IEnumerable)
+        if (value is not IEnumerable || value is string)
             return value.ToString()!;
         var enumerable = (IEnumerable)value;
         var type = enumerable.GetType();
