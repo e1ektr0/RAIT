@@ -12,6 +12,7 @@ public class Model
     public List<Guid>? List { get; set; }
     public List<EnumExample>? EnumList { get; set; }
     public string? Domain { get; set; }
+    public string? ExtraField { get; set; }
 }
 
 public class ModelWithNullValues

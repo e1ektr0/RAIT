@@ -103,20 +103,20 @@ internal class RaitDocumentationGenerator
             if (parameter.Type == typeof(string))
                 continue;
             var assembly = parameter.Type!.Assembly.GetName().Name!;
-            var example = new PropertyExample
-            {
-                Assembly = assembly
-            };
+          
 
             foreach (var propertyInfo in parameter.Type.GetProperties())
             {
                 var value = propertyInfo.GetValue(parameter.Value);
                 if (value == null)
                     continue;
-
+                var example = new PropertyExample
+                {
+                    Assembly = assembly
+                };
                 var key = $"P:{parameter.Type}.{propertyInfo.Name}";
                 example.Type = key;
-               
+
                 example.Value = value.ToStringParam()!;
                 if (raitDocumentationReport.PropertyExamples.TryAdd(assembly,
                         new Dictionary<string, PropertyExample>()))
