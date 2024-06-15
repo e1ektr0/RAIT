@@ -9,8 +9,15 @@
     <ItemGroup>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
-
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
     <ItemGroup>
         <InternalsVisibleTo Include="RAIT.Example.API.Test" />
     </ItemGroup>
+
+    <PropertyGroup>
+        <NoWarn>1701;1702;1591;</NoWarn>
+    </PropertyGroup>
+
 </Project>

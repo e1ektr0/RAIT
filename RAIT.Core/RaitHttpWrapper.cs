@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.AspNetCore.Mvc;
+using RAIT.Core.DocumentationGenerator;
 
 namespace RAIT.Core;
 
@@ -22,6 +23,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         var methodInfo = methodBody!.Method;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        RaitDocumentationGenerator.Params(prepareInputParameters);
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
         return await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters);
@@ -33,6 +35,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         var methodInfo = methodBody!.Method;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        RaitDocumentationGenerator.Params(prepareInputParameters);
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
         return await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters);
@@ -44,6 +47,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         var methodInfo = methodBody!.Method;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        RaitDocumentationGenerator.Params(prepareInputParameters);
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
         var output = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters);
@@ -58,6 +62,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         var methodInfo = methodBody!.Method;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        RaitDocumentationGenerator.Params(prepareInputParameters);
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
         var output = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters);
@@ -72,6 +77,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         var methodInfo = methodBody!.Method;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        RaitDocumentationGenerator.Params(prepareInputParameters);
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
         await RaitHttpRequester.HttpRequest(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters, typeof(EmptyResponse));
@@ -83,6 +89,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         var methodInfo = methodBody!.Method;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        RaitDocumentationGenerator.Params(prepareInputParameters);
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
         await RaitHttpRequester.HttpRequest(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters, typeof(EmptyResponse));
@@ -94,6 +101,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         var methodInfo = methodBody!.Method;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        RaitDocumentationGenerator.Params(prepareInputParameters);
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
         return await RaitHttpRequester.HttpRequestWithoutDeserialization(_client, methodInfo.CustomAttributes, rout,
             prepareInputParameters);

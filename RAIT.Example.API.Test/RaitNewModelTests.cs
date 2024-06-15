@@ -31,7 +31,8 @@ public sealed class RaitNewModelTests
     {
         var model = new Model
         {
-            Id = 10
+            Id = 10,
+            Domain = "test"
         };
         var responseModel = await _httpClient.Rait<RaitTestController>().Call(n => n.Post(model));
 
