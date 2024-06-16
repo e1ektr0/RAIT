@@ -14,7 +14,7 @@ public class Model
     public string? Domain { get; set; }
     public string? ExtraField { get; set; }
     public ModelIncluded? ModelIncluded { get; set; }
-    public List<ModelIncludeInList> ModelIncludeInLists { get; set; }
+    public List<ModelIncludeInList>? ModelIncludeInLists { get; set; }
 }
 
 public class ModelIncludeInList
