@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using RAIT.Core.DocumentationGenerator.XmlDoc;
 
 namespace RAIT.Core.DocumentationGenerator;
@@ -13,7 +14,6 @@ internal class RaitDocumentationGenerator
     public class PropertyExample
     {
         public string Type { get; set; }
-        public string SerializedValue { get; set; }
         public string Assembly { get; set; }
         public string Value { get; set; }
     }
@@ -33,22 +33,41 @@ internal class RaitDocumentationGenerator
             using var reader = XmlReader.Create(xmlDocFilePath);
             var doc = (XmlDoc.XmlDoc)serializer.Deserialize(reader)!;
 
-            if (!raitDocumentationReport.PropertyExamples
+            if (raitDocumentationReport.PropertyExamples
                     .TryGetValue(doc.Assembly.Name, out var propertyExamples))
-                continue;
-
-            foreach (var valuePair in propertyExamples)
             {
-                var propertyMember = doc.Members.Member.FirstOrDefault(n => n.Name == valuePair.Value.Type);
-                if (propertyMember != null)
+                foreach (var valuePair in propertyExamples)
                 {
-                    ChangeComment(propertyMember, valuePair);
-                }
-                else
+                    var propertyMember = doc.Members.Member.FirstOrDefault(n => n.Name == valuePair.Value.Type);
+                    if (propertyMember != null)
+                    {
+                        ChangeComment(propertyMember, valuePair);
+                    }
+                    else
+                    {
+                        doc.Members.Member.Add(CreatePropertyMember(valuePair));
+                    }
+                } 
+            }
+
+
+            if (raitDocumentationReport.Methods
+                    .TryGetValue(doc.Assembly.Name, out var methods))
+            {
+                foreach (var valuePair in methods)
                 {
-                    doc.Members.Member.Add(CreatePropertyMember(valuePair));
+                    var propertyMember = doc.Members.Member.FirstOrDefault(n => n.Name == valuePair.Value.Type);
+                    if (propertyMember != null)
+                    {
+                        ChangeCommentMethod(propertyMember, valuePair);
+                    }
+                    else
+                    {
+                        doc.Members.Member.Add(CreatePropertyMemberMethod(valuePair));
+                    }
                 }
             }
+
 
             using var writer =
                 new StreamWriter(Path.Combine(AppContext.BaseDirectory,
@@ -58,39 +77,67 @@ internal class RaitDocumentationGenerator
         }
     }
 
+    private static void ChangeCommentMethod(Member propertyMember, KeyValuePair<string, PropertyExample> valuePair)
+    {
+        var text = CreateTestedText();
+        if (string.IsNullOrEmpty(propertyMember.Summary))
+        {
+            propertyMember.Summary = text;
+            return;
+        }
+
+        propertyMember.Summary = text + propertyMember.Summary;
+    }
+
+    private static string CreateTestedText()
+    {
+        return "[Tested]";
+    }
+
+    private static Member CreatePropertyMemberMethod(KeyValuePair<string, PropertyExample> valuePair)
+    {
+        return new Member
+        {
+            Name = valuePair.Key,
+            Example = CreateTestedText() //fix for classes
+        };
+    }
+
     private static Member CreatePropertyMember(KeyValuePair<string, PropertyExample> propertyMember)
     {
         return new Member
         {
             Name = propertyMember.Key,
-            Example = propertyMember.Value.Value //fix for classes
+            Example = propertyMember.Value.Value
         };
     }
 
     private static void ChangeComment(Member propertyMemberText, KeyValuePair<string, PropertyExample> valuePair)
     {
-        propertyMemberText.Example = valuePair.Value.Value; //fix for classes
+        if (string.IsNullOrEmpty(propertyMemberText.Example))
+            propertyMemberText.Example = valuePair.Value.Value;
     }
 
     public class RaitDocumentationReport
     {
         public Dictionary<string, Dictionary<string, PropertyExample>> PropertyExamples { get; set; } = new();
+        public Dictionary<string, Dictionary<string, PropertyExample>> Methods { get; set; } = new();
     }
+
+    const string RaitDocReport = "rait_doc_report";
 
     public static void Params(List<InputParameter> prepareInputParameters)
     {
         if (!RaitConfig.DocGeneration)
             return;
 
-        var raitDocReport = "rait_doc_report";
-        var raitDocumentationReport = RecoveryDoc(raitDocReport);
+        var raitDocumentationReport = RecoveryDoc(RaitDocReport);
 
         UpdateRaitDoc(prepareInputParameters, raitDocumentationReport);
 
-        Generate(raitDocumentationReport);
-
         //todo: on dispose server
-        Save(raitDocumentationReport, raitDocReport);
+        Generate(raitDocumentationReport);
+        Save(raitDocumentationReport, RaitDocReport);
     }
 
     private static void Save(RaitDocumentationReport raitDocumentationReport, string raitDocReport)
@@ -112,7 +159,7 @@ internal class RaitDocumentationGenerator
 
             foreach (var propertyInfo in parameter.Type.GetProperties().Where(p => p.GetIndexParameters().Length == 0))
             {
-                if(propertyInfo.GetCustomAttribute<RaitDocIgnoreAttribute>() != null )
+                if (propertyInfo.GetCustomAttribute<RaitDocIgnoreAttribute>() != null)
                     continue;
                 var value = propertyInfo.GetValue(parameter.Value);
                 if (value == null)
@@ -137,9 +184,8 @@ internal class RaitDocumentationGenerator
                     });
                 }
 
-                if (raitDocumentationReport.PropertyExamples.TryAdd(assembly,
-                        new Dictionary<string, PropertyExample>()))
-                    continue;
+                raitDocumentationReport.PropertyExamples.TryAdd(assembly,
+                    new Dictionary<string, PropertyExample>());
 
                 raitDocumentationReport.PropertyExamples[assembly].TryAdd(key, example);
                 raitDocumentationReport.PropertyExamples[assembly][key] = example;
@@ -147,8 +193,32 @@ internal class RaitDocumentationGenerator
         }
     }
 
+    private static void UpdateRaitDocMethod(Type type, string memberKey,
+        RaitDocumentationReport raitDocumentationReport)
+    {
+        {
+            var assembly = type.Assembly.GetName().Name!;
+
+            {
+                var example = new PropertyExample
+                {
+                    Assembly = assembly,
+                    Type = memberKey
+                };
+
+                raitDocumentationReport.Methods.TryAdd(assembly,
+                    new Dictionary<string, PropertyExample>());
+
+                raitDocumentationReport.Methods[assembly].TryAdd(memberKey, example);
+                raitDocumentationReport.Methods[assembly][memberKey] = example;
+            }
+        }
+    }
+
+
     private static RaitDocumentationReport RecoveryDoc(string raitDocReport)
     {
+        //todo:cache in memory
         RaitDocumentationReport? raitDocumentationReport;
         if (File.Exists(raitDocReport))
         {
@@ -161,5 +231,19 @@ internal class RaitDocumentationGenerator
         }
 
         return raitDocumentationReport!;
+    }
+
+    public static void Method<TController>(string methodInfoName) where TController : ControllerBase
+    {
+        var type = typeof(TController);
+        var memberKey = $"M:{type.FullName}.{methodInfoName}";
+
+        var raitDocumentationReport = RecoveryDoc(RaitDocReport);
+
+        UpdateRaitDocMethod(type, memberKey, raitDocumentationReport);
+
+        //todo: on dispose server
+        Generate(raitDocumentationReport);
+        Save(raitDocumentationReport, RaitDocReport);
     }
 }

@@ -6,6 +6,9 @@ namespace RAIT.Example.API.Controllers;
 [Route("[controller]/[action]")]
 public class RaitActionResultTestController : ControllerBase
 {
+    /// <summary>
+    /// Comment for api endpoint
+    /// </summary>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
