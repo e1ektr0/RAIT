@@ -29,17 +29,27 @@ public sealed class DocsTests
     public async Task GenerateDocForIncludeParameters()
     {
         var secret = "sec";
+        var secret2 = "sec2";
         var request = new Model
         {
             ModelIncluded = new ModelIncluded
             {
                 Secret = secret,
                 Uri = new Uri("https://google.com/news")
+            },
+            ModelIncludeInLists = new List<ModelIncludeInList>
+            {
+                new()
+                {
+                    XSecret2 = secret2
+                }
             }
         };
         await _defaultClient.Rait<RaitGetModelController>().Call(n => n.PingPost(request));
 
         var member = RaitConfig.DocState.Members.Member.First(n=>n.Name.EndsWith("Secret"));
         Assert.That(member.Example, Is.EqualTo(secret));
+        var member2 = RaitConfig.DocState.Members.Member.First(n=>n.Name.EndsWith("XSecret2"));
+        Assert.That(member2.Example, Is.EqualTo(secret2));
     }
 }

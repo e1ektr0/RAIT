@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Reflection;
 using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
@@ -175,11 +176,27 @@ internal class RaitDocumentationGenerator
                 }
                 else
                 {
-                    inputParameters.Add(new InputParameter
+                    if (value is IEnumerable)
                     {
-                        Value = value,
-                        Type = value.GetType()
-                    });
+                        var enumerable = (IEnumerable)value;
+                        var firstOrDefault = enumerable.Cast<object>().ToList().FirstOrDefault();
+                        if (firstOrDefault != null)
+                        {
+                            inputParameters.Add(new InputParameter
+                            {
+                                Value = firstOrDefault,
+                                Type = firstOrDefault.GetType()
+                            });
+                        }
+                    }
+                    else
+                    {
+                        inputParameters.Add(new InputParameter
+                        {
+                            Value = value,
+                            Type = value.GetType()
+                        });
+                    }
                 }
 
                 raitDocumentationReport.PropertyExamples.TryAdd(assembly,

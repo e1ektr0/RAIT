@@ -14,8 +14,14 @@ public class Model
     public string? Domain { get; set; }
     public string? ExtraField { get; set; }
     public ModelIncluded? ModelIncluded { get; set; }
+    public List<ModelIncludeInList> ModelIncludeInLists { get; set; }
 }
 
+public class ModelIncludeInList
+{
+    public string XSecret2 { get; set; }
+
+}
 public class ModelIncluded
 {
     public string Secret { get; set; }
