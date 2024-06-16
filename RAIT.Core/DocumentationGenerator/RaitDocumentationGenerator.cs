@@ -98,7 +98,7 @@ internal class RaitDocumentationGenerator
         return new Member
         {
             Name = valuePair.Key,
-            Example = CreateTestedText() //fix for classes
+            Summary = CreateTestedText() //fix for classes
         };
     }
 
