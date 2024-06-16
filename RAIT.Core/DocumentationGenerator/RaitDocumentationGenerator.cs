@@ -33,7 +33,7 @@ internal class RaitDocumentationGenerator
             var doc = (XmlDoc.XmlDoc)serializer.Deserialize(reader)!;
 
             if (raitDocumentationReport.PropertyExamples
-                    .TryGetValue(doc.Assembly.Name, out var propertyExamples))
+                .TryGetValue(doc.Assembly.Name, out var propertyExamples))
             {
                 foreach (var valuePair in propertyExamples)
                 {
@@ -46,12 +46,12 @@ internal class RaitDocumentationGenerator
                     {
                         doc.Members.Member.Add(CreatePropertyMember(valuePair));
                     }
-                } 
+                }
             }
 
 
             if (raitDocumentationReport.Methods
-                    .TryGetValue(doc.Assembly.Name, out var methods))
+                .TryGetValue(doc.Assembly.Name, out var methods))
             {
                 foreach (var valuePair in methods)
                 {
@@ -248,10 +248,16 @@ internal class RaitDocumentationGenerator
         return raitDocumentationReport!;
     }
 
-    public static void Method<TController>(string methodInfoName) where TController : ControllerBase
+    public static void Method<TController>(string methodInfoName, List<InputParameter> prepareInputParameters)
+        where TController : ControllerBase
     {
         var type = typeof(TController);
+
         var memberKey = $"M:{type.FullName}.{methodInfoName}";
+        if (prepareInputParameters.Any())
+        {
+            memberKey += $"({string.Join(',', prepareInputParameters.Select(n => n.Type.ToString()))})";
+        }
 
         var raitDocumentationReport = RecoveryDoc(RaitDocReport);
 

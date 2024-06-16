@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <PackageId>RAIT</PackageId>
         <Authors>E1ektr0</Authors>
-        <Version>1.1.10</Version>
+        <Version>1.1.11</Version>
         <ProjectUrl>https://github.com/e1ektr0/RAIT</ProjectUrl>
     </PropertyGroup>
     <PropertyGroup>
