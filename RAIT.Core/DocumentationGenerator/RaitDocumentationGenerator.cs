@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RAIT.Core.DocumentationGenerator.XmlDoc;
 
