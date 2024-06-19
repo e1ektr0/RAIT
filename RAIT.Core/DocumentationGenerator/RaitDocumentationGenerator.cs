@@ -69,7 +69,7 @@ internal class RaitDocumentationGenerator
 
 
             using var writer =
-                new StreamWriter(Path.Combine(AppContext.BaseDirectory,
+                new StreamWriter(Path.Combine(RaitConfig.ResultPath ?? AppContext.BaseDirectory,
                     xmlDocFilePath.Replace(".xml", "_rait.xml")));
             serializer.Serialize(writer, doc);
             RaitConfig.DocState = doc;
