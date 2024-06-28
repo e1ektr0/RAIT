@@ -16,7 +16,9 @@ public static class TypeExtension
                 return null;
             return value.ToString()!;
         }
-        var enumerable = (IEnumerable)value;
+        var enumerable = (IEnumerable?)value;
+        if (enumerable == null)
+            return null;
         var type = enumerable.GetType();
         var genericArguments = type.GetGenericArguments();
         var variables = enumerable.Cast<object>().Select(n=>n.ToString()).ToList();
@@ -24,11 +26,8 @@ public static class TypeExtension
             return null;
         
         var genericType = genericArguments.FirstOrDefault();
-        if ( genericType is string || !genericType.IsClass)
-        {
-            return string.Join(",", variables);
-        }
-
-        return null;
+        if(genericType == null)
+            return null;
+        return !genericType.IsClass ? string.Join(",", variables) : null;
     }
 }
