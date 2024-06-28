@@ -17,7 +17,7 @@ internal class RaitDocumentationGenerator
         public string Value { get; set; }
     }
 
-    public static void Generate(RaitDocumentationReport raitDocumentationReport)
+    private static void Generate(RaitDocumentationReport raitDocumentationReport)
     {
         //todo: parameters for filter
         var files = Directory.GetFiles(AppContext.BaseDirectory);
@@ -70,7 +70,7 @@ internal class RaitDocumentationGenerator
 
             using var writer =
                 new StreamWriter(Path.Combine(RaitConfig.ResultPath ?? AppContext.BaseDirectory,
-                    xmlDocFilePath.Replace(".xml", "_rait.xml")));
+                    Path.GetFileName(xmlDocFilePath.Replace(".xml", "_rait.xml"))));
             serializer.Serialize(writer, doc);
             RaitConfig.DocState = doc;
         }
