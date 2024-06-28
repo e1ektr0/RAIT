@@ -123,31 +123,41 @@ internal class RaitDocumentationGenerator
         public Dictionary<string, Dictionary<string, PropertyExample>> Methods { get; set; } = new();
     }
 
-    const string RaitDocReport = "rait_doc_report";
+    const string RaitDocReport = "RAIT.json";
 
     public static void Params<TController>(List<InputParameter> prepareInputParameters)
     {
         if (!RaitConfig.DocGeneration)
             return;
 
-        var raitDocumentationReport = RecoveryDoc(RaitDocReport);
+        CreatePath<TController>();
 
-        var assembly = typeof(TController).Assembly;
-        var directoryName = Path.GetDirectoryName(assembly.Location)!;
-        var resultPath = Path.Combine(directoryName, @"..\..\..\..\" + assembly.GetName().Name + @"\RAIT\");
-        Directory.CreateDirectory(resultPath);
-        RaitConfig.ResultPath = resultPath;
-        
+        var raitDocumentationReport = RecoveryDoc(Path.Combine(RaitConfig.ResultPath ?? "", RaitDocReport));
+
+
         UpdateRaitDoc(prepareInputParameters, raitDocumentationReport);
 
         //todo: on dispose server
         Generate(raitDocumentationReport);
-        Save(raitDocumentationReport, RaitDocReport);
+        Save(raitDocumentationReport, Path.Combine(RaitConfig.ResultPath ?? "", RaitDocReport));
+    }
+
+    private static string CreatePath<TController>()
+    {
+        var assembly = typeof(TController).Assembly;
+        var directoryName = Path.GetDirectoryName(assembly.Location)!;
+        var resultPath = Path.Combine(directoryName, @"..\..\..\..\" + assembly.GetName().Name + @"\RAIT\");
+        Directory.CreateDirectory(resultPath);
+        RaitConfig.ResultPath ??= resultPath;
+        return resultPath;
     }
 
     private static void Save(RaitDocumentationReport raitDocumentationReport, string raitDocReport)
     {
-        var serialize = JsonSerializer.Serialize(raitDocumentationReport);
+        var serialize = JsonSerializer.Serialize(raitDocumentationReport, new JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
         File.WriteAllText(raitDocReport, serialize);
     }
 
@@ -265,12 +275,14 @@ internal class RaitDocumentationGenerator
             memberKey += $"({string.Join(',', prepareInputParameters.Select(n => n.Type.ToString()))})";
         }
 
-        var raitDocumentationReport = RecoveryDoc(RaitDocReport);
+        CreatePath<TController>();
+
+        var raitDocumentationReport = RecoveryDoc(Path.Combine(RaitConfig.ResultPath ?? "", RaitDocReport));
 
         UpdateRaitDocMethod(type, memberKey, raitDocumentationReport);
 
         //todo: on dispose server
         Generate(raitDocumentationReport);
-        Save(raitDocumentationReport, RaitDocReport);
+        Save(raitDocumentationReport, Path.Combine(RaitConfig.ResultPath ?? "", RaitDocReport));
     }
 }

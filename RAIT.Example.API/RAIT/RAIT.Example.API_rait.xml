@@ -34,14 +34,18 @@
       <example>10</example>
     </member>
     <member name="P:RAIT.Example.API.Models.Model.ModelIncluded" />
+    <member name="P:RAIT.Example.API.Models.Model.ModelIncludeInLists" />
     <member name="P:RAIT.Example.API.Models.ModelIncluded.Secret">
       <example>sec</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ModelIncluded.Uri">
       <example>https://google.com/news</example>
     </member>
+    <member name="P:RAIT.Example.API.Models.ModelIncludeInList.XSecret2">
+      <example>sec2</example>
+    </member>
     <member name="P:RAIT.Example.API.Models.Model.List">
-      <example>bd24ee71-f6d1-4acd-9d57-3df8deb75926,e816c400-80e3-4202-bbbf-53dc6f8c0baf</example>
+      <example>3f216a35-2577-4515-ae8b-ed5514559f54,f8318a28-a50c-49ed-a953-93cf50aa2188</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ResponseModel.Id">
       <example>0</example>
@@ -65,43 +69,24 @@
       <example>10</example>
     </member>
     <member name="P:RAIT.Example.API.Models.DateTimeRequest.DateTime">
-      <example>6/28/2024 10:26:11 AM</example>
+      <example>6/28/2024 10:34:42 AM</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ArrayValueRequest.Array">
-      <example>8031992d-a3c5-4398-8012-a5fe816b1115,a141e2ac-95d9-499c-8c0d-65f606c35f8b</example>
+      <example>875478bc-5b59-4af5-a104-50980b3e1418,2f34a502-0d6a-4e21-8a50-8da121a814d1</example>
     </member>
     <member name="P:RAIT.Example.API.Models.EnumOk.EnumValue">
       <example>Test1</example>
     </member>
-    <member name="P:RAIT.Example.API.Models.Model.ModelIncludeInLists" />
-    <member name="P:RAIT.Example.API.Models.ModelIncludeInList.XSecret2">
-      <example>sec2</example>
-    </member>
-    <member name="M:RaitActionResultTestController.Get">
+    <member name="M:RAIT.Example.API.Controllers.RaitEmptyResponseController.Post(System.Int64)">
       <summary>[Tested]</summary>
     </member>
-    <member name="M:RaitActionResultTestController.Get401StatusCode">
+    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post2(RAIT.Example.API.Models.Model,RAIT.Core.RaitFormFile)">
       <summary>[Tested]</summary>
     </member>
-    <member name="M:RaitActionResultTestController.Post">
+    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post(RAIT.Core.RaitFormFile)">
       <summary>[Tested]</summary>
     </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitActionResultTestController.Get401StatusCode">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitActionResultTestController.Post">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitGetModelController.PingPost">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post2">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.Post">
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.Post(RAIT.Example.API.Models.Model)">
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitPrimitiveTypesTestController.GetBool">
@@ -119,64 +104,7 @@
     <member name="M:RAIT.Example.API.Controllers.RaitPrimitiveTypesTestController.GetString">
       <summary>[Tested]</summary>
     </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitActionRoutingTestController.Get">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.DeleteQuery">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitFilterTestController.GetReportsResult">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.FormModelNull">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithId">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitNullableTestController.Get">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitNullableTestController.Post">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitEnumTestController.Get">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitEmptyResponseController.Post">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitGetModelController.WrongModelType">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitGetModelController.Ping">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitDerivedResponseController.GetChildResp">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithDate">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithArray">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.Get">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitEmptyResponseController.Post(System.Int64)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post2(RAIT.Example.API.Models.Model,RAIT.Core.RaitFormFile)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post(RAIT.Core.RaitFormFile)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.Post(RAIT.Example.API.Models.Model)">
+    <member name="M:RAIT.Example.API.Controllers.RaitActionResultTestController.Get401StatusCode">
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitActionResultTestController.Post(System.Int32)">
@@ -186,6 +114,9 @@
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitTestController.DeleteQuery(System.Int64)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitDerivedResponseController.GetChildResp">
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitFilterTestController.GetReportsResult(System.String,System.String,System.String)">
@@ -203,7 +134,19 @@
     <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithArray(RAIT.Example.API.Models.ArrayValueRequest)">
       <summary>[Tested]</summary>
     </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitNullableTestController.Get">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitNullableTestController.Post">
+      <summary>[Tested]</summary>
+    </member>
     <member name="M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery(RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitEnumTestController.Get">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.Get">
       <summary>[Tested]</summary>
     </member>
   </members>
