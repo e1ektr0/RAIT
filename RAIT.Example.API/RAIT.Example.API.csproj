@@ -15,6 +15,14 @@
     <ItemGroup>
         <InternalsVisibleTo Include="RAIT.Example.API.Test" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\RAIT.Core\RAIT.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="RAIT\RAIT.Example.API_rait.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 
     <PropertyGroup>
         <NoWarn>1701;1702;1591;</NoWarn>
