@@ -125,13 +125,19 @@ internal class RaitDocumentationGenerator
 
     const string RaitDocReport = "rait_doc_report";
 
-    public static void Params(List<InputParameter> prepareInputParameters)
+    public static void Params<TController>(List<InputParameter> prepareInputParameters)
     {
         if (!RaitConfig.DocGeneration)
             return;
 
         var raitDocumentationReport = RecoveryDoc(RaitDocReport);
 
+        var assembly = typeof(TController).Assembly;
+        var directoryName = Path.GetDirectoryName(assembly.Location)!;
+        var resultPath = Path.Combine(directoryName, @"..\..\..\..\" + assembly.GetName().Name + @"\RAIT\");
+        Directory.CreateDirectory(resultPath);
+        RaitConfig.ResultPath = resultPath;
+        
         UpdateRaitDoc(prepareInputParameters, raitDocumentationReport);
 
         //todo: on dispose server
