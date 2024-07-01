@@ -68,10 +68,17 @@ internal class RaitDocumentationGenerator
             }
 
 
-            using var writer =
-                new StreamWriter(Path.Combine(RaitConfig.ResultPath ?? AppContext.BaseDirectory,
-                    Path.GetFileName(xmlDocFilePath.Replace(".xml", "_rait.xml"))));
-            serializer.Serialize(writer, doc);
+            try
+            {
+                using var writer =
+                    new StreamWriter(Path.Combine(RaitConfig.ResultPath ?? AppContext.BaseDirectory,
+                        Path.GetFileName(xmlDocFilePath.Replace(".xml", "_rait.xml"))));
+                serializer.Serialize(writer, doc);
+            }
+            catch (Exception e)
+            {
+            }
+         
             RaitConfig.DocState = doc;
         }
     }
@@ -158,7 +165,13 @@ internal class RaitDocumentationGenerator
         {
             WriteIndented = true
         });
-        File.WriteAllText(raitDocReport, serialize);
+        try
+        {
+            File.WriteAllText(raitDocReport, serialize);
+        }
+        catch (Exception e)
+        {
+        }
     }
 
     private static void UpdateRaitDoc(List<InputParameter> prepareInputParameters,
