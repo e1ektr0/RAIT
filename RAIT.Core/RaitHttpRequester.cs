@@ -151,9 +151,9 @@ internal static class RaitHttpRequester
                 result = double.Parse(response);
             else
             {
-                var deserialize = RaitConfig.DeserializeFunction ?? (x => x.ReadFromJsonAsync(memberInfo,
+                var deserialize = RaitConfig.DeserializeFunction ?? ((x, type) => x.ReadFromJsonAsync(type,
                     RaitConfig.SerializationOptions));
-                result = await deserialize(httpResponseMessage.Content);
+                result = await deserialize(httpResponseMessage.Content, memberInfo);
             }
 
             return result;

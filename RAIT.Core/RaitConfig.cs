@@ -12,7 +12,7 @@ public class RaitConfig
 
     public static bool DocGeneration = true;
 
-    public static Func<HttpContent, Task<object?>>? DeserializeFunction { get; set; }
+    public static Func<HttpContent, Type,Task<object?>>? DeserializeFunction { get; set; }
 
     public static Func<object?, HttpContent>? SerializeFunction { get; set; }
 }
