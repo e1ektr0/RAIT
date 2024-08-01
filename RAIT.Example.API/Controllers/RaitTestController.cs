@@ -17,6 +17,7 @@ public class RaitTestController : ControllerBase
         return new Ok();
     }
 
+
     [Route("post_body_test")]
     [HttpPost]
     public async Task<ResponseModel> Post([FromBody] Model model)
@@ -76,7 +77,7 @@ public class RaitTestController : ControllerBase
         await Task.CompletedTask;
         return request;
     }
-    
+
     [Route("get_with_date")]
     [HttpGet]
     public async Task<DateTimeRequest> GetWithDate([FromQuery] DateTimeRequest request)

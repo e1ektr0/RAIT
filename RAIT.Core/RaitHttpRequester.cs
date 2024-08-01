@@ -150,8 +150,12 @@ internal static class RaitHttpRequester
             else if (memberInfo == typeof(double))
                 result = double.Parse(response);
             else
-                result = await httpResponseMessage.Content.ReadFromJsonAsync(memberInfo,
-                    RaitConfig.SerializationOptions);
+            {
+                var deserialize = RaitConfig.DeserializeFunction ?? (x => x.ReadFromJsonAsync(memberInfo,
+                    RaitConfig.SerializationOptions));
+                result = await deserialize(httpResponseMessage.Content);
+            }
+
             return result;
         }
         catch (Exception e)
@@ -209,7 +213,9 @@ internal static class RaitHttpRequester
         }
 
         var generatedInputParameter = prepareInputParameters.FirstOrDefault(n => !n.Used);
-        var jsonContent = JsonContent.Create(generatedInputParameter?.Value);
+        var serializeFunction =  RaitConfig.SerializeFunction
+            ?? (x=> JsonContent.Create(x));
+        var jsonContent = serializeFunction(generatedInputParameter?.Value);
         if (generatedInputParameter == null)
             jsonContent = null;
         return jsonContent;

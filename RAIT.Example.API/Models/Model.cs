@@ -1,4 +1,6 @@
-﻿namespace RAIT.Example.API.Models;
+﻿using Newtonsoft.Json;
+
+namespace RAIT.Example.API.Models;
 
 public enum EnumExample
 {
@@ -6,6 +8,10 @@ public enum EnumExample
     Two,
     Three
 }
+
+public record AttributeModel(
+    [property: JsonProperty("test")] string Id
+);
 public class Model
 {
     public long Id { get; set; }

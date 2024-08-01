@@ -34,7 +34,7 @@
       "P:RAIT.Example.API.Models.Model.List": {
         "Type": "P:RAIT.Example.API.Models.Model.List",
         "Assembly": "RAIT.Example.API",
-        "Value": "3f216a35-2577-4515-ae8b-ed5514559f54,f8318a28-a50c-49ed-a953-93cf50aa2188"
+        "Value": "91268e2a-68fd-464c-bc8c-ac78659f5032,31b82e55-1036-48a0-99f2-c84017702774"
       },
       "P:RAIT.Example.API.Models.ResponseModel.Id": {
         "Type": "P:RAIT.Example.API.Models.ResponseModel.Id",
@@ -79,17 +79,27 @@
       "P:RAIT.Example.API.Models.DateTimeRequest.DateTime": {
         "Type": "P:RAIT.Example.API.Models.DateTimeRequest.DateTime",
         "Assembly": "RAIT.Example.API",
-        "Value": "6/28/2024 10:34:42 AM"
+        "Value": "8/1/2024 11:11:24 AM"
       },
       "P:RAIT.Example.API.Models.ArrayValueRequest.Array": {
         "Type": "P:RAIT.Example.API.Models.ArrayValueRequest.Array",
         "Assembly": "RAIT.Example.API",
-        "Value": "875478bc-5b59-4af5-a104-50980b3e1418,2f34a502-0d6a-4e21-8a50-8da121a814d1"
+        "Value": "1df8816d-89a8-4ade-bb9c-8da1f341188a,4b8cbfca-e887-482f-bc59-f013e73110f2"
       },
       "P:RAIT.Example.API.Models.EnumOk.EnumValue": {
         "Type": "P:RAIT.Example.API.Models.EnumOk.EnumValue",
         "Assembly": "RAIT.Example.API",
         "Value": "Test1"
+      },
+      "P:RAIT.Example.API.Models.AttributeModel.Id": {
+        "Type": "P:RAIT.Example.API.Models.AttributeModel.Id",
+        "Assembly": "RAIT.Example.API",
+        "Value": "test"
+      },
+      "P:RAIT.Example.API.Models.AttributeResponseModel.Id": {
+        "Type": "P:RAIT.Example.API.Models.AttributeResponseModel.Id",
+        "Assembly": "RAIT.Example.API",
+        "Value": "test"
       }
     },
     "RAIT.Core": {
@@ -261,6 +271,11 @@
       },
       "M:RAIT.Example.API.Controllers.RaitTestController.Get": {
         "Type": "M:RAIT.Example.API.Controllers.RaitTestController.Get",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel)",
         "Assembly": "RAIT.Example.API",
         "Value": null
       }

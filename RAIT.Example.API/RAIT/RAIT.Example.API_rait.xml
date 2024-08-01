@@ -45,7 +45,7 @@
       <example>sec2</example>
     </member>
     <member name="P:RAIT.Example.API.Models.Model.List">
-      <example>3f216a35-2577-4515-ae8b-ed5514559f54,f8318a28-a50c-49ed-a953-93cf50aa2188</example>
+      <example>91268e2a-68fd-464c-bc8c-ac78659f5032,31b82e55-1036-48a0-99f2-c84017702774</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ResponseModel.Id">
       <example>0</example>
@@ -69,13 +69,19 @@
       <example>10</example>
     </member>
     <member name="P:RAIT.Example.API.Models.DateTimeRequest.DateTime">
-      <example>6/28/2024 10:34:42 AM</example>
+      <example>8/1/2024 11:11:24 AM</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ArrayValueRequest.Array">
-      <example>875478bc-5b59-4af5-a104-50980b3e1418,2f34a502-0d6a-4e21-8a50-8da121a814d1</example>
+      <example>1df8816d-89a8-4ade-bb9c-8da1f341188a,4b8cbfca-e887-482f-bc59-f013e73110f2</example>
     </member>
     <member name="P:RAIT.Example.API.Models.EnumOk.EnumValue">
       <example>Test1</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.AttributeModel.Id">
+      <example>test</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.AttributeResponseModel.Id">
+      <example>test</example>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitEmptyResponseController.Post(System.Int64)">
       <summary>[Tested]</summary>
@@ -147,6 +153,9 @@
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitTestController.Get">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel)">
       <summary>[Tested]</summary>
     </member>
   </members>
