@@ -14,5 +14,5 @@ public class RaitConfig
 
     public static Func<HttpContent, Task<object?>>? DeserializeFunction { get; set; }
 
-    public static Func<object?, JsonContent>? SerializeFunction { get; set; }
+    public static Func<object?, HttpContent>? SerializeFunction { get; set; }
 }
