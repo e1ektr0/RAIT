@@ -70,7 +70,7 @@ public sealed class RaitTests
     [Test]
     public async Task FilterTest()
     {
-        var call = await _defaultClient.Rait<RaitFilterTestController>().Call(n =>
+        var call = await _defaultClient.Rait<RaitFilterTestController>().CallR(n =>
             n.GetReportsResult("fff", "qqq", "sss"));
         Assert.That(call!.Success, Is.True);
     }

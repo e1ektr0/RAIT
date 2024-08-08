@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace RAIT.Core;
 
@@ -25,12 +26,15 @@ internal static class RaitRouter
         MethodCallExpression? methodBody)
     {
         var methodInfo = methodBody!.Method;
+        var method = typeof(TController).GetMethod(methodBody.Method.Name);
+        var infoCustomAttributes = method!.CustomAttributes;
+
         var result = "";
         var controllerType = typeof(TController);
-        result += ConvertRout(controllerType.CustomAttributes, controllerType,
+        result += ConvertRout(controllerType.CustomAttributes.ToList(), controllerType,
             generatedInputParameters) ?? "";
         result += "/";
-        result += ConvertRout(methodInfo.CustomAttributes, controllerType,
+        result += ConvertRout(infoCustomAttributes.ToList(), controllerType,
             generatedInputParameters) ?? "";
         result = result.Replace("[action]", methodInfo.Name);
 
@@ -53,16 +57,21 @@ internal static class RaitRouter
         return result;
     }
 
-    private static string? ConvertRout(IEnumerable<CustomAttributeData> attributes,
+    private static string? ConvertRout(IList<CustomAttributeData> attributes,
         MemberInfo controllerType, List<InputParameter> generatedInputParameters)
     {
+        var httpMethodAttribute =
+            attributes.FirstOrDefault(n => n.AttributeType.BaseType == typeof(HttpMethodAttribute));
+
+        string? value = null;
         var customAttributeData =
             attributes.FirstOrDefault(n => n.AttributeType == typeof(RouteAttribute));
-        if (customAttributeData == null) return null;
-        if (!customAttributeData.ConstructorArguments.Any()) return null;
-        var customAttributeNamedArgument = customAttributeData.ConstructorArguments.FirstOrDefault();
-        if (customAttributeNamedArgument.Value == null) return null;
-        var convertRout = ((string)customAttributeNamedArgument.Value!).Replace("[controller]",
+        value = GetRoutFromAttribute(customAttributeData, value) ?? GetRoutFromAttribute(httpMethodAttribute, value);
+
+        if (value == null)
+            return null;
+        
+        var convertRout = value.Replace("[controller]",
             controllerType.Name.Replace("Controller", ""));
         foreach (var generatedInputParameter in generatedInputParameters)
         {
@@ -83,6 +92,21 @@ internal static class RaitRouter
         }
 
         return convertRout;
+    }
+
+    private static string? GetRoutFromAttribute(CustomAttributeData? customAttributeData, string? value)
+    {
+        if (customAttributeData != null)
+        {
+            if (customAttributeData.ConstructorArguments.Any())
+            {
+                var customAttributeNamedArgument = customAttributeData.ConstructorArguments.FirstOrDefault();
+                if (customAttributeNamedArgument.Value != null)
+                    value = (string)customAttributeNamedArgument.Value!;
+            }
+        }
+
+        return value;
     }
 
 

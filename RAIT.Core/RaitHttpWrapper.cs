@@ -21,13 +21,15 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
     {
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;
+        var method = typeof(TController).GetMethod(methodBody.Method.Name);
+        var methodInfoCustomAttributes = method!.CustomAttributes;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
 
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
-        var result = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
+        var result = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfoCustomAttributes, rout,
             prepareInputParameters);
         if (result != null)
             RaitDocumentationGenerator.Params<TController>(new List<InputParameter>
@@ -44,12 +46,14 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
     {
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;
+        var method = typeof(TController).GetMethod(methodBody.Method.Name);
+        var methodInfoCustomAttributes = method!.CustomAttributes;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
-        var result = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
+        var result = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfoCustomAttributes, rout,
             prepareInputParameters);
         if (result != null)
             RaitDocumentationGenerator.Params<TController>(new List<InputParameter>
@@ -66,13 +70,15 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
     {
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;
+        var method = typeof(TController).GetMethod(methodBody.Method.Name);
+        var methodInfoCustomAttributes = method!.CustomAttributes;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
 
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
-        var result = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
+        var result = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfoCustomAttributes, rout,
             prepareInputParameters);
         if (result == null)
             throw new ArgumentNullException();
@@ -91,12 +97,15 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;
 
+        var method = typeof(TController).GetMethod(methodBody.Method.Name);
+        var methodInfoCustomAttributes = method!.CustomAttributes;
+
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
 
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
-        var result = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfo.CustomAttributes, rout,
+        var result = await RaitHttpRequester.HttpRequest<TOutput?>(_client, methodInfoCustomAttributes, rout,
             prepareInputParameters);
         if (result == null)
             throw new ArgumentNullException();
@@ -114,13 +123,15 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
     {
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;
+        var method = typeof(TController).GetMethod(methodBody.Method.Name);
+        var methodInfoCustomAttributes = method!.CustomAttributes;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
 
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
-        var result = await RaitHttpRequester.HttpRequest(_client, methodInfo.CustomAttributes, rout,
+        var result = await RaitHttpRequester.HttpRequest(_client, methodInfoCustomAttributes, rout,
             prepareInputParameters, typeof(EmptyResponse));
         if (result != null)
             RaitDocumentationGenerator.Params<TController>(new List<InputParameter>
@@ -136,13 +147,15 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
     {
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;
+        var method = typeof(TController).GetMethod(methodBody.Method.Name);
+        var methodInfoCustomAttributes = method!.CustomAttributes;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
 
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
-        var result = await RaitHttpRequester.HttpRequest(_client, methodInfo.CustomAttributes, rout,
+        var result = await RaitHttpRequester.HttpRequest(_client, methodInfoCustomAttributes, rout,
             prepareInputParameters, typeof(EmptyResponse));
         if (result != null)
             RaitDocumentationGenerator.Params<TController>(new List<InputParameter>
@@ -158,6 +171,8 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
     {
         var methodBody = tree.Body as MethodCallExpression;
         var methodInfo = methodBody!.Method;
+        var method = typeof(TController).GetMethod(methodBody.Method.Name);
+        var methodInfoCustomAttributes = method!.CustomAttributes;
 
         var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
@@ -165,7 +180,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
 
         var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
         var httpRequestWithoutDeserialization = await RaitHttpRequester.HttpRequestWithoutDeserialization(_client,
-            methodInfo.CustomAttributes, rout,
+            methodInfoCustomAttributes, rout,
             prepareInputParameters);
         return httpRequestWithoutDeserialization;
     }

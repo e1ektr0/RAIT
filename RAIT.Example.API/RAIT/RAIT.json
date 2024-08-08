@@ -4,7 +4,7 @@
       "P:RAIT.Example.API.Models.Model.Id": {
         "Type": "P:RAIT.Example.API.Models.Model.Id",
         "Assembly": "RAIT.Example.API",
-        "Value": "10"
+        "Value": "0"
       },
       "P:RAIT.Example.API.Models.Model.ModelIncluded": {
         "Type": "P:RAIT.Example.API.Models.Model.ModelIncluded",
@@ -34,7 +34,7 @@
       "P:RAIT.Example.API.Models.Model.List": {
         "Type": "P:RAIT.Example.API.Models.Model.List",
         "Assembly": "RAIT.Example.API",
-        "Value": "a6aec5de-68b8-4627-ab33-c959276a03e5,af4d0b4b-65c9-4569-bc87-d206bb2422ce"
+        "Value": "c3147793-0c5f-4762-8db2-2fe4da2622f4,4ff014b3-917e-4146-9cff-6b0af8370f49"
       },
       "P:RAIT.Example.API.Models.ResponseModel.Id": {
         "Type": "P:RAIT.Example.API.Models.ResponseModel.Id",
@@ -79,12 +79,12 @@
       "P:RAIT.Example.API.Models.DateTimeRequest.DateTime": {
         "Type": "P:RAIT.Example.API.Models.DateTimeRequest.DateTime",
         "Assembly": "RAIT.Example.API",
-        "Value": "8/1/2024 11:39:26 AM"
+        "Value": "8/8/2024 12:10:16 AM"
       },
       "P:RAIT.Example.API.Models.ArrayValueRequest.Array": {
         "Type": "P:RAIT.Example.API.Models.ArrayValueRequest.Array",
         "Assembly": "RAIT.Example.API",
-        "Value": "49f90957-56cf-4310-81c8-32d77ec91986,41671512-67ed-4d4d-8a7d-e6cc76811c1c"
+        "Value": "44b4aa0f-3ebb-4c7a-b441-2439a97fa1aa,0b73728c-0a3b-41e4-8b6e-b4497b218a88"
       },
       "P:RAIT.Example.API.Models.EnumOk.EnumValue": {
         "Type": "P:RAIT.Example.API.Models.EnumOk.EnumValue",
@@ -129,6 +129,48 @@
         "Type": "P:Microsoft.AspNetCore.Mvc.StatusCodeResult.StatusCode",
         "Assembly": "Microsoft.AspNetCore.Mvc.Core",
         "Value": "200"
+      }
+    },
+    "System.Private.CoreLib": {
+      "P:System.Threading.CancellationToken.None": {
+        "Type": "P:System.Threading.CancellationToken.None",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "System.Threading.CancellationToken"
+      },
+      "P:System.Threading.CancellationToken.IsCancellationRequested": {
+        "Type": "P:System.Threading.CancellationToken.IsCancellationRequested",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "False"
+      },
+      "P:System.Threading.CancellationToken.CanBeCanceled": {
+        "Type": "P:System.Threading.CancellationToken.CanBeCanceled",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "False"
+      },
+      "P:System.Threading.CancellationToken.WaitHandle": {
+        "Type": "P:System.Threading.CancellationToken.WaitHandle",
+        "Assembly": "System.Private.CoreLib",
+        "Value": null
+      },
+      "P:System.Threading.ManualResetEvent.Handle": {
+        "Type": "P:System.Threading.ManualResetEvent.Handle",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "1888"
+      },
+      "P:System.Threading.ManualResetEvent.SafeWaitHandle": {
+        "Type": "P:System.Threading.ManualResetEvent.SafeWaitHandle",
+        "Assembly": "System.Private.CoreLib",
+        "Value": null
+      },
+      "P:Microsoft.Win32.SafeHandles.SafeWaitHandle.IsInvalid": {
+        "Type": "P:Microsoft.Win32.SafeHandles.SafeWaitHandle.IsInvalid",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "False"
+      },
+      "P:Microsoft.Win32.SafeHandles.SafeWaitHandle.IsClosed": {
+        "Type": "P:Microsoft.Win32.SafeHandles.SafeWaitHandle.IsClosed",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "False"
       }
     }
   },
@@ -276,6 +318,21 @@
       },
       "M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel)": {
         "Type": "M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync": {
+        "Type": "M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(RAIT.Example.API.Models.Model,System.Threading.CancellationToken)": {
+        "Type": "M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(RAIT.Example.API.Models.Model,System.Threading.CancellationToken)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.MultipleParametersTestController.Get(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)": {
+        "Type": "M:RAIT.Example.API.Controllers.MultipleParametersTestController.Get(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)",
         "Assembly": "RAIT.Example.API",
         "Value": null
       }
