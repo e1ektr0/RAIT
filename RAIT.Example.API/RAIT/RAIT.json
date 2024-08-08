@@ -129,6 +129,11 @@
         "Type": "P:Microsoft.AspNetCore.Mvc.StatusCodeResult.StatusCode",
         "Assembly": "Microsoft.AspNetCore.Mvc.Core",
         "Value": "200"
+      },
+      "P:Microsoft.AspNetCore.Mvc.ActionResult\u00601[RAIT.Example.API.Models.AttributeResponseModel].Value": {
+        "Type": "P:Microsoft.AspNetCore.Mvc.ActionResult\u00601[RAIT.Example.API.Models.AttributeResponseModel].Value",
+        "Assembly": "Microsoft.AspNetCore.Mvc.Core",
+        "Value": null
       }
     },
     "System.Private.CoreLib": {
@@ -155,7 +160,7 @@
       "P:System.Threading.ManualResetEvent.Handle": {
         "Type": "P:System.Threading.ManualResetEvent.Handle",
         "Assembly": "System.Private.CoreLib",
-        "Value": "1888"
+        "Value": "1740"
       },
       "P:System.Threading.ManualResetEvent.SafeWaitHandle": {
         "Type": "P:System.Threading.ManualResetEvent.SafeWaitHandle",

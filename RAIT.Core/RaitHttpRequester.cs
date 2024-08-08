@@ -124,43 +124,62 @@ internal static class RaitHttpRequester
         return await httpResponseMessage.Content.ReadAsStringAsync();
     }
 
-    private static async Task<object?> ProcessHttpResult(Type memberInfo,
+    private static async Task<object?> ProcessHttpResult(Type responseType,
         HttpResponseMessage httpResponseMessage)
     {
         try
         {
             var response = await httpResponseMessage.Content.ReadAsStringAsync();
             object? result;
-            if (memberInfo == typeof(EmptyResponse))
+            if (responseType == typeof(EmptyResponse))
                 return null;
 
             //todo: extend
-            if (memberInfo == typeof(object))
+            if (responseType == typeof(object))
                 result = response;
-            else if (memberInfo == typeof(string))
+            else if (responseType == typeof(string))
                 result = response;
-            else if (memberInfo == typeof(Guid))
+            else if (responseType == typeof(Guid))
                 result = Guid.Parse(response.Replace("\"", ""));
-            else if (memberInfo == typeof(int))
+            else if (responseType == typeof(int))
                 result = int.Parse(response);
-            else if (memberInfo == typeof(long))
+            else if (responseType == typeof(long))
                 result = long.Parse(response);
-            else if (memberInfo == typeof(decimal))
+            else if (responseType == typeof(decimal))
                 result = decimal.Parse(response);
-            else if (memberInfo == typeof(double))
+            else if (responseType == typeof(double))
                 result = double.Parse(response);
             else
             {
-                var deserialize = RaitConfig.DeserializeFunction ?? ((x, type) => x.ReadFromJsonAsync(type,
-                    RaitConfig.SerializationOptions));
-                result = await deserialize(httpResponseMessage.Content, memberInfo);
+                
+                var deserialize = RaitConfig.DeserializeFunction ?? 
+                                  ((x, type) => x.ReadFromJsonAsync(type,
+                                      RaitConfig.SerializationOptions));
+                
+                var genericTypeDefinition = responseType.GetGenericTypeDefinition();
+                if (genericTypeDefinition == typeof(ActionResult<>))
+                {
+                    var genericArguments = responseType.GetGenericArguments();
+                    var genericArgument = genericArguments[0];
+                    var genericValue = await deserialize(httpResponseMessage.Content, genericArgument);
+                    result = Activator.CreateInstance(responseType, genericValue);
+                    return result;
+                }
+
+                if (responseType == typeof(ActionResult))
+                {
+                    return new OkResult();
+                }
+
+                result = await deserialize(httpResponseMessage.Content, responseType);
             }
 
             return result;
         }
         catch (Exception e)
         {
-            throw new Exception("Fail deserialize:" + httpResponseMessage.Content.ReadAsStringAsync(), e);
+            var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
+            throw new Exception("Fail deserialize:" + readAsStringAsync, e);
         }
     }
 
@@ -213,8 +232,8 @@ internal static class RaitHttpRequester
         }
 
         var generatedInputParameter = prepareInputParameters.FirstOrDefault(n => !n.Used);
-        var serializeFunction =  RaitConfig.SerializeFunction
-            ?? (x=> JsonContent.Create(x));
+        var serializeFunction = RaitConfig.SerializeFunction
+                                ?? (x => JsonContent.Create(x));
         var jsonContent = serializeFunction(generatedInputParameter?.Value);
         if (generatedInputParameter == null)
             jsonContent = null;

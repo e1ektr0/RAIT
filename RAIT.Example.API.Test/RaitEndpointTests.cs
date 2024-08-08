@@ -36,7 +36,8 @@ public sealed class RaitEndpointTests
             .CallR(n => n.HandleAsync(model, token));
 
         Assert.That(actionResult.Value, Is.Not.Null);
-        Assert.That(actionResult.Value.ExtraField, Is.EqualTo("test"));
+        var valueId = actionResult.Value.Id!;
+        Assert.That(valueId, Is.EquivalentTo("test"));
     }
 
     [Test]

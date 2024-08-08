@@ -8,9 +8,9 @@ public class ResponseModel
     public long Id { get; set; }
 }
 
-public record AttributeResponseModel
+public class AttributeResponseModel
 {
-    [JsonPropertyName("test2")]
+    [JsonPropertyName("test")]
     [JsonProperty("test")]
     public string? Id { get; set; }
 }

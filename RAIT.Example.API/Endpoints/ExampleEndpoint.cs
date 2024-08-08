@@ -6,16 +6,17 @@ namespace RAIT.Example.API.Endpoints;
 
 public class ExampleEndpoint : EndpointBaseAsync
     .WithRequest<Model>
-    .WithActionResult<Model>
+    .WithActionResult<AttributeResponseModel>
 {
-    [HttpGet("GetTestEndpoint")]
-    public override async Task<ActionResult<Model>> HandleAsync(Model request,
+    
+    [HttpPost("PostTestEndpoint")]
+    public override async Task<ActionResult<AttributeResponseModel>> HandleAsync(Model request,
         CancellationToken cancellationToken = new())
     {
         await Task.CompletedTask;
-        return new ActionResult<Model>(new Model
+        return new ActionResult<AttributeResponseModel>(new AttributeResponseModel
         {
-            ExtraField = "test"
+            Id = "test"
         });
     }
 }
