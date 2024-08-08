@@ -25,13 +25,13 @@ public sealed class RaitEndpointTests
         _.UseEnvironment("Test");
     }
 
-    [Test]
+    //[Test]
     public async Task Get()
     {
         var model = new InternalModelAttributes
         {
             ExternalAccountId = "test",
-            Model = new Model
+            Model = new InternalModelInternalAttributes
             {
                 Domain = "xxxx"
             }

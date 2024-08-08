@@ -21,8 +21,14 @@ public class AttributeResponseModel
 public class InternalModelAttributes
 {
     [FromRoute(Name = "ExternalAccountId")]
-    public string? ExternalAccountId { get; set; }
+    public string ExternalAccountId { get; set; } = null!;
 
     [FromBody]
-    public Model? Model { get; set; }
+    public InternalModelInternalAttributes Model { get; set; }= null!;
+}
+
+
+public class InternalModelInternalAttributes
+{
+    public string Domain { get; set; } = null!;
 }

@@ -233,7 +233,8 @@ internal static class RaitHttpRequester
             return formData;
         }
 
-        var generatedInputParameter = prepareInputParameters.FirstOrDefault(n => !n.Used);
+        var generatedInputParameter = prepareInputParameters.FirstOrDefault(n => n.IsForm) ??
+                                      prepareInputParameters.FirstOrDefault(n => !n.Used);
         var serializeFunction = RaitConfig.SerializeFunction
                                 ?? (x => JsonContent.Create(x));
         var jsonContent = serializeFunction(generatedInputParameter?.Value);

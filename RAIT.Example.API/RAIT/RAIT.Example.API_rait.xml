@@ -45,10 +45,10 @@
       <example>sec2</example>
     </member>
     <member name="P:RAIT.Example.API.Models.Model.List">
-      <example>61b5268a-0870-418b-984c-643640fe8579,b0455365-b0fb-4686-bec1-6c1e355663fb</example>
+      <example>cd7d869c-64b4-420f-ba79-d4e32955b790,6bcfc939-e307-49a4-bef8-24710e2d8243</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ResponseModel.Id">
-      <example>0</example>
+      <example>10</example>
     </member>
     <member name="P:RAIT.Example.API.Models.Model.EnumList">
       <example>One,Three</example>
@@ -69,10 +69,10 @@
       <example>10</example>
     </member>
     <member name="P:RAIT.Example.API.Models.DateTimeRequest.DateTime">
-      <example>8/8/2024 1:57:39 AM</example>
+      <example>8/8/2024 9:16:16 AM</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ArrayValueRequest.Array">
-      <example>35b9c35b-47c6-48d1-b8d3-27a5e0204646,fc003320-691f-42c7-bdd8-740fdcd9bb53</example>
+      <example>95f73436-e28d-479a-934b-804399c88075,53358578-1cb4-419c-8fb8-c0e97b1dc34a</example>
     </member>
     <member name="P:RAIT.Example.API.Models.EnumOk.EnumValue">
       <example>Test1</example>
@@ -88,10 +88,13 @@
     </member>
     <member name="P:RAIT.Example.API.Models.InternalModelAttributes.Model" />
     <member name="P:RAIT.Example.API.Models.AttributeResponseModel.Domain">
-      <example>xxxx</example>
+      <example>test</example>
     </member>
     <member name="P:RAIT.Example.API.Models.AttributeResponseModel.ExternalId">
-      <example>test</example>
+      <example>x</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.InternalModelInternalAttributes.Domain">
+      <example>xxxx</example>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitEmptyResponseController.Post(System.Int64)">
       <summary>[Tested]</summary>
@@ -187,6 +190,27 @@
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelAttributes,System.Threading.CancellationToken)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelAttributes)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,RAIT.Example.API.Models.InternalModelAttributes)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,RAIT.Example.API.Models.InternalModelAttributes)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,RAIT.Example.API.Models.InternalModelAttributes,System.Threading.CancellationToken)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,System.Threading.CancellationToken)">
       <summary>[Tested]</summary>
     </member>
   </members>

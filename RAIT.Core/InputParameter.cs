@@ -8,4 +8,5 @@ internal class InputParameter
     public bool IsQuery { get; init; }
     public bool IsForm { get; set; }
     public Type? Type { get; set; }
+    public bool IsBody { get; set; }
 }
