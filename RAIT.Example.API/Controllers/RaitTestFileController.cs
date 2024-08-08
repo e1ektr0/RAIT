@@ -34,7 +34,7 @@ public class RaitTestFileController : ControllerBase
 
     [Route("post_file_test_with_model")]
     [HttpPost]
-    public async Task<ResponseModel> Post([FromForm] ModelWithFile model)
+    public async Task<ResponseModel> Post2([FromForm] ModelWithFile model)
     {
         await Task.CompletedTask;
         if (model.File.FileName == null)
@@ -47,7 +47,7 @@ public class RaitTestFileController : ControllerBase
     
     [Route("post_file_test_with_model_2")]
     [HttpPost]
-    public async Task<ResponseModel> Post2([FromForm] Model model, IFormFile file)
+    public async Task<ResponseModel> Post3([FromForm] Model model, IFormFile file)
     {
         await Task.CompletedTask;
         var readAsStringAsync = await ReadAsStringAsync(file);

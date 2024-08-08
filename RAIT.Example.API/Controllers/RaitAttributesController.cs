@@ -15,7 +15,7 @@ public class RaitAttributesController : ControllerBase
       
         return new AttributeResponseModel
         {
-            Id = model.Id
+            Domain = model.Id
         };
     }
 }

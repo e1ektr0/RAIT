@@ -36,14 +36,14 @@ internal static class RaitParameterExtractor
                 case MemberInitExpression:
                     var func = Expression.Lambda<Func<object>>(arg).Compile();
                     var o = func();
-                    parameters.Add(CreateParameter(parameterInfo, o));
+                    parameters.AddRange(CreateParameter(parameterInfo, o));
                     break;
                 case MemberExpression methodBodyArgument:
                 {
                     var value = GetValue(methodBodyArgument);
                     if (value == null)
                         continue;
-                    parameters.Add(CreateParameter(parameterInfo, value));
+                    parameters.AddRange(CreateParameter(parameterInfo, value));
                     break;
                 }
                 case ConstantExpression constantExpression:
@@ -51,7 +51,7 @@ internal static class RaitParameterExtractor
                     var value = constantExpression.Value;
                     if (value == null)
                         continue;
-                    parameters.Add(CreateParameter(parameterInfo, value));
+                    parameters.AddRange(CreateParameter(parameterInfo, value));
                     break;
                 }
             }
@@ -60,18 +60,57 @@ internal static class RaitParameterExtractor
         return parameters;
     }
 
-    private static InputParameter CreateParameter(ParameterInfo info, object? value)
+    private static bool IsParameter(IEnumerable<CustomAttributeData> attributes)
     {
+        return attributes.Any(n =>
+            n.AttributeType == typeof(FromQueryAttribute) || n.AttributeType == typeof(FromFormAttribute) || n.AttributeType == typeof(
+                FromRouteAttribute));
+    }
+
+    private static bool IsValueParameter(Type type)
+    {
+        return type.IsValueType || type == typeof(string);
+    }
+
+    private static List<InputParameter> CreateParameter(ParameterInfo info, object? value)
+    {
+        var result = new List<InputParameter>();
         var type = value?.GetType()!;
-        return new InputParameter
+        var isValueParameter = IsValueParameter(type);
+
+        if (!IsParameter(info.CustomAttributes) && !isValueParameter)
+        {
+            if (value != null)
+            {
+                var fieldInfos = value.GetType().GetProperties();
+                foreach (var fieldInfo in fieldInfos)
+                {
+                    if (IsParameter(fieldInfo.CustomAttributes))
+                    {
+                        result.Add(new InputParameter
+                        {
+                            Value = fieldInfo.GetValue(value),
+                            Name = fieldInfo.Name,
+                            IsQuery =
+                                fieldInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute)),
+                            IsForm = fieldInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromFormAttribute)),
+                            Type = fieldInfo.PropertyType
+                        });
+                    }
+                }
+            }
+        }
+
+        result.Add(new InputParameter
         {
             Value = value,
             Name = info.Name!,
             IsQuery = info.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute)) ||
-                      type.IsValueType || type == typeof(string),
+                      isValueParameter,
             IsForm = info.CustomAttributes.Any(n => n.AttributeType == typeof(FromFormAttribute)),
             Type = type
-        };
+        });
+        return result;
     }
 
     // ReSharper disable once ReturnTypeCanBeNotNullable

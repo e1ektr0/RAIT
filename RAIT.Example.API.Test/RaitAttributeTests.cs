@@ -32,6 +32,6 @@ public sealed class RaitAttributeTests
         var attributeResponseModel = await _defaultClient.Rait<RaitAttributesController>()
             .CallR(n => n.Ping(model));
 
-        Assert.That(attributeResponseModel.Id, Is.EqualTo(model.Id));
+        Assert.That(attributeResponseModel.Domain, Is.EqualTo(model.Id));
     }
 }

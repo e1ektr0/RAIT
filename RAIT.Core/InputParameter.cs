@@ -2,10 +2,6 @@
 
 internal class InputParameter
 {
-    public InputParameter()
-    {
-    }
-
     public object? Value { get; init; }
     public string Name { get; init; } = null!;
     public bool Used { get; set; }

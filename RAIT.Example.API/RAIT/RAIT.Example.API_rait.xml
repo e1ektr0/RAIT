@@ -31,7 +31,7 @@
       <example>321</example>
     </member>
     <member name="P:RAIT.Example.API.Models.Model.Id">
-      <example>0</example>
+      <example>10</example>
     </member>
     <member name="P:RAIT.Example.API.Models.Model.ModelIncluded" />
     <member name="P:RAIT.Example.API.Models.Model.ModelIncludeInLists" />
@@ -45,7 +45,7 @@
       <example>sec2</example>
     </member>
     <member name="P:RAIT.Example.API.Models.Model.List">
-      <example>c3147793-0c5f-4762-8db2-2fe4da2622f4,4ff014b3-917e-4146-9cff-6b0af8370f49</example>
+      <example>61b5268a-0870-418b-984c-643640fe8579,b0455365-b0fb-4686-bec1-6c1e355663fb</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ResponseModel.Id">
       <example>0</example>
@@ -69,10 +69,10 @@
       <example>10</example>
     </member>
     <member name="P:RAIT.Example.API.Models.DateTimeRequest.DateTime">
-      <example>8/8/2024 12:10:16 AM</example>
+      <example>8/8/2024 1:57:39 AM</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ArrayValueRequest.Array">
-      <example>44b4aa0f-3ebb-4c7a-b441-2439a97fa1aa,0b73728c-0a3b-41e4-8b6e-b4497b218a88</example>
+      <example>35b9c35b-47c6-48d1-b8d3-27a5e0204646,fc003320-691f-42c7-bdd8-740fdcd9bb53</example>
     </member>
     <member name="P:RAIT.Example.API.Models.EnumOk.EnumValue">
       <example>Test1</example>
@@ -81,6 +81,16 @@
       <example>test</example>
     </member>
     <member name="P:RAIT.Example.API.Models.AttributeResponseModel.Id">
+      <example>test</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.InternalModelAttributes.ExternalAccountId">
+      <example>test</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.InternalModelAttributes.Model" />
+    <member name="P:RAIT.Example.API.Models.AttributeResponseModel.Domain">
+      <example>xxxx</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.AttributeResponseModel.ExternalId">
       <example>test</example>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitEmptyResponseController.Post(System.Int64)">
@@ -165,6 +175,18 @@
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.MultipleParametersTestController.Get(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(RAIT.Example.API.Models.InternalModelAttributes)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Core.RaitFormFile)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(System.String,RAIT.Example.API.Models.InternalModelAttributes)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelAttributes,System.Threading.CancellationToken)">
       <summary>[Tested]</summary>
     </member>
   </members>

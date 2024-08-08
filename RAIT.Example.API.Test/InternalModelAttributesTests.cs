@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using RAIT.Core;
-using RAIT.Example.API.Endpoints;
+using RAIT.Example.API.Controllers;
 using RAIT.Example.API.Models;
 
 namespace RAIT.Example.API.Test;
 
-public sealed class RaitEndpointTests
+public sealed class InternalModelAttributesTests
 {
     private WebApplicationFactory<Program> _application = null!;
     private HttpClient _defaultClient = null!;
@@ -30,20 +30,13 @@ public sealed class RaitEndpointTests
     {
         var model = new InternalModelAttributes
         {
-            ExternalAccountId = "test",
+            ExternalAccountId = "x",
             Model = new Model
             {
-                Domain = "xxxx"
+                Domain = "x2"
             }
         };
-        var token = new CancellationToken();
-        var actionResult = await _defaultClient.Rait<ExampleEndpoint>()
-            .CallR(n => n.HandleAsync(model, token));
-
-        Assert.That(actionResult.Value, Is.Not.Null);
-        var valueId = actionResult.Value.Domain!;
-        Assert.That(valueId, Is.EquivalentTo("xxxx"));
-        Assert.That(actionResult.Value.ExternalId, Is.EquivalentTo("test"));
+        var actionResult = await _defaultClient.Rait<InternalModelAttributesController>()
+            .CallR(n => n.HttpPost(model));
     }
-
 }

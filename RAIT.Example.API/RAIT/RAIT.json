@@ -4,7 +4,7 @@
       "P:RAIT.Example.API.Models.Model.Id": {
         "Type": "P:RAIT.Example.API.Models.Model.Id",
         "Assembly": "RAIT.Example.API",
-        "Value": "0"
+        "Value": "10"
       },
       "P:RAIT.Example.API.Models.Model.ModelIncluded": {
         "Type": "P:RAIT.Example.API.Models.Model.ModelIncluded",
@@ -34,7 +34,7 @@
       "P:RAIT.Example.API.Models.Model.List": {
         "Type": "P:RAIT.Example.API.Models.Model.List",
         "Assembly": "RAIT.Example.API",
-        "Value": "c3147793-0c5f-4762-8db2-2fe4da2622f4,4ff014b3-917e-4146-9cff-6b0af8370f49"
+        "Value": "61b5268a-0870-418b-984c-643640fe8579,b0455365-b0fb-4686-bec1-6c1e355663fb"
       },
       "P:RAIT.Example.API.Models.ResponseModel.Id": {
         "Type": "P:RAIT.Example.API.Models.ResponseModel.Id",
@@ -79,12 +79,12 @@
       "P:RAIT.Example.API.Models.DateTimeRequest.DateTime": {
         "Type": "P:RAIT.Example.API.Models.DateTimeRequest.DateTime",
         "Assembly": "RAIT.Example.API",
-        "Value": "8/8/2024 12:10:16 AM"
+        "Value": "8/8/2024 1:57:39 AM"
       },
       "P:RAIT.Example.API.Models.ArrayValueRequest.Array": {
         "Type": "P:RAIT.Example.API.Models.ArrayValueRequest.Array",
         "Assembly": "RAIT.Example.API",
-        "Value": "44b4aa0f-3ebb-4c7a-b441-2439a97fa1aa,0b73728c-0a3b-41e4-8b6e-b4497b218a88"
+        "Value": "35b9c35b-47c6-48d1-b8d3-27a5e0204646,fc003320-691f-42c7-bdd8-740fdcd9bb53"
       },
       "P:RAIT.Example.API.Models.EnumOk.EnumValue": {
         "Type": "P:RAIT.Example.API.Models.EnumOk.EnumValue",
@@ -98,6 +98,26 @@
       },
       "P:RAIT.Example.API.Models.AttributeResponseModel.Id": {
         "Type": "P:RAIT.Example.API.Models.AttributeResponseModel.Id",
+        "Assembly": "RAIT.Example.API",
+        "Value": "test"
+      },
+      "P:RAIT.Example.API.Models.InternalModelAttributes.ExternalAccountId": {
+        "Type": "P:RAIT.Example.API.Models.InternalModelAttributes.ExternalAccountId",
+        "Assembly": "RAIT.Example.API",
+        "Value": "test"
+      },
+      "P:RAIT.Example.API.Models.InternalModelAttributes.Model": {
+        "Type": "P:RAIT.Example.API.Models.InternalModelAttributes.Model",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "P:RAIT.Example.API.Models.AttributeResponseModel.Domain": {
+        "Type": "P:RAIT.Example.API.Models.AttributeResponseModel.Domain",
+        "Assembly": "RAIT.Example.API",
+        "Value": "xxxx"
+      },
+      "P:RAIT.Example.API.Models.AttributeResponseModel.ExternalId": {
+        "Type": "P:RAIT.Example.API.Models.AttributeResponseModel.ExternalId",
         "Assembly": "RAIT.Example.API",
         "Value": "test"
       }
@@ -160,7 +180,7 @@
       "P:System.Threading.ManualResetEvent.Handle": {
         "Type": "P:System.Threading.ManualResetEvent.Handle",
         "Assembly": "System.Private.CoreLib",
-        "Value": "1740"
+        "Value": "2060"
       },
       "P:System.Threading.ManualResetEvent.SafeWaitHandle": {
         "Type": "P:System.Threading.ManualResetEvent.SafeWaitHandle",
@@ -338,6 +358,26 @@
       },
       "M:RAIT.Example.API.Controllers.MultipleParametersTestController.Get(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)": {
         "Type": "M:RAIT.Example.API.Controllers.MultipleParametersTestController.Get(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(RAIT.Example.API.Models.InternalModelAttributes)": {
+        "Type": "M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(RAIT.Example.API.Models.InternalModelAttributes)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Core.RaitFormFile)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Core.RaitFormFile)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(System.String,RAIT.Example.API.Models.InternalModelAttributes)": {
+        "Type": "M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(System.String,RAIT.Example.API.Models.InternalModelAttributes)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelAttributes,System.Threading.CancellationToken)": {
+        "Type": "M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelAttributes,System.Threading.CancellationToken)",
         "Assembly": "RAIT.Example.API",
         "Value": null
       }

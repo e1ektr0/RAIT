@@ -151,19 +151,21 @@ internal static class RaitHttpRequester
                 result = double.Parse(response);
             else
             {
-                
-                var deserialize = RaitConfig.DeserializeFunction ?? 
+                var deserialize = RaitConfig.DeserializeFunction ??
                                   ((x, type) => x.ReadFromJsonAsync(type,
                                       RaitConfig.SerializationOptions));
-                
-                var genericTypeDefinition = responseType.GetGenericTypeDefinition();
-                if (genericTypeDefinition == typeof(ActionResult<>))
+
+                if (responseType.IsGenericType)
                 {
-                    var genericArguments = responseType.GetGenericArguments();
-                    var genericArgument = genericArguments[0];
-                    var genericValue = await deserialize(httpResponseMessage.Content, genericArgument);
-                    result = Activator.CreateInstance(responseType, genericValue);
-                    return result;
+                    var genericTypeDefinition = responseType.GetGenericTypeDefinition();
+                    if (genericTypeDefinition == typeof(ActionResult<>))
+                    {
+                        var genericArguments = responseType.GetGenericArguments();
+                        var genericArgument = genericArguments[0];
+                        var genericValue = await deserialize(httpResponseMessage.Content, genericArgument);
+                        result = Activator.CreateInstance(responseType, genericValue);
+                        return result;
+                    }
                 }
 
                 if (responseType == typeof(ActionResult))
