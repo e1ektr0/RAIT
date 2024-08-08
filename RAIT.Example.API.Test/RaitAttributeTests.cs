@@ -34,4 +34,13 @@ public sealed class RaitAttributeTests
 
         Assert.That(attributeResponseModel.Domain, Is.EqualTo(model.Id));
     }
+    [Test]
+    public async Task CallHTest()
+    {
+        var model = new AttributeModel("test");
+        var httpResponseMessage = await _defaultClient.Rait<RaitAttributesController>()
+            .CallH(n => n.Ping(model));
+
+        httpResponseMessage.EnsureSuccessStatusCode();
+    }
 }

@@ -41,6 +41,25 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
             });
         return result;
     }
+    
+    
+    public async Task<HttpResponseMessage> CallH<TOut>(Expression<Func<TController, Task<TOut>>> tree) 
+    {
+        var methodBody = tree.Body as MethodCallExpression;
+        var methodInfo = methodBody!.Method;
+        var method = typeof(TController).GetMethod(methodBody.Method.Name);
+        var methodInfoCustomAttributes = method!.CustomAttributes;
+
+        var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
+        RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
+
+        var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
+        var result = await RaitHttpRequester.HttpRequestH(_client, methodInfoCustomAttributes, rout,
+            prepareInputParameters);
+
+        return result;
+    }
 
     public async Task<TOutput?> Call<TOutput>(Expression<Func<TController, Task<TOutput>>> tree)
     {

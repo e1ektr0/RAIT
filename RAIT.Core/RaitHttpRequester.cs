@@ -18,6 +18,14 @@ internal static class RaitHttpRequester
         return (TOutput?)result;
     }
 
+    internal static async Task<HttpResponseMessage> HttpRequestH(HttpClient httpClient,
+        IEnumerable<CustomAttributeData> attributes, string route,
+        List<InputParameter> prepareInputParameters)
+    {
+        var result = await HttpRequestHI(httpClient, attributes, route, prepareInputParameters);
+        return result;
+    }
+
     internal static async Task<object?> HttpRequest(HttpClient httpClient, IEnumerable<CustomAttributeData> attributes,
         string route,
         List<InputParameter> prepareInputParameters, Type memberInfo)
@@ -80,6 +88,47 @@ internal static class RaitHttpRequester
         }
 
         return result;
+    }
+
+    internal static async Task<HttpResponseMessage> HttpRequestHI(HttpClient httpClient,
+        IEnumerable<CustomAttributeData> attributes,
+        string route,
+        List<InputParameter> prepareInputParameters)
+    {
+        var customAttributeData =
+            attributes.FirstOrDefault(n => n.AttributeType.BaseType == typeof(HttpMethodAttribute));
+        if (customAttributeData == null)
+            throw new Exception("Http type attribute not found");
+        HttpResponseMessage? httpResponseMessage = null;
+        if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
+        {
+            httpResponseMessage = await httpClient.GetAsync(route);
+            return httpResponseMessage;
+        }
+
+        if (customAttributeData.AttributeType == typeof(HttpPostAttribute))
+        {
+            var httpContent = PrepareRequestContent(prepareInputParameters);
+            httpResponseMessage = await httpClient.PostAsync(route, httpContent);
+        }
+        else if (customAttributeData.AttributeType == typeof(HttpPutAttribute))
+        {
+            var httpContent = PrepareRequestContent(prepareInputParameters);
+            httpResponseMessage = await httpClient.PutAsync(route, httpContent);
+        }
+        else if (customAttributeData.AttributeType == typeof(HttpPatchAttribute))
+        {
+            var httpContent = PrepareRequestContent(prepareInputParameters);
+            httpResponseMessage = await httpClient.PatchAsync(route, httpContent);
+        }
+        else if (customAttributeData.AttributeType == typeof(HttpDeleteAttribute))
+        {
+            httpResponseMessage = await httpClient.DeleteAsync(route);
+        }
+        else if (httpResponseMessage == null)
+            throw new Exception("Rait: Http web attribute not found.");
+
+        return httpResponseMessage;
     }
 
     internal static async Task<string> HttpRequestWithoutDeserialization(HttpClient httpClient,
