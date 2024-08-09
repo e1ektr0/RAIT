@@ -120,12 +120,8 @@ public sealed class RaitTests
     [Test]
     public async Task RespWithoutDeserializationTest()
     {
-        var response = await _defaultClient.Rait<RaitTestController>().CallWithoutDeserialization(n => n.Get());
-        Assert.Multiple(() =>
-        {
-            Assert.That(response.GetType(), Is.EqualTo(typeof(string)));
-            Assert.That(response, Is.Not.Null);
-        });
+        var response = await _defaultClient.Rait<RaitTestController>().CallH(n => n.Get());
+        response.EnsureSuccessStatusCode();
     }
 
     [Test]
