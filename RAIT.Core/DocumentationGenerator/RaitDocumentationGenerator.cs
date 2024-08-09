@@ -4,17 +4,17 @@ using System.Text.Json;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Mvc;
-using RAIT.Core.DocumentationGenerator.XmlDoc;
+using RAIT.Core.XmlDoc;
 
-namespace RAIT.Core.DocumentationGenerator;
+namespace RAIT.Core;
 
 internal class RaitDocumentationGenerator
 {
     public class PropertyExample
     {
-        public string Type { get; set; }
-        public string Assembly { get; set; }
-        public string Value { get; set; }
+        public string? Type { get; set; }
+        public string? Assembly { get; set; }
+        public string? Value { get; set; }
     }
 
     private static void Generate(RaitDocumentationReport raitDocumentationReport)
@@ -27,10 +27,10 @@ internal class RaitDocumentationGenerator
 
         foreach (var xmlDocFilePath in xmlDocs)
         {
-            var serializer = new XmlSerializer(typeof(XmlDoc.XmlDoc));
+            var serializer = new XmlSerializer(typeof(XmlDoc.XmlDocRootModel));
 
             using var reader = XmlReader.Create(xmlDocFilePath);
-            var doc = (XmlDoc.XmlDoc)serializer.Deserialize(reader)!;
+            var doc = (XmlDoc.XmlDocRootModel)serializer.Deserialize(reader)!;
 
             if (raitDocumentationReport.PropertyExamples
                 .TryGetValue(doc.Assembly.Name, out var propertyExamples))
@@ -71,7 +71,7 @@ internal class RaitDocumentationGenerator
             try
             {
                 using var writer =
-                    new StreamWriter(Path.Combine(RaitConfig.ResultPath ?? AppContext.BaseDirectory,
+                    new StreamWriter(Path.Combine(RaitDocumentationState.ResultPath ?? AppContext.BaseDirectory,
                         Path.GetFileName(xmlDocFilePath.Replace(".xml", "_rait.xml"))));
                 serializer.Serialize(writer, doc);
             }
@@ -79,7 +79,7 @@ internal class RaitDocumentationGenerator
             {
             }
          
-            RaitConfig.DocState = doc;
+            RaitDocumentationState.DocRootModelState = doc;
         }
     }
 
@@ -134,19 +134,19 @@ internal class RaitDocumentationGenerator
 
     public static void Params<TController>(List<InputParameter> prepareInputParameters)
     {
-        if (!RaitConfig.DocGeneration)
+        if (!RaitDocumentationState.DocGeneration)
             return;
 
         CreatePath<TController>();
 
-        var raitDocumentationReport = RecoveryDoc(Path.Combine(RaitConfig.ResultPath ?? "", RaitDocReport));
+        var raitDocumentationReport = RecoveryDoc(Path.Combine(RaitDocumentationState.ResultPath ?? "", RaitDocReport));
 
 
         UpdateRaitDoc(prepareInputParameters, raitDocumentationReport);
 
         //todo: on dispose server
         Generate(raitDocumentationReport);
-        Save(raitDocumentationReport, Path.Combine(RaitConfig.ResultPath ?? "", RaitDocReport));
+        Save(raitDocumentationReport, Path.Combine(RaitDocumentationState.ResultPath ?? "", RaitDocReport));
     }
 
     private static string CreatePath<TController>()
@@ -155,7 +155,7 @@ internal class RaitDocumentationGenerator
         var directoryName = Path.GetDirectoryName(assembly.Location)!;
         var resultPath = Path.Combine(directoryName, @"..\..\..\..\" + assembly.GetName().Name + @"\RAIT\");
         Directory.CreateDirectory(resultPath);
-        RaitConfig.ResultPath ??= resultPath;
+        RaitDocumentationState.ResultPath ??= resultPath;
         return resultPath;
     }
 
@@ -290,12 +290,12 @@ internal class RaitDocumentationGenerator
 
         CreatePath<TController>();
 
-        var raitDocumentationReport = RecoveryDoc(Path.Combine(RaitConfig.ResultPath ?? "", RaitDocReport));
+        var raitDocumentationReport = RecoveryDoc(Path.Combine(RaitDocumentationState.ResultPath ?? "", RaitDocReport));
 
         UpdateRaitDocMethod(type, memberKey, raitDocumentationReport);
 
         //todo: on dispose server
         Generate(raitDocumentationReport);
-        Save(raitDocumentationReport, Path.Combine(RaitConfig.ResultPath ?? "", RaitDocReport));
+        Save(raitDocumentationReport, Path.Combine(RaitDocumentationState.ResultPath ?? "", RaitDocReport));
     }
 }

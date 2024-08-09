@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace RAIT.Example.API.Endpoints.Endpoints.ActionResults;
+namespace RAIT.Example.API.Endpoints.Endpoints.Simple.Models;
 
 public record ResponseDto(
     [property: JsonProperty("accountId")] string ExternalAccountId,

@@ -45,7 +45,7 @@
       <example>sec2</example>
     </member>
     <member name="P:RAIT.Example.API.Models.Model.List">
-      <example>b44358c2-906d-4c8f-9205-878afee8d722,bf1cd834-ae5c-45a8-9d1c-d753b9ec1c9b</example>
+      <example>33bb15c2-fbc0-4c3d-9c92-a3d7997df9f5,9fab8f5f-38f2-4cc1-86e8-fec96bc88c20</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ResponseModel.Id">
       <example>0</example>
@@ -69,10 +69,10 @@
       <example>10</example>
     </member>
     <member name="P:RAIT.Example.API.Models.DateTimeRequest.DateTime">
-      <example>8/9/2024 11:24:22 PM</example>
+      <example>8/10/2024 12:53:15 AM</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ArrayValueRequest.Array">
-      <example>eb13e36a-1f4d-4321-9f40-872d0548728e,74bf7720-9b75-40b5-994b-df570b91171a</example>
+      <example>2a0b2868-2c62-4a84-832a-845ea062a4b6,13b7dad6-160e-4bba-a0af-4f9a6c93f658</example>
     </member>
     <member name="P:RAIT.Example.API.Models.EnumOk.EnumValue">
       <example>Test1</example>
@@ -211,6 +211,12 @@
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,System.Threading.CancellationToken)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Core.FormFile.RaitFormFile)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post(RAIT.Core.FormFile.RaitFormFile)">
       <summary>[Tested]</summary>
     </member>
   </members>

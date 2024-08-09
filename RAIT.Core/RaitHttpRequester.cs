@@ -7,303 +7,203 @@ using Microsoft.Net.Http.Headers;
 
 namespace RAIT.Core;
 
-internal static class RaitHttpRequester
+internal static class RaitHttpRequester<TController> where TController : ControllerBase
 {
     internal static async Task<TOutput?> HttpRequest<TOutput>(HttpClient httpClient,
         IEnumerable<CustomAttributeData> attributes, string route,
         List<InputParameter> prepareInputParameters)
     {
         var memberInfo = typeof(TOutput);
-        var result = await HttpRequest(httpClient, attributes, route, prepareInputParameters, memberInfo);
-        return (TOutput?)result;
+        var result = await ExecuteHttpRequest(httpClient, attributes, route, prepareInputParameters, memberInfo);
+        var output = (TOutput?)result;
+        DocumentResult(result);
+        return output;
     }
 
-    internal static async Task<HttpResponseMessage> HttpRequestH(HttpClient httpClient,
+    internal static async Task<HttpResponseMessage> HttpRequest(HttpClient httpClient,
         IEnumerable<CustomAttributeData> attributes, string route,
         List<InputParameter> prepareInputParameters)
     {
-        var result = await HttpRequestHI(httpClient, attributes, route, prepareInputParameters);
-        return result;
+        return await ExecuteHttpRequestInternal(httpClient, attributes, route, prepareInputParameters);
     }
 
-    internal static async Task<object?> HttpRequest(HttpClient httpClient, IEnumerable<CustomAttributeData> attributes,
-        string route,
+    private static async Task<object?> ExecuteHttpRequest(HttpClient httpClient,
+        IEnumerable<CustomAttributeData> attributes, string route,
         List<InputParameter> prepareInputParameters, Type memberInfo)
     {
-        object? result;
-        var customAttributeData =
-            attributes.FirstOrDefault(n => n.AttributeType.BaseType == typeof(HttpMethodAttribute));
-        if (customAttributeData == null)
-            throw new Exception("Http type attribute not found");
-        HttpResponseMessage? httpResponseMessage = null;
-        if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
-        {
-            httpResponseMessage = await httpClient.GetAsync(route);
+        var customAttributeData = GetHttpMethodAttribute(attributes);
+        var httpResponseMessage = await SendHttpRequest(httpClient, customAttributeData, route, prepareInputParameters);
 
-            await HandleError(httpResponseMessage);
-            SetCookies(httpClient, httpResponseMessage);
+        await HandleError(httpResponseMessage);
+        SetCookies(httpClient, httpResponseMessage);
 
-            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
-                result = null!;
-            else if (memberInfo == typeof(IActionResult))
-                result = new StatusCodeResult((int)httpResponseMessage.StatusCode);
-            else
-                result = await ProcessHttpResult(memberInfo, httpResponseMessage);
-        }
-        else
-        {
-            if (customAttributeData.AttributeType == typeof(HttpPostAttribute))
-            {
-                var httpContent = PrepareRequestContent(prepareInputParameters);
-                httpResponseMessage = await httpClient.PostAsync(route, httpContent);
-            }
-            else if (customAttributeData.AttributeType == typeof(HttpPutAttribute))
-            {
-                var httpContent = PrepareRequestContent(prepareInputParameters);
-                httpResponseMessage = await httpClient.PutAsync(route, httpContent);
-            }
-            else if (customAttributeData.AttributeType == typeof(HttpPatchAttribute))
-            {
-                var httpContent = PrepareRequestContent(prepareInputParameters);
-                httpResponseMessage = await httpClient.PatchAsync(route, httpContent);
-            }
-            else if (customAttributeData.AttributeType == typeof(HttpDeleteAttribute))
-            {
-                httpResponseMessage = await httpClient.DeleteAsync(route);
-            }
-            else if (httpResponseMessage == null)
-                throw new Exception("Rait: Http web attribute not found.");
-
-            await HandleError(httpResponseMessage);
-            SetCookies(httpClient, httpResponseMessage);
-
-            if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
-                result = null;
-            else if (memberInfo == typeof(IActionResult))
-                result = new StatusCodeResult((int)httpResponseMessage.StatusCode);
-            else
-            {
-                result = await ProcessHttpResult(memberInfo, httpResponseMessage);
-            }
-        }
-
-        return result;
+        return await ProcessResponse(memberInfo, httpResponseMessage);
     }
 
-    private static async Task<HttpResponseMessage> HttpRequestHI(HttpClient httpClient,
-        IEnumerable<CustomAttributeData> attributes,
-        string route,
+    private static async Task<HttpResponseMessage> ExecuteHttpRequestInternal(HttpClient httpClient,
+        IEnumerable<CustomAttributeData> attributes, string route,
         List<InputParameter> prepareInputParameters)
+    {
+        var customAttributeData = GetHttpMethodAttribute(attributes);
+        return await SendHttpRequest(httpClient, customAttributeData, route, prepareInputParameters);
+    }
+
+    private static CustomAttributeData GetHttpMethodAttribute(IEnumerable<CustomAttributeData> attributes)
     {
         var customAttributeData =
             attributes.FirstOrDefault(n => n.AttributeType.BaseType == typeof(HttpMethodAttribute));
         if (customAttributeData == null)
             throw new Exception("Http type attribute not found");
-        HttpResponseMessage? httpResponseMessage = null;
-        if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
-        {
-            httpResponseMessage = await httpClient.GetAsync(route);
-            return httpResponseMessage;
-        }
+        return customAttributeData;
+    }
 
-        if (customAttributeData.AttributeType == typeof(HttpPostAttribute))
+    private static async Task<HttpResponseMessage> SendHttpRequest(HttpClient httpClient,
+        CustomAttributeData customAttributeData, string route,
+        List<InputParameter> prepareInputParameters)
+    {
+        var httpResponseMessage = customAttributeData.AttributeType switch
         {
-            var httpContent = PrepareRequestContent(prepareInputParameters);
-            httpResponseMessage = await httpClient.PostAsync(route, httpContent);
-        }
-        else if (customAttributeData.AttributeType == typeof(HttpPutAttribute))
-        {
-            var httpContent = PrepareRequestContent(prepareInputParameters);
-            httpResponseMessage = await httpClient.PutAsync(route, httpContent);
-        }
-        else if (customAttributeData.AttributeType == typeof(HttpPatchAttribute))
-        {
-            var httpContent = PrepareRequestContent(prepareInputParameters);
-            httpResponseMessage = await httpClient.PatchAsync(route, httpContent);
-        }
-        else if (customAttributeData.AttributeType == typeof(HttpDeleteAttribute))
-        {
-            httpResponseMessage = await httpClient.DeleteAsync(route);
-        }
-        else if (httpResponseMessage == null)
-            throw new Exception("Rait: Http web attribute not found.");
+            var type when type == typeof(HttpGetAttribute) => await httpClient.GetAsync(route),
+            var type when type == typeof(HttpPostAttribute) => await httpClient.PostAsync(route,
+                PrepareRequestContent(prepareInputParameters)),
+            var type when type == typeof(HttpPutAttribute) => await httpClient.PutAsync(route,
+                PrepareRequestContent(prepareInputParameters)),
+            var type when type == typeof(HttpPatchAttribute) => await httpClient.PatchAsync(route,
+                PrepareRequestContent(prepareInputParameters)),
+            var type when type == typeof(HttpDeleteAttribute) => await httpClient.DeleteAsync(route),
+            _ => throw new Exception("Rait: Http web attribute not found.")
+        };
 
         return httpResponseMessage;
     }
 
-    internal static async Task<string> HttpRequestWithoutDeserialization(HttpClient httpClient,
-        IEnumerable<CustomAttributeData> attributes,
-        string route, List<InputParameter> prepareInputParameters)
+    private static async Task<object?> ProcessResponse(Type responseType, HttpResponseMessage httpResponseMessage)
     {
-        var customAttributeData =
-            attributes.FirstOrDefault(n => n.AttributeType.BaseType == typeof(HttpMethodAttribute));
-        if (customAttributeData == null)
-            throw new Exception("Http type attribute not found");
-        HttpResponseMessage? httpResponseMessage = null;
-        if (customAttributeData.AttributeType == typeof(HttpGetAttribute))
-            httpResponseMessage = await httpClient.GetAsync(route);
-        else
+        if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
+            return null;
+
+        var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+        return responseType switch
         {
-            if (customAttributeData.AttributeType == typeof(HttpPostAttribute))
-            {
-                var httpContent = PrepareRequestContent(prepareInputParameters);
-                httpResponseMessage = await httpClient.PostAsync(route, httpContent);
-            }
-            else if (customAttributeData.AttributeType == typeof(HttpPutAttribute))
-            {
-                var httpContent = PrepareRequestContent(prepareInputParameters);
-                httpResponseMessage = await httpClient.PutAsync(route, httpContent);
-            }
-            else if (customAttributeData.AttributeType == typeof(HttpPatchAttribute))
-            {
-                var httpContent = PrepareRequestContent(prepareInputParameters);
-                httpResponseMessage = await httpClient.PatchAsync(route, httpContent);
-            }
-            else if (customAttributeData.AttributeType == typeof(HttpDeleteAttribute))
-            {
-                httpResponseMessage = await httpClient.DeleteAsync(route);
-            }
-            else if (httpResponseMessage == null)
-                throw new Exception("Rait: Http web attribute not found.");
-
-            await HandleError(httpResponseMessage);
-            SetCookies(httpClient, httpResponseMessage);
-        }
-
-        return await httpResponseMessage.Content.ReadAsStringAsync();
+            var type when type == typeof(EmptyResponse) => null,
+            var type when type == typeof(string) || type == typeof(object) => responseContent,
+            var type when type == typeof(Guid) => Guid.Parse(responseContent.Replace("\"", "")),
+            var type when type == typeof(int) => int.Parse(responseContent),
+            var type when type == typeof(long) => long.Parse(responseContent),
+            var type when type == typeof(decimal) => decimal.Parse(responseContent),
+            var type when type == typeof(double) => double.Parse(responseContent),
+            _ => await DeserializeResponse(responseType, httpResponseMessage)
+        };
     }
 
-    private static async Task<object?> ProcessHttpResult(Type responseType,
-        HttpResponseMessage httpResponseMessage)
+    private static async Task<object?> DeserializeResponse(Type responseType, HttpResponseMessage httpResponseMessage)
     {
-        try
+        var deserialize = RaitSerializationConfig.DeserializeFunction ??
+                          ((x, type) => x.ReadFromJsonAsync(type, RaitSerializationConfig.SerializationOptions));
+
+        if (responseType.IsGenericType && responseType.GetGenericTypeDefinition() == typeof(ActionResult<>))
         {
-            var response = await httpResponseMessage.Content.ReadAsStringAsync();
-            object? result;
-            if (responseType == typeof(EmptyResponse))
-                return null;
-
-            //todo: extend
-            if (responseType == typeof(object))
-                result = response;
-            else if (responseType == typeof(string))
-                result = response;
-            else if (responseType == typeof(Guid))
-                result = Guid.Parse(response.Replace("\"", ""));
-            else if (responseType == typeof(int))
-                result = int.Parse(response);
-            else if (responseType == typeof(long))
-                result = long.Parse(response);
-            else if (responseType == typeof(decimal))
-                result = decimal.Parse(response);
-            else if (responseType == typeof(double))
-                result = double.Parse(response);
-            else
-            {
-                var deserialize = RaitConfig.DeserializeFunction ??
-                                  ((x, type) => x.ReadFromJsonAsync(type,
-                                      RaitConfig.SerializationOptions));
-
-                if (responseType.IsGenericType)
-                {
-                    var genericTypeDefinition = responseType.GetGenericTypeDefinition();
-                    if (genericTypeDefinition == typeof(ActionResult<>))
-                    {
-                        var genericArguments = responseType.GetGenericArguments();
-                        var genericArgument = genericArguments[0];
-                        var genericValue = await deserialize(httpResponseMessage.Content, genericArgument);
-                        result = Activator.CreateInstance(responseType, genericValue);
-                        return result;
-                    }
-                }
-
-                if (responseType == typeof(ActionResult))
-                {
-                    return new OkResult();
-                }
-
-                result = await deserialize(httpResponseMessage.Content, responseType);
-            }
-
-            return result;
+            var genericArgument = responseType.GetGenericArguments()[0];
+            var genericValue = await deserialize(httpResponseMessage.Content, genericArgument);
+            return Activator.CreateInstance(responseType, genericValue);
         }
-        catch (Exception e)
-        {
-            var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
-            throw new Exception("Fail deserialize:" + readAsStringAsync, e);
-        }
+
+        return responseType == typeof(ActionResult) || responseType == typeof(IActionResult)
+            ? new OkResult()
+            : await deserialize(httpResponseMessage.Content, responseType);
     }
 
     private static HttpContent? PrepareRequestContent(List<InputParameter> prepareInputParameters)
     {
         if (prepareInputParameters.Any(n => n.IsForm || n.Type == typeof(RaitFormFile)))
         {
-            // todo: serialize model to form data:
-            // HttpContent stringContent = new StringContent(paramString);
-            // HttpContent fileStreamContent = new StreamContent(paramFileStream);
-            // HttpContent bytesContent = new ByteArrayContent(paramFileBytes);
-            var formData = new MultipartFormDataContent();
-            foreach (var parameter in prepareInputParameters.Where(n => !n.Used))
-            {
-                if (parameter.Type == typeof(RaitFormFile))
-                {
-                    var parameterValue = (RaitFormFile)parameter.Value!;
-                    var streamContent = new StreamContent(parameterValue.OpenReadStream());
-                    streamContent.Headers.Add("Content-Type", parameterValue.ContentType);
-                    formData.Add(streamContent, parameter.Name,
-                        parameterValue.FileName);
-                }
-                else if (parameter.Type!.IsClass)
-                {
-                    foreach (var p in parameter.Type!.GetProperties())
-                    {
-                        var val = p.GetValue(parameter.Value);
-                        switch (val)
-                        {
-                            case null:
-                                continue;
-                            case IEnumerable<Guid> listVal:
-                            {
-                                var index = 0;
-                                foreach (var v in listVal)
-                                    formData.Add(new StringContent(v.ToString()),
-                                        $"{parameter.Name}.{p.Name}[{index++}]");
-                                continue;
-                            }
-                            default:
-                                formData.Add(new StringContent(p.GetValue(parameter.Value!)!.ToString()!),
-                                    $"{parameter.Name}.{p.Name}");
-                                break;
-                        }
-                    }
-                }
-            }
-
-            return formData;
+            return CreateMultipartFormDataContent(prepareInputParameters);
         }
 
         var generatedInputParameter = prepareInputParameters.FirstOrDefault(n => n.IsForm) ??
                                       prepareInputParameters.FirstOrDefault(n => !n.Used);
-        var serializeFunction = RaitConfig.SerializeFunction
-                                ?? (x => JsonContent.Create(x));
-        var jsonContent = serializeFunction(generatedInputParameter?.Value);
-        if (generatedInputParameter == null)
-            jsonContent = null;
-        return jsonContent;
+        var serializeFunction = RaitSerializationConfig.SerializeFunction ?? (x => JsonContent.Create(x));
+        return generatedInputParameter != null ? serializeFunction(generatedInputParameter.Value) : null;
+    }
+
+    private static HttpContent CreateMultipartFormDataContent(List<InputParameter> prepareInputParameters)
+    {
+        var formData = new MultipartFormDataContent();
+
+        foreach (var parameter in prepareInputParameters.Where(n => !n.Used))
+        {
+            if (parameter.Type == typeof(RaitFormFile))
+            {
+                AddFormFile(formData, (RaitFormFile)parameter.Value!, parameter.Name);
+            }
+            else if (parameter.Type!.IsClass)
+            {
+                AddClassPropertiesToFormData(formData, parameter);
+            }
+        }
+
+        return formData;
+    }
+
+    private static void AddFormFile(MultipartFormDataContent formData, RaitFormFile file, string name)
+    {
+        var streamContent = new StreamContent(file.OpenReadStream());
+        streamContent.Headers.Add("Content-Type", file.ContentType);
+        formData.Add(streamContent, name, file.FileName);
+    }
+
+    private static void AddClassPropertiesToFormData(MultipartFormDataContent formData, InputParameter parameter)
+    {
+        foreach (var property in parameter.Type!.GetProperties())
+        {
+            var value = property.GetValue(parameter.Value);
+            switch (value)
+            {
+                case null:
+                    continue;
+                case IEnumerable<Guid> listVal:
+                {
+                    var index = 0;
+                    foreach (var v in listVal)
+                    {
+                        formData.Add(new StringContent(v.ToString()), $"{parameter.Name}.{property.Name}[{index++}]");
+                    }
+
+                    break;
+                }
+                default:
+                    formData.Add(new StringContent(value.ToString()!), $"{parameter.Name}.{property.Name}");
+                    break;
+            }
+        }
     }
 
     private static async Task HandleError(HttpResponseMessage httpResponseMessage)
     {
         if (!httpResponseMessage.IsSuccessStatusCode)
         {
-            var readAsStringAsync = await httpResponseMessage.Content.ReadAsStringAsync();
-            throw new RaitHttpException(readAsStringAsync, httpResponseMessage.StatusCode);
+            var errorContent = await httpResponseMessage.Content.ReadAsStringAsync();
+            throw new RaitHttpException(errorContent, httpResponseMessage.StatusCode);
         }
     }
 
     private static void SetCookies(HttpClient httpClient, HttpResponseMessage httpResponseMessage)
     {
         if (httpResponseMessage.Headers.TryGetValues(HeaderNames.SetCookie, out var cookies))
+        {
             httpClient.DefaultRequestHeaders.Add("Cookie", cookies);
+        }
+    }
+
+
+    private static void DocumentResult<TOutput>(TOutput? result)
+    {
+        if (result != null)
+        {
+            RaitDocumentationGenerator.Params<TController>(new List<InputParameter>
+            {
+                new() { Value = result, Type = result.GetType() }
+            });
+        }
     }
 }

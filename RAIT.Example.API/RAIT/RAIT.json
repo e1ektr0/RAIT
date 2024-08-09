@@ -34,7 +34,7 @@
       "P:RAIT.Example.API.Models.Model.List": {
         "Type": "P:RAIT.Example.API.Models.Model.List",
         "Assembly": "RAIT.Example.API",
-        "Value": "b44358c2-906d-4c8f-9205-878afee8d722,bf1cd834-ae5c-45a8-9d1c-d753b9ec1c9b"
+        "Value": "33bb15c2-fbc0-4c3d-9c92-a3d7997df9f5,9fab8f5f-38f2-4cc1-86e8-fec96bc88c20"
       },
       "P:RAIT.Example.API.Models.ResponseModel.Id": {
         "Type": "P:RAIT.Example.API.Models.ResponseModel.Id",
@@ -79,12 +79,12 @@
       "P:RAIT.Example.API.Models.DateTimeRequest.DateTime": {
         "Type": "P:RAIT.Example.API.Models.DateTimeRequest.DateTime",
         "Assembly": "RAIT.Example.API",
-        "Value": "8/9/2024 11:24:22 PM"
+        "Value": "8/10/2024 12:53:15 AM"
       },
       "P:RAIT.Example.API.Models.ArrayValueRequest.Array": {
         "Type": "P:RAIT.Example.API.Models.ArrayValueRequest.Array",
         "Assembly": "RAIT.Example.API",
-        "Value": "eb13e36a-1f4d-4321-9f40-872d0548728e,74bf7720-9b75-40b5-994b-df570b91171a"
+        "Value": "2a0b2868-2c62-4a84-832a-845ea062a4b6,13b7dad6-160e-4bba-a0af-4f9a6c93f658"
       },
       "P:RAIT.Example.API.Models.EnumOk.EnumValue": {
         "Type": "P:RAIT.Example.API.Models.EnumOk.EnumValue",
@@ -147,6 +147,26 @@
         "Type": "P:RAIT.Core.RaitFormFile.FileName",
         "Assembly": "RAIT.Core",
         "Value": "example.txt"
+      },
+      "P:RAIT.Core.FormFile.RaitFormFile.ContentType": {
+        "Type": "P:RAIT.Core.FormFile.RaitFormFile.ContentType",
+        "Assembly": "RAIT.Core",
+        "Value": "image/png"
+      },
+      "P:RAIT.Core.FormFile.RaitFormFile.Length": {
+        "Type": "P:RAIT.Core.FormFile.RaitFormFile.Length",
+        "Assembly": "RAIT.Core",
+        "Value": "0"
+      },
+      "P:RAIT.Core.FormFile.RaitFormFile.Name": {
+        "Type": "P:RAIT.Core.FormFile.RaitFormFile.Name",
+        "Assembly": "RAIT.Core",
+        "Value": "example.txt"
+      },
+      "P:RAIT.Core.FormFile.RaitFormFile.FileName": {
+        "Type": "P:RAIT.Core.FormFile.RaitFormFile.FileName",
+        "Assembly": "RAIT.Core",
+        "Value": "example.txt"
       }
     },
     "Microsoft.AspNetCore.Mvc.Core": {
@@ -159,6 +179,11 @@
         "Type": "P:Microsoft.AspNetCore.Mvc.ActionResult\u00601[RAIT.Example.API.Models.AttributeResponseModel].Value",
         "Assembly": "Microsoft.AspNetCore.Mvc.Core",
         "Value": null
+      },
+      "P:Microsoft.AspNetCore.Mvc.OkResult.StatusCode": {
+        "Type": "P:Microsoft.AspNetCore.Mvc.OkResult.StatusCode",
+        "Assembly": "Microsoft.AspNetCore.Mvc.Core",
+        "Value": "200"
       }
     },
     "System.Private.CoreLib": {
@@ -418,6 +443,16 @@
       },
       "M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,System.Threading.CancellationToken)": {
         "Type": "M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,System.Threading.CancellationToken)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Core.FormFile.RaitFormFile)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Core.FormFile.RaitFormFile)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestFileController.Post(RAIT.Core.FormFile.RaitFormFile)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestFileController.Post(RAIT.Core.FormFile.RaitFormFile)",
         "Assembly": "RAIT.Example.API",
         "Value": null
       }

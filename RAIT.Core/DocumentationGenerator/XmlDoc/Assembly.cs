@@ -1,10 +1,10 @@
 using System.Xml.Serialization;
 
-namespace RAIT.Core.DocumentationGenerator.XmlDoc;
+namespace RAIT.Core.XmlDoc;
 
 [XmlRoot(ElementName="assembly")]
 public class Assembly { 
 
     [XmlElement(ElementName="name")] 
-    public string Name { get; set; } 
+    public string? Name { get; set; } 
 }

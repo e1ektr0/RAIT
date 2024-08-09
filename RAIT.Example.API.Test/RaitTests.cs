@@ -73,7 +73,7 @@ public sealed class RaitTests
        
         var call = await _defaultClient.Rait<RaitFilterTestController>().CallR(n =>
             n.GetReportsResult("fff", "qqq", "sss"));
-        Assert.That(call!.Success, Is.True);
+        Assert.That(call.Success, Is.True);
     }
 
     [Test]
@@ -96,7 +96,7 @@ public sealed class RaitTests
     [Test]
     public async Task ResponseEnumTest()
     {
-        RaitConfig.SerializationOptions = new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() } };
+        RaitSerializationConfig.SerializationOptions = new JsonSerializerOptions { Converters = { new JsonStringEnumConverter() } };
         var r = await _defaultClient.Rait<RaitEnumTestController>().Call(n => n.Get());
         Assert.That(r, Is.Not.Null);
     }

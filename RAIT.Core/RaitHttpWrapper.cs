@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
-using RAIT.Core.DocumentationGenerator;
 
 namespace RAIT.Core;
 
@@ -30,7 +29,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
 
-        var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
+        var rout = RaitRouter.PrepareRoute(tree, prepareInputParameters);
         return (prepareInputParameters, rout, method!.CustomAttributes);
     }
 
@@ -45,28 +44,17 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
 
-        var rout = RaitRouter.PrepareRout(tree, prepareInputParameters);
+        var rout = RaitRouter.PrepareRoute(tree, prepareInputParameters);
         return (prepareInputParameters, rout, method!.CustomAttributes);
     }
 
-    private void DocumentResult<TOutput>(TOutput? result)
-    {
-        if (result != null)
-        {
-            RaitDocumentationGenerator.Params<TController>(new List<InputParameter>
-            {
-                new() { Value = result, Type = result.GetType() }
-            });
-        }
-    }
 
     public async Task<TOutput?> Call<TOutput, TOut>(Expression<Func<TController, Task<TOut>>> tree) where TOutput : TOut
     {
         var (prepareInputParameters, rout, attributes) = PrepareRequest(tree);
         var result =
-            await RaitHttpRequester.HttpRequest<TOutput?>(_client, attributes, rout,
+            await RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client, attributes, rout,
                 prepareInputParameters);
-        DocumentResult(result);
         return result;
     }
 
@@ -74,9 +62,8 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
     {
         var (prepareInputParameters, rout, attributes) = PrepareRequest(tree);
         var result =
-            await RaitHttpRequester.HttpRequest<TOutput?>(_client, attributes, rout,
+            await RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client, attributes, rout,
                 prepareInputParameters);
-        DocumentResult(result);
         return result;
     }
 
@@ -84,7 +71,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
     {
         var (prepareInputParameters, rout, attributes) = PrepareRequest(tree);
         var result =
-            await RaitHttpRequester.HttpRequest<TOutput?>(_client, attributes, rout,
+            await RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client, attributes, rout,
                 prepareInputParameters);
         return result ?? throw new ArgumentNullException();
     }
@@ -93,7 +80,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
     {
         var (prepareInputParameters, rout, attributes) = PrepareRequest(tree);
         var result =
-            await RaitHttpRequester.HttpRequest<TOutput?>(_client, attributes, rout,
+            await RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client, attributes, rout,
                 prepareInputParameters);
         return result ?? throw new ArgumentNullException();
     }
@@ -101,22 +88,20 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
     public async Task Call(Expression<Func<TController, Task>> tree)
     {
         var (prepareInputParameters, rout, attributes) = PrepareRequest(tree);
-        var result = await RaitHttpRequester.HttpRequest(_client, attributes, rout,
-            prepareInputParameters, typeof(EmptyResponse));
-        DocumentResult(result);
+        await RaitHttpRequester<TController>.HttpRequest<EmptyResponse>(_client, attributes, rout,
+            prepareInputParameters);
     }
 
     public async Task CallR(Expression<Func<TController, Task>> tree)
     {
         var (prepareInputParameters, rout, attributes) = PrepareRequest(tree);
-        var result = await RaitHttpRequester.HttpRequest(_client, attributes, rout,
-            prepareInputParameters, typeof(EmptyResponse));
-        DocumentResult(result);
+        await RaitHttpRequester<TController>.HttpRequest<EmptyResponse>(_client, attributes, rout,
+            prepareInputParameters);
     }
 
     public async Task<HttpResponseMessage> CallH<TOut>(Expression<Func<TController, Task<TOut>>> tree)
     {
         var (prepareInputParameters, rout, attributes) = PrepareRequest(tree);
-        return await RaitHttpRequester.HttpRequestH(_client, attributes, rout, prepareInputParameters);
+        return await RaitHttpRequester<TController>.HttpRequest(_client, attributes, rout, prepareInputParameters);
     }
 }

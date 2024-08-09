@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RAIT.Example.API.Endpoints.Endpoints.Simple.Models;
 
-namespace RAIT.Example.API.Endpoints.Endpoints.ActionResults;
+namespace RAIT.Example.API.Endpoints.Endpoints.Simple;
 
 public class GetEndpoint : EndpointBaseAsync
     .WithRequest<AggregatedGetRequest>

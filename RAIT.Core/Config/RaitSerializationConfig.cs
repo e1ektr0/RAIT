@@ -1,17 +1,15 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.Json;
 using Newtonsoft.Json;
-using RAIT.Core.DocumentationGenerator.XmlDoc;
 
 namespace RAIT.Core;
 
-public class RaitConfig
+public class RaitSerializationConfig
 {
     public static JsonSerializerOptions? SerializationOptions { get; set; }
-    public static XmlDoc DocState { get; set; }
-    public static string? ResultPath { get; set; }
+    internal static Func<HttpContent, Type, Task<object?>>? DeserializeFunction { get; set; }
 
-    public static bool DocGeneration = true;
+    internal static Func<object?, HttpContent>? SerializeFunction { get; set; }
 
     public static void UseNewtonsoft()
     {
@@ -31,8 +29,4 @@ public class RaitConfig
         var jsonStr = JsonConvert.SerializeObject(obj);
         return new StringContent(jsonStr, new UTF8Encoding(), "text/json");
     }
-
-    public static Func<HttpContent, Type, Task<object?>>? DeserializeFunction { get; set; }
-
-    public static Func<object?, HttpContent>? SerializeFunction { get; set; }
 }

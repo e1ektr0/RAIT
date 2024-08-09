@@ -16,4 +16,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
     </ItemGroup>
+    <ItemGroup>
+        <InternalsVisibleTo Include="RAIT.Example.API.Test" />
+    </ItemGroup>
 </Project>

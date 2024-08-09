@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using RAIT.Core;
-using RAIT.Example.API.Endpoints.Endpoints.ActionResults;
 using RAIT.Example.API.Endpoints.Endpoints.Simple;
 using RAIT.Example.API.Endpoints.Endpoints.Simple.Models;
 
@@ -20,7 +19,7 @@ public class SimpleEndpointsTests
 
         _defaultClient = _application.CreateDefaultClient();
 
-        RaitConfig.UseNewtonsoft();
+        RaitSerializationConfig.UseNewtonsoft();
     }
 
     private void PrepareEnv(IWebHostBuilder _)
