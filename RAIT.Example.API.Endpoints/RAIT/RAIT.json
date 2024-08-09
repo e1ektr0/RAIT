@@ -42,6 +42,11 @@
         "Type": "P:RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest.ValueStr",
         "Assembly": "RAIT.Example.API.Endpoints",
         "Value": "val"
+      },
+      "P:RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest.Date": {
+        "Type": "P:RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest.Date",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": "1/1/2000"
       }
     }
   },
@@ -59,6 +64,11 @@
       },
       "M:RAIT.Example.API.Endpoints.Endpoints.Simple.PostEndpoint.HandleAsync(System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)": {
         "Type": "M:RAIT.Example.API.Endpoints.Endpoints.Simple.PostEndpoint.HandleAsync(System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.ActionResults.GetEndpoint.HandleAsync(System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.ActionResults.GetEndpoint.HandleAsync(System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)",
         "Assembly": "RAIT.Example.API.Endpoints",
         "Value": null
       }

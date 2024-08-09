@@ -9,4 +9,6 @@ public class AggregatedGetRequest
 
     [FromQuery(Name = nameof(ValueStr))]
     public required string ValueStr { get; set; }
+
+    public DateOnly Date { get; set; }
 }

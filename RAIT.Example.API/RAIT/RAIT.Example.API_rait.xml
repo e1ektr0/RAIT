@@ -45,10 +45,10 @@
       <example>sec2</example>
     </member>
     <member name="P:RAIT.Example.API.Models.Model.List">
-      <example>cd7d869c-64b4-420f-ba79-d4e32955b790,6bcfc939-e307-49a4-bef8-24710e2d8243</example>
+      <example>b44358c2-906d-4c8f-9205-878afee8d722,bf1cd834-ae5c-45a8-9d1c-d753b9ec1c9b</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ResponseModel.Id">
-      <example>10</example>
+      <example>0</example>
     </member>
     <member name="P:RAIT.Example.API.Models.Model.EnumList">
       <example>One,Three</example>
@@ -69,10 +69,10 @@
       <example>10</example>
     </member>
     <member name="P:RAIT.Example.API.Models.DateTimeRequest.DateTime">
-      <example>8/8/2024 9:16:16 AM</example>
+      <example>8/9/2024 11:24:22 PM</example>
     </member>
     <member name="P:RAIT.Example.API.Models.ArrayValueRequest.Array">
-      <example>95f73436-e28d-479a-934b-804399c88075,53358578-1cb4-419c-8fb8-c0e97b1dc34a</example>
+      <example>eb13e36a-1f4d-4321-9f40-872d0548728e,74bf7720-9b75-40b5-994b-df570b91171a</example>
     </member>
     <member name="P:RAIT.Example.API.Models.EnumOk.EnumValue">
       <example>Test1</example>

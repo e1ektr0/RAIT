@@ -34,12 +34,12 @@
       "P:RAIT.Example.API.Models.Model.List": {
         "Type": "P:RAIT.Example.API.Models.Model.List",
         "Assembly": "RAIT.Example.API",
-        "Value": "cd7d869c-64b4-420f-ba79-d4e32955b790,6bcfc939-e307-49a4-bef8-24710e2d8243"
+        "Value": "b44358c2-906d-4c8f-9205-878afee8d722,bf1cd834-ae5c-45a8-9d1c-d753b9ec1c9b"
       },
       "P:RAIT.Example.API.Models.ResponseModel.Id": {
         "Type": "P:RAIT.Example.API.Models.ResponseModel.Id",
         "Assembly": "RAIT.Example.API",
-        "Value": "10"
+        "Value": "0"
       },
       "P:RAIT.Example.API.Models.Model.EnumList": {
         "Type": "P:RAIT.Example.API.Models.Model.EnumList",
@@ -79,12 +79,12 @@
       "P:RAIT.Example.API.Models.DateTimeRequest.DateTime": {
         "Type": "P:RAIT.Example.API.Models.DateTimeRequest.DateTime",
         "Assembly": "RAIT.Example.API",
-        "Value": "8/8/2024 9:16:16 AM"
+        "Value": "8/9/2024 11:24:22 PM"
       },
       "P:RAIT.Example.API.Models.ArrayValueRequest.Array": {
         "Type": "P:RAIT.Example.API.Models.ArrayValueRequest.Array",
         "Assembly": "RAIT.Example.API",
-        "Value": "95f73436-e28d-479a-934b-804399c88075,53358578-1cb4-419c-8fb8-c0e97b1dc34a"
+        "Value": "eb13e36a-1f4d-4321-9f40-872d0548728e,74bf7720-9b75-40b5-994b-df570b91171a"
       },
       "P:RAIT.Example.API.Models.EnumOk.EnumValue": {
         "Type": "P:RAIT.Example.API.Models.EnumOk.EnumValue",

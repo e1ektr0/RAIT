@@ -15,6 +15,9 @@ public class PostEndpoint
             throw new Exception();
         if (request.Origin.ValueStr == null)
             throw new Exception();
+        if (request.Origin.Date.Year != 2000)
+            throw new Exception();
+
         await Task.CompletedTask;
         return Ok();
     }

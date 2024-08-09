@@ -19,7 +19,7 @@ public class SimpleEndpointsTests
             .WithWebHostBuilder(PrepareEnv);
 
         _defaultClient = _application.CreateDefaultClient();
-        
+
         RaitConfig.UseNewtonsoft();
     }
 
@@ -48,22 +48,22 @@ public class SimpleEndpointsTests
         Assert.That(actionResult.Value!.ValueStr, Is.EqualTo("val"));
         Assert.That(actionResult.Value.ExternalAccountId, Is.EqualTo("ext"));
     }
-    
-    
+
+
     [Test]
     public async Task PostEndpointCall()
     {
         var req = new PostRequest
         {
             ExternalAccountId = "ddd",
-            Origin =  new AggregatedGetRequest
+            Origin = new AggregatedGetRequest
             {
                 ValueStr = "val",
-                ExternalAccountId = "ext"
+                ExternalAccountId = "ext",
+                Date = new DateOnly(2000,1,1)
             }
         };
         await _defaultClient.Rait<PostEndpoint>()
-            .CallR(n => n.HandleAsync( req, new CancellationToken()));
-
+            .CallR(n => n.HandleAsync(req, new CancellationToken()));
     }
 }
