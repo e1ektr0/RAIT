@@ -1,0 +1,67 @@
+{
+  "PropertyExamples": {
+    "Microsoft.AspNetCore.Mvc.Core": {
+      "P:Microsoft.AspNetCore.Mvc.OkResult.StatusCode": {
+        "Type": "P:Microsoft.AspNetCore.Mvc.OkResult.StatusCode",
+        "Assembly": "Microsoft.AspNetCore.Mvc.Core",
+        "Value": "200"
+      },
+      "P:Microsoft.AspNetCore.Mvc.ActionResult\u00601[RAIT.Example.API.Endpoints.Endpoints.ActionResults.ResponseDto].Value": {
+        "Type": "P:Microsoft.AspNetCore.Mvc.ActionResult\u00601[RAIT.Example.API.Endpoints.Endpoints.ActionResults.ResponseDto].Value",
+        "Assembly": "Microsoft.AspNetCore.Mvc.Core",
+        "Value": null
+      }
+    },
+    "RAIT.Example.API.Endpoints": {
+      "P:RAIT.Example.API.Endpoints.Endpoints.ActionResults.Requests.AggregatedGetRequest.ExternalAccountId": {
+        "Type": "P:RAIT.Example.API.Endpoints.Endpoints.ActionResults.Requests.AggregatedGetRequest.ExternalAccountId",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": "ext"
+      },
+      "P:RAIT.Example.API.Endpoints.Endpoints.ActionResults.Requests.AggregatedGetRequest.ValueStr": {
+        "Type": "P:RAIT.Example.API.Endpoints.Endpoints.ActionResults.Requests.AggregatedGetRequest.ValueStr",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": "val"
+      },
+      "P:RAIT.Example.API.Endpoints.Endpoints.ActionResults.ResponseDto.ValueStr": {
+        "Type": "P:RAIT.Example.API.Endpoints.Endpoints.ActionResults.ResponseDto.ValueStr",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": "val"
+      },
+      "P:RAIT.Example.API.Endpoints.Endpoints.ActionResults.ResponseDto.ExternalAccountId": {
+        "Type": "P:RAIT.Example.API.Endpoints.Endpoints.ActionResults.ResponseDto.ExternalAccountId",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": "ext"
+      },
+      "P:RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest.ExternalAccountId": {
+        "Type": "P:RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest.ExternalAccountId",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": "ext"
+      },
+      "P:RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest.ValueStr": {
+        "Type": "P:RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest.ValueStr",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": "val"
+      }
+    }
+  },
+  "Methods": {
+    "RAIT.Example.API.Endpoints": {
+      "M:RAIT.Example.API.Endpoints.Endpoints.ActionResults.SimpleEndpoint.HandleAsync": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.ActionResults.SimpleEndpoint.HandleAsync",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.ActionResults.GetEndpoint.HandleAsync(System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.ActionResults.Requests.AggregatedGetRequest)": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.ActionResults.GetEndpoint.HandleAsync(System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.ActionResults.Requests.AggregatedGetRequest)",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.Simple.PostEndpoint.HandleAsync(System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.Simple.PostEndpoint.HandleAsync(System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      }
+    }
+  }
+}

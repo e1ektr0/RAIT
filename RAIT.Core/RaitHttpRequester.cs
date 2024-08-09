@@ -90,7 +90,7 @@ internal static class RaitHttpRequester
         return result;
     }
 
-    internal static async Task<HttpResponseMessage> HttpRequestHI(HttpClient httpClient,
+    private static async Task<HttpResponseMessage> HttpRequestHI(HttpClient httpClient,
         IEnumerable<CustomAttributeData> attributes,
         string route,
         List<InputParameter> prepareInputParameters)
