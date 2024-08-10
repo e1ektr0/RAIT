@@ -8,6 +8,7 @@ RAIT (REST API Integration Testing) is an open-source library designed to simpli
 - **Ease of Use**: Simple and intuitive API for making HTTP requests.
 - **Enhanced Navigation**: Since method calls are strongly typed, your IDE can assist in navigating directly to the action from the test. This makes it easy to move between your tests and the corresponding actions.
 - **Test Coverage Visibility**: Your IDE will indicate that an action is covered by a test because the action will not be marked as unused. This helps you quickly understand which actions are tested and which are not.
+- **Experimental Feature**: Example Value Generation: Automatically generate example values for Swagger documentation based on your test code. This feature extracts XML documentation and adds example values for models used in your tests.
 
 ## Getting Started:
 ### Installation
@@ -96,6 +97,33 @@ public class RaitTests : IClassFixture<WebApplicationFactory<Startup>>
     }
 }
 ```
+
+### Experimental Feature: Example Value Generation
+RAIT includes an experimental feature that generates example values for Swagger documentation based on your test code. This feature extracts XML documentation and adds example values for models used in your tests.
+
+#### How to Enable Example Value Generation
+1. **Add XML Documentation to Swagger Configuration**
+Modify your Swagger configuration to include RAIT XML documentation:
+```csharp
+builder.Services.AddSwaggerGen(swaggerGenOptions =>
+{
+   // your swagger configuration code here 
+
+    swaggerGenOptions.IncludeRaitXml(); //call IncludeRaitXml extension
+});
+```
+
+2. Enable RAIT Documentation Configuration in Test Setup
+Call `RaitDocumentationConfig.Enable()` in your test setup to enable this feature:
+```csharp
+ [SetUp]
+ public void Setup()
+ {
+     RaitDocumentationConfig.Enable();
+ }
+```
+This will generate example values for your models and place the generated documentation in the RAIT folder within your API project.
+
 ## Contributing
 We welcome contributions to RAIT! If you find a bug or have a feature request, please open an issue on GitHub. If you would like to contribute code, please fork the repository and submit a pull request.
 
