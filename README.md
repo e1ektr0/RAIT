@@ -34,8 +34,8 @@ public class RaitTestController
 }
 ```
 
-2. **Create an Instance of HttpClient Using WebApplicationFactory**
-It is recommended to use `WebApplicationFactory` from `Microsoft.AspNetCore.Mvc.Testing` to create an instance of `HttpClient`. This ensures that your tests run in a realistic environment similar to production.
+2. **Create an Instance of HttpClient**
+You can use `WebApplicationFactory` from `Microsoft.AspNetCore.Mvc.Testing` to create an instance of `HttpClient`.
 
 ```csharp
 using Microsoft.AspNetCore.Mvc.Testing;
