@@ -20,13 +20,13 @@ public sealed class DocsTests
         _defaultClient = _application.CreateDefaultClient();
     }
 
-    private void PrepareEnv(IWebHostBuilder _)
+    private void PrepareEnv(IWebHostBuilder builder)
     {
-        _.UseEnvironment("Test");
+        builder.UseEnvironment("Test");
     }
 
     [Test]
-    public async Task GenerateDocForIncludeParameters()
+    public async Task PingPost_WithIncludedParameters_GeneratesDocumentation()
     {
         RaitDocumentationConfig.Enable();
         var secret = "sec";
@@ -48,9 +48,10 @@ public sealed class DocsTests
         };
         await _defaultClient.Rait<RaitGetModelController>().Call(n => n.PingPost(request));
 
-        var member = RaitDocumentationState.DocRootModelState.Members.Member.First(n=>n.Name.EndsWith("Secret"));
+        var member = RaitDocumentationState.DocRootModelState!.Members!.Member!.First(n => n.Name!.EndsWith("Secret"));
         Assert.That(member.Example, Is.EqualTo(secret));
-        var member2 = RaitDocumentationState.DocRootModelState.Members.Member.First(n=>n.Name.EndsWith("XSecret2"));
+        var member2 =
+            RaitDocumentationState.DocRootModelState.Members!.Member!.First(n => n.Name!.EndsWith("XSecret2"));
         Assert.That(member2.Example, Is.EqualTo(secret2));
     }
 }

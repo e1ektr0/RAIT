@@ -63,8 +63,10 @@ internal static class RaitParameterExtractor
     private static bool IsParameter(IEnumerable<CustomAttributeData> attributes)
     {
         return attributes.Any(n =>
-            n.AttributeType == typeof(FromQueryAttribute) || n.AttributeType == typeof(FromFormAttribute) || n.AttributeType == typeof(
-                FromRouteAttribute) || n.AttributeType == typeof(FromBodyAttribute) );
+            n.AttributeType == typeof(FromQueryAttribute) ||
+            n.AttributeType == typeof(FromFormAttribute) ||
+            n.AttributeType == typeof(FromRouteAttribute) ||
+            n.AttributeType == typeof(FromBodyAttribute));
     }
 
     private static bool IsValueParameter(Type type)
@@ -94,7 +96,7 @@ internal static class RaitParameterExtractor
                             IsQuery =
                                 fieldInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute)),
                             IsForm = fieldInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromFormAttribute)),
-                            IsBody = fieldInfo.CustomAttributes.Any(n=>n.AttributeType == typeof(FromBodyAttribute)),
+                            IsBody = fieldInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromBodyAttribute)),
                             Type = fieldInfo.PropertyType
                         });
                     }
@@ -104,7 +106,7 @@ internal static class RaitParameterExtractor
 
         if (result.Any(n => n.IsBody))
             return result;
-        
+
         result.Add(new InputParameter
         {
             Value = value,

@@ -20,29 +20,25 @@ public sealed class RaitWrapperTests
         _defaultClient = _application.CreateDefaultClient();
     }
 
-    private void PrepareEnv(IWebHostBuilder _)
+    private void PrepareEnv(IWebHostBuilder builder)
     {
-        _.UseEnvironment("Test");
+        builder.UseEnvironment("Test");
     }
 
     [Test]
-    public async Task PostCall()
+    public async Task Post_ValidModel_ReturnsExpectedResult()
     {
-        var model = new Model
-        {
-            Id = 10
-        };
+        var model = new Model { Id = 10 };
         var responseModel = await _defaultClient.Rait<RaitTestController>().Call(n => n.Post(model));
 
-        // Assert.That(responseModel!.Id, Is.EqualTo(10));
-        //TODO:
+        Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
 
-
     [Test]
-    public async Task GetString()
+    public async Task GetString_WhenCalled_ReturnsTestString()
     {
-        var responseModel = await _defaultClient.Rait<RaitPrimitiveTypesTestController>().Call(n => n.GetString());
+        var responseModel = await _defaultClient.Rait<RaitPrimitiveTypesTestController>()
+            .Call(n => n.GetString());
 
         Assert.That(responseModel, Is.EqualTo("test"));
     }

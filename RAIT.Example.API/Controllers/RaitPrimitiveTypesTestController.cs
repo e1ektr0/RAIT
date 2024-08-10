@@ -11,7 +11,7 @@ public class RaitPrimitiveTypesTestController : ControllerBase
     public async Task<Guid> GetGuid()
     {
         await Task.CompletedTask;
-        return Guid.NewGuid();
+        return Guid.Parse("6ec3e17e-c51c-43f0-b5d0-02889912a78c");
     }
     
     [Route("get_rout_parameter_test/get_int")]

@@ -20,14 +20,13 @@ public sealed class RaitNewModelTests
         _httpClient = _application.CreateDefaultClient();
     }
 
-    private void PrepareEnv(IWebHostBuilder _)
+    private void PrepareEnv(IWebHostBuilder builder)
     {
-        _.UseEnvironment("Test");
+        builder.UseEnvironment("Test");
     }
 
-
     [Test]
-    public async Task PostCall()
+    public async Task Post_ValidModel_ReturnsExpectedResult()
     {
         var model = new Model
         {

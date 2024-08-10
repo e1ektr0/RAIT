@@ -20,13 +20,13 @@ public sealed class RaitAttributeTests
         _defaultClient = _application.CreateDefaultClient();
     }
 
-    private void PrepareEnv(IWebHostBuilder _)
+    private void PrepareEnv(IWebHostBuilder builder)
     {
-        _.UseEnvironment("Test");
+        builder.UseEnvironment("Test");
     }
 
     [Test]
-    public async Task PingAttributeTest()
+    public async Task Ping_ValidAttributeModel_ReturnsExpectedResponse()
     {
         var model = new AttributeModel("test");
         var attributeResponseModel = await _defaultClient.Rait<RaitAttributesController>()
@@ -34,8 +34,9 @@ public sealed class RaitAttributeTests
 
         Assert.That(attributeResponseModel.Domain, Is.EqualTo(model.Id));
     }
+
     [Test]
-    public async Task CallHTest()
+    public async Task Ping_ValidAttributeModel_ReturnsSuccessStatusCode()
     {
         var model = new AttributeModel("test");
         var httpResponseMessage = await _defaultClient.Rait<RaitAttributesController>()

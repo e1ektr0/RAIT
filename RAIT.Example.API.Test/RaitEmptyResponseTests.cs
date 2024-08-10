@@ -20,15 +20,14 @@ public sealed class RaitEmptyResponseTests
         _defaultClient = _application.CreateDefaultClient();
     }
 
-    private void PrepareEnv(IWebHostBuilder _)
+    private void PrepareEnv(IWebHostBuilder builder)
     {
-        _.UseEnvironment("Test");
+        builder.UseEnvironment("Test");
     }
 
     [Test]
-    public async Task PostEmpty()
+    public async Task Post_ValidId_ReturnsEmptyResponse()
     {
         await _defaultClient.Rait<RaitEmptyResponseController>().Call(n => n.Post(10));
     }
-
 }

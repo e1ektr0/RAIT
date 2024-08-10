@@ -20,13 +20,13 @@ public sealed class RaitGetModelTests
         _defaultClient = _application.CreateDefaultClient();
     }
 
-    private void PrepareEnv(IWebHostBuilder _)
+    private void PrepareEnv(IWebHostBuilder builder)
     {
-        _.UseEnvironment("Test");
+        builder.UseEnvironment("Test");
     }
 
     [Test]
-    public async Task GetPing_Test()
+    public async Task Ping_ValidModel_ReturnsExpectedResponse()
     {
         var request = new Model
         {
@@ -52,9 +52,8 @@ public sealed class RaitGetModelTests
         Assert.That(response.EnumList!.Last(), Is.EqualTo(EnumExample.Three));
     }
 
-
     [Test]
-    public void Get415Error_Test()
+    public void WrongModelType_InvalidModel_ThrowsRaitHttpException()
     {
         var request = new Model
         {

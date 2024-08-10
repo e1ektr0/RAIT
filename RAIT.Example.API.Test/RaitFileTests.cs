@@ -20,37 +20,38 @@ public sealed class RaitFileTests
         _defaultClient = _application.CreateDefaultClient();
     }
 
-    private void PrepareEnv(IWebHostBuilder _)
+    private void PrepareEnv(IWebHostBuilder builder)
     {
-        _.UseEnvironment("Test");
+        builder.UseEnvironment("Test");
     }
 
     [Test]
-    public async Task PostCall()
+    public async Task Post_FileModel_ReturnsExpectedResult()
     {
         var model = new RaitFormFile("example.txt", "image/png");
-        var responseModel =
-            await _defaultClient.Rait<RaitTestFileController>().Call(n => n.Post(model));
+        var responseModel = await _defaultClient.Rait<RaitTestFileController>().Call(n => n.Post(model));
 
         model.Dispose();
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
 
     [Test]
-    public async Task Post2Call()
+    public async Task Post3_ModelAndFile_ReturnsExpectedResult()
     {
         var file = new RaitFormFile("example.txt", "image/png");
-        var model = new Model { Id = 10, List = new List<Guid>{Guid.NewGuid()}};
+        var model = new Model { Id = 10, List = new List<Guid> { Guid.NewGuid() } };
         var responseModel = await _defaultClient.Rait<RaitTestFileController>().Call(n => n.Post3(model, file));
+
         file.Dispose();
         Assert.That(responseModel!.Id, Is.EqualTo(model.Id));
     }
     
     [Test]
-    public async Task Post3Call()
+    public async Task Post_FileWithContent_ReturnsExpectedResult()
     {
         var model = new RaitFormFile("example.txt", "image/png", await File.ReadAllBytesAsync("example2.txt"));
         var responseModel = await _defaultClient.Rait<RaitTestFileController>().Call(n => n.Post(model));
+
         model.Dispose();
         Assert.That(responseModel!.Id, Is.EqualTo(11));
     }
