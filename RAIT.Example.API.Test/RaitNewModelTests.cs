@@ -25,6 +25,10 @@ public sealed class RaitNewModelTests
         builder.UseEnvironment("Test");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <example>example value</example>
     [Test]
     public async Task Post_ValidModel_ReturnsExpectedResult()
     {

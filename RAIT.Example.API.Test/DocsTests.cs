@@ -14,6 +14,7 @@ public sealed class DocsTests
     [SetUp]
     public void Setup()
     {
+        RaitDocumentationConfig.Enable();
         _application = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(PrepareEnv);
 
