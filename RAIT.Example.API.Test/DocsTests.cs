@@ -28,6 +28,7 @@ public sealed class DocsTests
     [Test]
     public async Task GenerateDocForIncludeParameters()
     {
+        RaitDocumentationConfig.Enable();
         var secret = "sec";
         var secret2 = "sec2";
         var request = new Model

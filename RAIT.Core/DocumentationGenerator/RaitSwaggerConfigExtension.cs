@@ -8,7 +8,7 @@ public static class RaitSwaggerConfigExtension
 {
     public static void IncludeRaitXml(this SwaggerGenOptions swaggerGenOptions)
     {
-        RaitDocumentationState.DocGeneration = true;
+        RaitDocumentationConfig.Enable();
         var executingAssembly = Assembly.GetEntryAssembly();
 
         var assemblies = executingAssembly!.GetReferencedAssemblies().ToList();
