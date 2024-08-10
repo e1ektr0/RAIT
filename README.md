@@ -122,7 +122,11 @@ Call `RaitDocumentationConfig.Enable()` in your test setup to enable this featur
      RaitDocumentationConfig.Enable();
  }
 ```
-This will generate example values for your models and place the generated documentation in the RAIT folder within your API project.
+
+3. **Mark Generated XML as Copy to Output Directory**
+Ensure that the generated XML documentation is copied to the output directory. You can do this by modifying your `.csproj` file.
+
+This will generate example values for your models and place the generated documentation in the `RAIT` folder within your API project.
 
 ## Contributing
 We welcome contributions to RAIT! If you find a bug or have a feature request, please open an issue on GitHub. If you would like to contribute code, please fork the repository and submit a pull request.
