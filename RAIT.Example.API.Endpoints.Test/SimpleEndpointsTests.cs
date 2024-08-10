@@ -18,7 +18,7 @@ public class SimpleEndpointsTests
             .WithWebHostBuilder(PrepareEnv);
 
         _defaultClient = _application.CreateDefaultClient();
-
+        RaitDocumentationConfig.Enable();
         RaitSerializationConfig.UseNewtonsoft();
     }
 

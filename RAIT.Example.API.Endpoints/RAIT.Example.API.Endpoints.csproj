@@ -6,6 +6,13 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
     </PropertyGroup>
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <NoWarn>1701;1702;1591;</NoWarn>
+    </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Ardalis.ApiEndpoints" Version="4.1.0" />
@@ -15,5 +22,16 @@
     </ItemGroup>
     <ItemGroup>
         <InternalsVisibleTo Include="RAIT.Example.API.Endpoints.Test" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\RAIT.Core\RAIT.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\RAIT.Core\RAIT.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="RAIT\RAIT.Example.API.Endpoints_rait.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 </Project>

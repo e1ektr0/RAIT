@@ -15,7 +15,7 @@
             </summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitGetModelController.PingPost(RAIT.Example.API.Models.Model)">
-      <summary>[Tested]
+      <summary>
             Submit request to answer
             </summary>
     </member>
@@ -28,81 +28,17 @@
       <summary>
             Some comment
             </summary>
-      <example>321</example>
     </member>
-    <member name="P:RAIT.Example.API.Models.Model.Id">
-      <example>0</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.Model.ModelIncluded" />
-    <member name="P:RAIT.Example.API.Models.Model.ModelIncludeInLists" />
-    <member name="P:RAIT.Example.API.Models.ModelIncluded.Secret">
-      <example>sec</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.ModelIncluded.Uri">
-      <example>https://google.com/news</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.ModelIncludeInList.XSecret2">
-      <example>sec2</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.Model.List">
-      <example>70f178ba-8857-4db1-9ca0-0e6ba0c3de35,60c53f05-1c82-4749-b17b-e36851422261</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.ResponseModel.Id">
-      <example>10</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.Model.EnumList">
-      <example>One,Three</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.Model.Domain">
-      <example>test</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.Model.ExtraField">
-      <example>extra</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.Ok.Success">
-      <example>False</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.ChildResp.BaseProp">
-      <example>123</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.ModelWithNullValues.Id">
-      <example>10</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.DateTimeRequest.DateTime">
-      <example>8/10/2024 2:19:05 AM</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.ArrayValueRequest.Array">
-      <example>075a09dc-c8d1-4e43-942b-2c99b7c2f1f1,1fde5b1c-dc59-43d8-b402-f007d069c87c</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.EnumOk.EnumValue">
-      <example>Test1</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.AttributeModel.Id">
-      <example>test</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.AttributeResponseModel.Id">
-      <example>test</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.InternalModelAttributes.ExternalAccountId">
-      <example>test</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.InternalModelAttributes.Model" />
-    <member name="P:RAIT.Example.API.Models.AttributeResponseModel.Domain">
-      <example>test</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.AttributeResponseModel.ExternalId">
-      <example>x</example>
-    </member>
-    <member name="P:RAIT.Example.API.Models.InternalModelInternalAttributes.Domain">
-      <example>xxxx</example>
+    <member name="M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel)">
+      <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitEmptyResponseController.Post(System.Int64)">
       <summary>[Tested]</summary>
     </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post2(RAIT.Example.API.Models.Model,RAIT.Core.RaitFormFile)">
+    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post(RAIT.Core.RaitFormFile)">
       <summary>[Tested]</summary>
     </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post(RAIT.Core.RaitFormFile)">
+    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Core.RaitFormFile)">
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitTestController.Post(RAIT.Example.API.Models.Model)">
@@ -129,10 +65,19 @@
     <member name="M:RAIT.Example.API.Controllers.RaitActionResultTestController.Post(System.Int32)">
       <summary>[Tested]</summary>
     </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.DeleteQuery(System.Int64)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.FormModelNull(RAIT.Example.API.Models.ModelWithNullValues)">
+      <summary>[Tested]</summary>
+    </member>
     <member name="M:RAIT.Example.API.Controllers.RaitActionRoutingTestController.Get(System.Int32)">
       <summary>[Tested]</summary>
     </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.DeleteQuery(System.Int64)">
+    <member name="M:RAIT.Example.API.Controllers.RaitEnumTestController.Get">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.Get">
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitDerivedResponseController.GetChildResp">
@@ -141,16 +86,13 @@
     <member name="M:RAIT.Example.API.Controllers.RaitFilterTestController.GetReportsResult(System.String,System.String,System.String)">
       <summary>[Tested]</summary>
     </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.FormModelNull(RAIT.Example.API.Models.ModelWithNullValues)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithId(System.Int64)">
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithArray(RAIT.Example.API.Models.ArrayValueRequest)">
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithDate(RAIT.Example.API.Models.DateTimeRequest)">
       <summary>[Tested]</summary>
     </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithArray(RAIT.Example.API.Models.ArrayValueRequest)">
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithId(System.Int64)">
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitNullableTestController.Get">
@@ -160,63 +102,6 @@
       <summary>[Tested]</summary>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery(RAIT.Example.API.Models.Model)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitEnumTestController.Get">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestController.Get">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(RAIT.Example.API.Models.Model,System.Threading.CancellationToken)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.MultipleParametersTestController.Get(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(RAIT.Example.API.Models.InternalModelAttributes)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Core.RaitFormFile)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(System.String,RAIT.Example.API.Models.InternalModelAttributes)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelAttributes,System.Threading.CancellationToken)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelAttributes)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,RAIT.Example.API.Models.InternalModelAttributes)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,RAIT.Example.API.Models.InternalModelAttributes)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,RAIT.Example.API.Models.InternalModelAttributes,System.Threading.CancellationToken)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.InternalModelAttributesController.HttpPost(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Endpoints.ExampleEndpoint.HandleAsync(System.String,RAIT.Example.API.Models.InternalModelInternalAttributes,System.Threading.CancellationToken)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Core.FormFile.RaitFormFile)">
-      <summary>[Tested]</summary>
-    </member>
-    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post(RAIT.Core.FormFile.RaitFormFile)">
       <summary>[Tested]</summary>
     </member>
   </members>

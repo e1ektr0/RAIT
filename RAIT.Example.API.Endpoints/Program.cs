@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using RAIT.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 var services = builder.Services;
 services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
+services.AddSwaggerGen(swaggerGenOptions => swaggerGenOptions.IncludeRaitXml());
 services.AddSwaggerGenNewtonsoftSupport();
 builder.Services.AddControllers(_ => { })
     .AddNewtonsoftJson(options =>
