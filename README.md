@@ -128,6 +128,33 @@ Ensure that the generated XML documentation is copied to the output directory. Y
 
 This will generate example values for your models and place the generated documentation in the `RAIT` folder within your API project.
 
+### **Serialization Settings**
+By default, RAIT uses `System.Text.Json` for serialization and deserialization of HTTP request and response bodies. If your server uses custom `SerializerSettings` or you prefer to use `Newtonsoft.Json`, you need to register RAIT in the dependency injection (DI) container and configure it accordingly.
+
+#### **Custom Serialization Configuration**
+1.**Register RAIT in DI**
+First, add RAIT to the services collection in your test environment setup. This ensures that RAIT is properly registered and can be configured with custom serialization settings.
+```csharp
+private void PrepareEnv(IWebHostBuilder builder)
+{
+    builder.UseEnvironment("Test");
+    builder.ConfigureTestServices(services => services.AddRait());
+}
+```
+2.**Configure RAIT with Custom Serialization Settings**
+After registering RAIT, call the `ConfigureRait` extension method on the service provider to apply your custom serialization settings.
+```csharp
+[SetUp]
+public void Setup()
+{
+    _application = new WebApplicationFactory<Program>()
+        .WithWebHostBuilder(PrepareEnv);
+
+    _defaultClient = _application.CreateDefaultClient();
+    _application.Services.ConfigureRait();
+}
+```
+
 ## Contributing
 We welcome contributions to RAIT! If you find a bug or have a feature request, please open an issue on GitHub. If you would like to contribute code, please fork the repository and submit a pull request.
 
