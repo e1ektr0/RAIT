@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using RAIT.Core;
 using RAIT.Example.API.Controllers;
 using RAIT.Example.API.Models;
@@ -16,12 +17,14 @@ public sealed class RaitTests
     {
         _application = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(PrepareEnv);
-
+        
         _defaultClient = _application.CreateDefaultClient();
+        _application.Services.ConfigureRait();
     }
 
     private void PrepareEnv(IWebHostBuilder builder)
     {
+        builder.ConfigureTestServices(s => s.AddRait());
         builder.UseEnvironment("Test");
     }
 
