@@ -39,7 +39,7 @@ namespace RAIT.Core
             route = route.Replace("[action]", methodInfo.Name);
 
             if (!inputParameters.Any(p => p.IsQuery && p is { Used: false, Value: not null }))
-                return route;
+                return OverrideRoutPrepare(route);
 
             var values = inputParameters
                 .Where(p => p is { IsQuery: true, Used: false, Value: not null })
@@ -50,7 +50,17 @@ namespace RAIT.Core
                 });
             route += "?" + string.Join("&", values);
 
-            return route;
+            return OverrideRoutPrepare(route);
+        }
+
+        private static string OverrideRoutPrepare(string route)
+        {
+            if (!route.Contains("//"))
+                return route;
+
+            var lastIndexOf = route.LastIndexOf("//", StringComparison.Ordinal);
+            var overrideRoutPrepare = route.Substring(lastIndexOf + 1);
+            return overrideRoutPrepare;
         }
 
         private static string BuildRoute(MemberInfo memberInfo, IList<CustomAttributeData> attributes,

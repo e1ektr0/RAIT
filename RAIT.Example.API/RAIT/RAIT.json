@@ -141,6 +141,11 @@
         "Type": "M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery(RAIT.Example.API.Models.Model)",
         "Assembly": "RAIT.Example.API",
         "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitWrongRoutController.Get": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitWrongRoutController.Get",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
       }
     }
   }
