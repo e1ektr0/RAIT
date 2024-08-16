@@ -98,36 +98,6 @@ public class RaitTests : IClassFixture<WebApplicationFactory<Startup>>
 }
 ```
 
-### Experimental Feature: Test to Examples Documentation
-RAIT includes an experimental feature that generates example values for Swagger documentation based on your test code. This feature extracts XML documentation and adds example values for models used in your tests.
-
-#### How to Enable Test to Examples Documentation
-1. **Add XML Documentation to Swagger Configuration**
-Modify your Swagger configuration to include RAIT XML documentation:
-```csharp
-builder.Services.AddSwaggerGen(swaggerGenOptions =>
-{
-   // your swagger configuration code here 
-
-    swaggerGenOptions.IncludeRaitXml(); //call IncludeRaitXml extension
-});
-```
-
-2. Enable RAIT Documentation Configuration in Test Setup
-Call `RaitDocumentationConfig.Enable()` in your test setup to enable this feature:
-```csharp
- [SetUp]
- public void Setup()
- {
-     RaitDocumentationConfig.Enable();
- }
-```
-
-3. **Mark Generated XML as Copy to Output Directory**
-Ensure that the generated XML documentation is copied to the output directory. You can do this by modifying your `.csproj` file.
-
-This will generate example values for your models and place the generated documentation in the `RAIT` folder within your API project.
-
 ### **Serialization Settings**
 By default, RAIT uses `System.Text.Json` for serialization and deserialization of HTTP request and response bodies. If your server uses custom `SerializerSettings` or you prefer to use `Newtonsoft.Json`, you need to register RAIT in the dependency injection (DI) container and configure it accordingly.
 
@@ -154,6 +124,41 @@ public void Setup()
     _application.Services.ConfigureRait();
 }
 ```
+
+### Experimental Feature: Test to Examples Documentation
+RAIT includes an experimental feature that generates example values for Swagger documentation based on your test code. This feature extracts XML documentation and adds example values for models used in your tests.
+
+#### How to Enable Test to Examples Documentation
+1. **Add XML Documentation to Swagger Configuration**
+Modify your Swagger configuration to include RAIT XML documentation:
+```csharp
+builder.Services.AddSwaggerGen(swaggerGenOptions =>
+{
+   // your swagger configuration code here 
+
+    swaggerGenOptions.IncludeRaitXml(); //call IncludeRaitXml extension
+});
+```
+
+2. Enable RAIT Documentation Configuration in Test Setup
+Call  the `ConfigureRait` extension method on the service provider in your test setup with `true` parameter:
+```csharp
+ [SetUp]
+public void Setup()
+{
+    _application = new WebApplicationFactory<Program>()
+        .WithWebHostBuilder(PrepareEnv);
+
+    _defaultClient = _application.CreateDefaultClient();
+    _application.Services.ConfigureRait(true);
+}
+```
+
+3. **Mark Generated XML as Copy to Output Directory**
+Ensure that the generated XML documentation is copied to the output directory. You can do this by modifying your `.csproj` file.
+
+This will generate example values for your models and place the generated documentation in the `RAIT` folder within your API project.
+
 
 ## Contributing
 We welcome contributions to RAIT! If you find a bug or have a feature request, please open an issue on GitHub. If you would like to contribute code, please fork the repository and submit a pull request.
