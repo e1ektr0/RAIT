@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Collections;
+using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,24 +8,24 @@ namespace RAIT.Core;
 internal static class RaitParameterExtractor
 {
     internal static List<InputParameter> PrepareInputParameters<TInput, TOutput>(
-        Expression<Func<TInput, Task<TOutput>>> tree)
+        Expression<Func<TInput, Task<TOutput>>> tree,
+        MethodInfo method)
     {
         var methodBody = tree.Body as MethodCallExpression;
-        return InputParameters(methodBody);
+        return InputParameters(methodBody, method);
     }
 
-    internal static List<InputParameter> PrepareInputParameters<TInput>(
-        Expression<Func<TInput, Task>> tree)
+    internal static List<InputParameter> PrepareInputParameters<TInput>(Expression<Func<TInput, Task>> tree,
+        MethodInfo method)
     {
         var methodBody = tree.Body as MethodCallExpression;
-        return InputParameters(methodBody);
+        return InputParameters(methodBody, method);
     }
 
-    private static List<InputParameter> InputParameters(MethodCallExpression? methodBody)
+    private static List<InputParameter> InputParameters(MethodCallExpression? methodBody, MethodInfo method)
     {
-        var methodInfo = methodBody!.Method;
-        var parameterInfos = methodInfo.GetParameters();
-        var arguments = methodBody.Arguments;
+        var parameterInfos = method.GetParameters();
+        var arguments = methodBody!.Arguments;
 
         var parameters = new List<InputParameter>();
         for (var index = 0; index < arguments.Count; index++)

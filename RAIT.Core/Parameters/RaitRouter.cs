@@ -120,8 +120,7 @@ namespace RAIT.Core
 
             var queryParams = properties
                 .Where(prop => !(prop.Value is IEnumerable) || prop.Value is string)
-                .Select(prop =>
-                    $"{Uri.EscapeDataString(prop.Key)}={ValueToString(prop.Value ?? string.Empty)}")
+                .SelectMany(prop => ValueToString(prop.Value ?? string.Empty, prop))
                 .ToList();
 
             var arrayParams = properties
@@ -133,11 +132,20 @@ namespace RAIT.Core
             return string.Join("&", queryParams);
         }
 
-        private static string ValueToString(object value)
+        private static List<string> ValueToString(object value, KeyValuePair<string, object?> prop)
         {
+            if (!value.GetType().IsPrimitive && value is not DateTime && value is not string)
+            {
+               return value.GetType()
+                    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    .Where(p => p.GetIndexParameters().Length == 0) // Ensure property is not an indexer
+                    .Select(p=> $"{Uri.EscapeDataString(prop.Key)}.{p.Name}={Uri.EscapeDataString(p.GetValue(value)?.ToString()!)}")
+                    .ToList();
+            }
+
             if (value is DateTime dt)
-                return dt.ToString("O");
-            return Uri.EscapeDataString(value.ToString()!);
+                return new List<string> { $"{Uri.EscapeDataString(prop.Key)}={dt:O}" };
+            return new List<string> { $"{Uri.EscapeDataString(prop.Key)}={Uri.EscapeDataString(value.ToString()!)}" };
         }
     }
 }

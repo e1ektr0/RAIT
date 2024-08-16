@@ -107,5 +107,23 @@
     <member name="M:RAIT.Example.API.Controllers.RaitWrongRoutController.Get">
       <summary>[Tested]</summary>
     </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitGetModelController.Ping(System.Int64,System.Collections.Generic.List`1[System.Guid],System.Collections.Generic.List`1[RAIT.Example.API.Models.EnumExample],System.String,System.String,RAIT.Example.API.Models.ModelIncluded,System.Collections.Generic.List`1[RAIT.Example.API.Models.ModelIncludeInList],RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithArray(System.Collections.Generic.IEnumerable`1[System.Guid],RAIT.Example.API.Models.ArrayValueRequest)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithDate(System.DateTime,RAIT.Example.API.Models.DateTimeRequest)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery(System.Int64,System.Collections.Generic.List`1[System.Guid],System.Collections.Generic.List`1[RAIT.Example.API.Models.EnumExample],System.String,System.String,RAIT.Example.API.Models.ModelIncluded,System.Collections.Generic.List`1[RAIT.Example.API.Models.ModelIncludeInList],RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitGetModelController.Ping(System.Int64,System.Collections.Generic.List`1[System.Guid],System.Collections.Generic.List`1[RAIT.Example.API.Models.EnumExample],System.String,RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery(System.Int64,RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
   </members>
 </doc>

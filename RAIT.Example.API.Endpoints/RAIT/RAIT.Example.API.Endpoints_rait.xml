@@ -58,5 +58,20 @@
     <member name="M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)">
       <summary>[Tested]</summary>
     </member>
+    <member name="M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest`1[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(System.String,RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest`1[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(System.String,System.String,System.Int64,System.Nullable`1[System.Boolean],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest`1[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel,System.Int64,System.Nullable`1[System.Boolean],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest`1[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(System.Reflection.MemberTypes,System.String,System.Type,System.Type,System.Int32,System.Reflection.Module,System.Boolean,System.Type,System.Reflection.PropertyAttributes,System.Boolean,System.Boolean,System.Boolean,System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable`1[System.Reflection.CustomAttributeData],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel,System.Reflection.MemberTypes,System.String,System.Type,System.Type,System.Int32,System.Reflection.Module,System.Boolean,System.Type,System.Reflection.PropertyAttributes,System.Boolean,System.Boolean,System.Boolean,System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable`1[System.Reflection.CustomAttributeData],System.Int64,System.Reflection.MemberTypes,System.String,System.Type,System.Type,System.Int32,System.Reflection.Module,System.Boolean,System.Type,System.Reflection.PropertyAttributes,System.Boolean,System.Boolean,System.Boolean,System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable`1[System.Reflection.CustomAttributeData],System.Nullable`1[System.Boolean],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest`1[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])">
+      <summary>[Tested]</summary>
+    </member>
   </members>
 </doc>

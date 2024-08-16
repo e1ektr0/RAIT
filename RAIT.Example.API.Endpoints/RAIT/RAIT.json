@@ -111,6 +111,31 @@
         "Type": "M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)",
         "Assembly": "RAIT.Example.API.Endpoints",
         "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(System.String,RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(System.String,RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(System.String,System.String,System.Int64,System.Nullable\u00601[System.Boolean],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(System.String,System.String,System.Int64,System.Nullable\u00601[System.Boolean],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel,System.Int64,System.Nullable\u00601[System.Boolean],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel,System.Int64,System.Nullable\u00601[System.Boolean],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(System.Reflection.MemberTypes,System.String,System.Type,System.Type,System.Int32,System.Reflection.Module,System.Boolean,System.Type,System.Reflection.PropertyAttributes,System.Boolean,System.Boolean,System.Boolean,System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable\u00601[System.Reflection.CustomAttributeData],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel,System.Reflection.MemberTypes,System.String,System.Type,System.Type,System.Int32,System.Reflection.Module,System.Boolean,System.Type,System.Reflection.PropertyAttributes,System.Boolean,System.Boolean,System.Boolean,System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable\u00601[System.Reflection.CustomAttributeData],System.Int64,System.Reflection.MemberTypes,System.String,System.Type,System.Type,System.Int32,System.Reflection.Module,System.Boolean,System.Type,System.Reflection.PropertyAttributes,System.Boolean,System.Boolean,System.Boolean,System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable\u00601[System.Reflection.CustomAttributeData],System.Nullable\u00601[System.Boolean],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.FromQuery.FromQueryEndpoint.HandleAsync(System.Reflection.MemberTypes,System.String,System.Type,System.Type,System.Int32,System.Reflection.Module,System.Boolean,System.Type,System.Reflection.PropertyAttributes,System.Boolean,System.Boolean,System.Boolean,System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable\u00601[System.Reflection.CustomAttributeData],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel,System.Reflection.MemberTypes,System.String,System.Type,System.Type,System.Int32,System.Reflection.Module,System.Boolean,System.Type,System.Reflection.PropertyAttributes,System.Boolean,System.Boolean,System.Boolean,System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable\u00601[System.Reflection.CustomAttributeData],System.Int64,System.Reflection.MemberTypes,System.String,System.Type,System.Type,System.Int32,System.Reflection.Module,System.Boolean,System.Type,System.Reflection.PropertyAttributes,System.Boolean,System.Boolean,System.Boolean,System.Reflection.MethodInfo,System.Reflection.MethodInfo,System.Collections.Generic.IEnumerable\u00601[System.Reflection.CustomAttributeData],System.Nullable\u00601[System.Boolean],RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel])",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
       }
     }
   }

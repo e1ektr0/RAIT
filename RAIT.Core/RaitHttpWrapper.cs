@@ -25,7 +25,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         var methodInfo = methodBody!.Method;
         var method = typeof(TController).GetMethod(methodBody.Method.Name);
 
-        var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree, method);
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
 
@@ -40,7 +40,7 @@ public class RaitHttpWrapper<TController> where TController : ControllerBase
         var methodInfo = methodBody!.Method;
         var method = typeof(TController).GetMethod(methodBody.Method.Name);
 
-        var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree);
+        var prepareInputParameters = RaitParameterExtractor.PrepareInputParameters(tree, method);
         RaitDocumentationGenerator.Params<TController>(prepareInputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, prepareInputParameters);
 

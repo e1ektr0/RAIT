@@ -28,13 +28,15 @@ public sealed class RaitGetModelTests
     [Test]
     public async Task Ping_ValidModel_ReturnsExpectedResponse()
     {
+        var newGuid = Guid.NewGuid();
+        var guid = Guid.NewGuid();
         var request = new Model
         {
             Id = 1,
             List = new List<Guid>
             {
-                Guid.NewGuid(),
-                Guid.NewGuid()
+                newGuid,
+                guid
             },
             Domain = "google.com",
             EnumList = new List<EnumExample>
@@ -43,7 +45,20 @@ public sealed class RaitGetModelTests
             }
         };
         var response = await _defaultClient.Rait<RaitGetModelController>()
-            .CallR(n => n.Ping(request));
+            .CallR(n => n.Ping(new Model
+            {
+                Id = 1,
+                List = new List<Guid>
+                {
+                    newGuid,
+                    guid
+                },
+                Domain = "google.com",
+                EnumList = new List<EnumExample>
+                {
+                    EnumExample.One, EnumExample.Three
+                }
+            }));
 
         Assert.That(response.Id, Is.EqualTo(request.Id));
         Assert.That(response.List![1], Is.EqualTo(request.List[1]));
