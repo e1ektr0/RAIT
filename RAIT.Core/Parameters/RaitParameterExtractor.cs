@@ -89,16 +89,35 @@ internal static class RaitParameterExtractor
                 {
                     if (IsParameter(fieldInfo.CustomAttributes))
                     {
-                        result.Add(new InputParameter
+                        var isQuery =
+                            fieldInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute));
+                        var o = fieldInfo.GetValue(value);
+                        if (o != null && isQuery && !IsValueParameter(o.GetType()) && !o.GetType().IsArray)
                         {
-                            Value = fieldInfo.GetValue(value),
-                            Name = fieldInfo.Name,
-                            IsQuery =
-                                fieldInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute)),
-                            IsForm = fieldInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromFormAttribute)),
-                            IsBody = fieldInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromBodyAttribute)),
-                            Type = fieldInfo.PropertyType
-                        });
+                            result.AddRange(o.GetType()
+                                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                                .Where(p => p.GetIndexParameters().Length == 0) // Ensure property is not an indexer
+                                .Select(p => new InputParameter
+                                {
+                                    Value = p.GetValue(o)?.ToString(),
+                                    Name = $"{fieldInfo.Name}.{p.Name}",
+                                    IsQuery = true,
+                                    Type = p.PropertyType
+                                }));
+                        }
+                        else
+                            result.Add(new InputParameter
+                            {
+                                Value = o,
+                                Name = fieldInfo.Name,
+                                IsQuery =
+                                    isQuery,
+                                IsForm = fieldInfo.CustomAttributes.Any(n =>
+                                    n.AttributeType == typeof(FromFormAttribute)),
+                                IsBody = fieldInfo.CustomAttributes.Any(n =>
+                                    n.AttributeType == typeof(FromBodyAttribute)),
+                                Type = fieldInfo.PropertyType
+                            });
                     }
                 }
             }

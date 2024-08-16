@@ -42,7 +42,11 @@ public class SimpleEndpointsTests
             .CallR(n => n.HandleAsync(new AggregatedGetRequest
             {
                 ValueStr = "val",
-                ExternalAccountId = "ext"
+                ExternalAccountId = "ext",
+                Model = new FromInternalModel
+                {
+                    Test = "test"
+                }
             }, new CancellationToken()));
 
         Assert.That(actionResult.Value!.ValueStr, Is.EqualTo("val"));

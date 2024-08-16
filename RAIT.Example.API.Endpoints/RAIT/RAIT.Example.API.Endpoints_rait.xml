@@ -49,5 +49,14 @@
     <member name="M:RAIT.Example.API.Endpoints.Endpoints.Simple.SimpleEndpoint.HandleAsync">
       <summary>[Tested]</summary>
     </member>
+    <member name="M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.FromInternalModel,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.Int32,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.FromInternalModel,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)">
+      <summary>[Tested]</summary>
+    </member>
   </members>
 </doc>

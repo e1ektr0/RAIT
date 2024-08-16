@@ -47,7 +47,7 @@ namespace RAIT.Core
                 {
                     p.Used = true;
                     return PrepareValueToQuery(p, p.Name);
-                });
+                }).ToList();
             route += "?" + string.Join("&", values);
 
             return OverrideRoutPrepare(route);

@@ -96,6 +96,21 @@
         "Type": "M:RAIT.Example.API.Endpoints.Endpoints.Simple.SimpleEndpoint.HandleAsync",
         "Assembly": "RAIT.Example.API.Endpoints",
         "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.FromInternalModel,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.FromInternalModel,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.Int32,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.FromInternalModel,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.Int32,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.FromInternalModel,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.Simple.GetEndpoint.HandleAsync(System.String,System.String,System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest)",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
       }
     }
   }

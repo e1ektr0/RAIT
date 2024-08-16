@@ -13,6 +13,10 @@ public class GetEndpoint : EndpointBaseAsync
         CancellationToken cancellationToken = new())
     {
         await Task.CompletedTask;
+        if (request.Model?.Test != "test")
+        {
+            throw new Exception();
+        }
         var responseDto = new ResponseDto(request.ExternalAccountId, request.ValueStr);
         return new ActionResult<ResponseDto>(responseDto);
     }
