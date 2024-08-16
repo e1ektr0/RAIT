@@ -15,7 +15,7 @@ public class SerializationConfigurationManager
     private readonly IOptions<MvcNewtonsoftJsonOptions> _newtonsoftJsonOptions;
 
     public SerializationConfigurationManager(
-        IActionResultExecutor<JsonResult> jsonResultExecutor, 
+        IActionResultExecutor<JsonResult> jsonResultExecutor,
         IOptions<JsonOptions> systemTextJsonOptions,
         IOptions<MvcNewtonsoftJsonOptions> newtonsoftJsonOptions)
     {
@@ -45,8 +45,10 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static void ConfigureRait(this IServiceProvider serviceProvider)
+    public static void ConfigureRait(this IServiceProvider serviceProvider, bool enableDocumentationGeneration = false)
     {
+        if (enableDocumentationGeneration)
+            RaitDocumentationConfig.Enable();
         var serializationConfigManager = serviceProvider.GetRequiredService<SerializationConfigurationManager>();
         serializationConfigManager.Configure();
     }

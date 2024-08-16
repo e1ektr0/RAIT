@@ -1,6 +1,6 @@
 ﻿namespace RAIT.Core;
 
-public static class RaitDocumentationConfig
+internal static class RaitDocumentationConfig
 {
     public static void Enable()
     {
