@@ -15,6 +15,19 @@ namespace RAIT.Core
             return GenerateRoute<TController>(inputParameters, methodCall);
         }
 
+        internal static string PrepareRoute<TController, TOutput>(
+            Expression<Func<TController, TOutput>> expression, List<InputParameter> inputParameters)
+        {
+            var methodCall = expression.Body as MethodCallExpression;
+            return GenerateRoute<TController>(inputParameters, methodCall);
+        }
+        internal static string PrepareRoute<TController>(
+            Expression<Func<TController>> expression, List<InputParameter> inputParameters)
+        {
+            var methodCall = expression.Body as MethodCallExpression;
+            return GenerateRoute<TController>(inputParameters, methodCall);
+        }
+
         internal static string PrepareRoute<TController>(Expression<Func<TController, Task>> expression,
             List<InputParameter> inputParameters)
         {
@@ -136,10 +149,11 @@ namespace RAIT.Core
         {
             if (!value.GetType().IsPrimitive && value is not DateTime && value is not string)
             {
-               return value.GetType()
+                return value.GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     .Where(p => p.GetIndexParameters().Length == 0) // Ensure property is not an indexer
-                    .Select(p=> $"{Uri.EscapeDataString(prop.Key)}.{p.Name}={Uri.EscapeDataString(p.GetValue(value)?.ToString()!)}")
+                    .Select(p =>
+                        $"{Uri.EscapeDataString(prop.Key)}.{p.Name}={Uri.EscapeDataString(p.GetValue(value)?.ToString()!)}")
                     .ToList();
             }
 

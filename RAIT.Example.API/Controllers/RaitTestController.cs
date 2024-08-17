@@ -40,6 +40,15 @@ public class RaitTestController : ControllerBase
             throw new Exception("Wrong value");
         return new Ok();
     }
+    
+    [Route("sync_put")]
+    [HttpPut]
+    public Ok SyncPut([FromQuery] Model model)
+    {
+        if (model.Id != 10)
+            throw new Exception("Wrong value");
+        return new Ok();
+    }
 
     [Route("delete_query_test")]
     [HttpDelete]

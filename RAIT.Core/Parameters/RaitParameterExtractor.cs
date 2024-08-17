@@ -14,6 +14,22 @@ internal static class RaitParameterExtractor
         return ExtractMethodParameters(methodCallExpression, method);
     }
 
+    internal static List<InputParameter> ExtractParameters<TInput, TOutput>(
+        Expression<Func<TInput, TOutput>> expressionTree,
+        MethodInfo method)
+    {
+        var methodCallExpression = (MethodCallExpression)expressionTree.Body;
+        return ExtractMethodParameters(methodCallExpression, method);
+    }
+
+    internal static List<InputParameter> ExtractParameters<TInput>(
+        Expression<Func<TInput>> expressionTree,
+        MethodInfo method)
+    {
+        var methodCallExpression = (MethodCallExpression)expressionTree.Body;
+        return ExtractMethodParameters(methodCallExpression, method);
+    }
+
     internal static List<InputParameter> ExtractParameters<TInput>(
         Expression<Func<TInput, Task>> expressionTree,
         MethodInfo method)
@@ -135,9 +151,9 @@ internal static class RaitParameterExtractor
 
     private static IEnumerable<InputParameter> CreateParameterSetForProperty(PropertyInfo property, object? value)
     {
-        if (value == null) 
+        if (value == null)
             return Enumerable.Empty<InputParameter>();
-        
+
         var isQueryParameter = IsPotentialQueryParameter(property.CustomAttributes);
         if (isQueryParameter && !IsSimpleType(value.GetType()))
         {
@@ -167,7 +183,6 @@ internal static class RaitParameterExtractor
                 Type = property.PropertyType
             }
         };
-
     }
 
     private static InputParameter CreateBasicInputParameter(ParameterInfo parameterInfo, object? value)

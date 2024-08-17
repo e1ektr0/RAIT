@@ -326,6 +326,11 @@
         "Type": "M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model,RAIT.Core.RaitFormFile,Microsoft.AspNetCore.Http.IFormFile)",
         "Assembly": "RAIT.Example.API",
         "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestController.SyncPut(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestController.SyncPut(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
       }
     }
   }

@@ -17,7 +17,7 @@ public sealed class RaitTests
     {
         _application = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(PrepareEnv);
-        
+
         _defaultClient = _application.CreateDefaultClient();
         _application.Services.ConfigureRait();
     }
@@ -48,6 +48,13 @@ public sealed class RaitTests
     {
         var model = new Model { Id = 10 };
         await _defaultClient.Rait<RaitTestController>().Call(n => n.PutFromQuery(model));
+    }
+
+    [Test]
+    public void SyncPut_ValidModel_PerformsPutOperation()
+    {
+        var model = new Model { Id = 10 };
+        _defaultClient.Rait<RaitTestController>().Call(n => n.SyncPut(model));
     }
 
     [Test]

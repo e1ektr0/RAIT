@@ -207,5 +207,8 @@
     <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model,RAIT.Core.RaitFormFile,Microsoft.AspNetCore.Http.IFormFile)">
       <summary>[Tested]</summary>
     </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.SyncPut(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
   </members>
 </doc>
