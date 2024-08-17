@@ -2,13 +2,12 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace RAIT.Core;
 
-public class SerializationConfigurationManager
+internal class SerializationConfigurationManager
 {
     private readonly IActionResultExecutor<JsonResult> _jsonResultExecutor;
     private readonly IOptions<JsonOptions> _systemTextJsonOptions;
@@ -24,7 +23,7 @@ public class SerializationConfigurationManager
         _newtonsoftJsonOptions = newtonsoftJsonOptions;
     }
 
-    public void Configure()
+    internal void Configure()
     {
         if (_jsonResultExecutor.GetType().Name.Contains("Newtonsoft"))
         {
@@ -37,24 +36,7 @@ public class SerializationConfigurationManager
     }
 }
 
-public static class ServiceCollectionExtensions
-{
-    public static IServiceCollection AddRait(this IServiceCollection services)
-    {
-        services.AddSingleton<SerializationConfigurationManager>();
-        return services;
-    }
-
-    public static void ConfigureRait(this IServiceProvider serviceProvider, bool enableDocumentationGeneration = false)
-    {
-        if (enableDocumentationGeneration)
-            RaitDocumentationConfig.Enable();
-        var serializationConfigManager = serviceProvider.GetRequiredService<SerializationConfigurationManager>();
-        serializationConfigManager.Configure();
-    }
-}
-
-public static class RaitSerializationConfig
+internal static class RaitSerializationConfig
 {
     internal static JsonSerializerOptions? SerializationOptions { get; set; }
     private static JsonSerializerSettings? SerializerSettings { get; set; }

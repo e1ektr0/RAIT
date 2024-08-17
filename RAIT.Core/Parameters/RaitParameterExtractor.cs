@@ -135,40 +135,39 @@ internal static class RaitParameterExtractor
 
     private static IEnumerable<InputParameter> CreateParameterSetForProperty(PropertyInfo property, object? value)
     {
-        if (value != null)
+        if (value == null) 
+            return Enumerable.Empty<InputParameter>();
+        
+        var isQueryParameter = IsPotentialQueryParameter(property.CustomAttributes);
+        if (isQueryParameter && !IsSimpleType(value.GetType()))
         {
-            var isQueryParameter = IsPotentialQueryParameter(property.CustomAttributes);
-            if (isQueryParameter && !IsSimpleType(value.GetType()))
-            {
-                return value.GetType()
-                    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .Where(p => p.GetIndexParameters().Length == 0) // Ensure property is not an indexer
-                    .Select(p => new InputParameter
-                    {
-                        Value = p.GetValue(value)?.ToString(),
-                        Name = $"{property.Name}.{p.Name}",
-                        IsQuery = true,
-                        Type = p.PropertyType
-                    });
-            }
-
-            var isForm = property.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromFormAttribute));
-            var isBody = property.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromBodyAttribute));
-            return new List<InputParameter>
-            {
-                new()
+            return value.GetType()
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(p => p.GetIndexParameters().Length == 0) // Ensure property is not an indexer
+                .Select(p => new InputParameter
                 {
-                    Value = value,
-                    Name = property.Name,
-                    IsQuery = isQueryParameter,
-                    IsForm = isForm,
-                    IsBody = isBody,
-                    Type = property.PropertyType
-                }
-            };
+                    Value = p.GetValue(value)?.ToString(),
+                    Name = $"{property.Name}.{p.Name}",
+                    IsQuery = true,
+                    Type = p.PropertyType
+                });
         }
 
-        return Enumerable.Empty<InputParameter>();
+        var isForm = property.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromFormAttribute));
+        var isBody = property.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromBodyAttribute));
+        return new List<InputParameter>
+        {
+            new()
+            {
+                Value = value,
+                Name = property.Name,
+                IsQuery = isQueryParameter,
+                IsForm = isForm,
+                IsBody = isBody,
+                Type = property.PropertyType
+            }
+        };
+
     }
 
     private static InputParameter CreateBasicInputParameter(ParameterInfo parameterInfo, object? value)
