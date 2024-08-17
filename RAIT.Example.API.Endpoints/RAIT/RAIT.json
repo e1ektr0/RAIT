@@ -62,6 +62,63 @@
         "Type": "P:RAIT.Example.API.Endpoints.Endpoints.Simple.Models.ResponseDto.ValueStr",
         "Assembly": "RAIT.Example.API.Endpoints",
         "Value": "val"
+      },
+      "P:RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel].Origin": {
+        "Type": "P:RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel].Origin",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
+      },
+      "P:RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel].TimeoutMilliseconds": {
+        "Type": "P:RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel].TimeoutMilliseconds",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": "1"
+      },
+      "P:RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel].UseSynchronousExecution": {
+        "Type": "P:RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest\u00601[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel].UseSynchronousExecution",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": "False"
+      }
+    },
+    "System.Private.CoreLib": {
+      "P:System.DateOnly.MinValue": {
+        "Type": "P:System.DateOnly.MinValue",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "1/1/0001"
+      },
+      "P:System.DateOnly.MaxValue": {
+        "Type": "P:System.DateOnly.MaxValue",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "12/31/9999"
+      },
+      "P:System.DateOnly.Year": {
+        "Type": "P:System.DateOnly.Year",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "1"
+      },
+      "P:System.DateOnly.Month": {
+        "Type": "P:System.DateOnly.Month",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "1"
+      },
+      "P:System.DateOnly.Day": {
+        "Type": "P:System.DateOnly.Day",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "1"
+      },
+      "P:System.DateOnly.DayOfWeek": {
+        "Type": "P:System.DateOnly.DayOfWeek",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "Monday"
+      },
+      "P:System.DateOnly.DayOfYear": {
+        "Type": "P:System.DateOnly.DayOfYear",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "1"
+      },
+      "P:System.DateOnly.DayNumber": {
+        "Type": "P:System.DateOnly.DayNumber",
+        "Assembly": "System.Private.CoreLib",
+        "Value": "0"
       }
     }
   },

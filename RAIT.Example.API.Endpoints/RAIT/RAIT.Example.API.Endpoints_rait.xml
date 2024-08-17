@@ -31,6 +31,13 @@
     <member name="P:RAIT.Example.API.Endpoints.Endpoints.Simple.Models.ResponseDto.ValueStr">
       <example>val</example>
     </member>
+    <member name="P:RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest`1[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel].Origin" />
+    <member name="P:RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest`1[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel].TimeoutMilliseconds">
+      <example>1</example>
+    </member>
+    <member name="P:RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.OperationRequest`1[RAIT.Example.API.Endpoints.Endpoints.FromQuery.Models.CompanyModel].UseSynchronousExecution">
+      <example>False</example>
+    </member>
     <member name="M:RAIT.Example.API.Endpoints.Endpoints.ActionResults.SimpleEndpoint.HandleAsync">
       <summary>[Tested]</summary>
     </member>
