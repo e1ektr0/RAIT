@@ -16,13 +16,9 @@ public static class RaitSwaggerConfigExtension
             .Where(assembly => assembly.Name != null)
             .Select(assembly =>
                 Path.Combine(AppContext.BaseDirectory, Path.Combine("RAIT", $"{assembly.Name}_rait.xml"))).ToList();
-        RaitLogger.Log("Files", files);
         var referencedProjectsXmlDocPaths = files
             .Where(File.Exists).ToList();
-        RaitLogger.Log("referencedProjectsXmlDocPaths", referencedProjectsXmlDocPaths);
 
-        Directory.GetFiles(AppContext.BaseDirectory, "real Files base:");
-        Directory.GetFiles(Path.Combine(AppContext.BaseDirectory, "RAIT"), "rait real Files:");
         foreach (var xmlDocPath in referencedProjectsXmlDocPaths)
         {
             swaggerGenOptions.IncludeXmlComments(xmlDocPath);
