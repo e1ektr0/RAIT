@@ -10,7 +10,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static void ConfigureRait(this IServiceProvider serviceProvider, bool enableDocumentationGeneration = true)
+    public static void ConfigureRait(this IServiceProvider serviceProvider, bool enableDocumentationGeneration = false)
     {
         if (enableDocumentationGeneration)
             RaitDocumentationConfig.Enable();
