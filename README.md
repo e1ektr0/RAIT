@@ -144,7 +144,7 @@ builder.Services.AddSwaggerGen(swaggerGenOptions =>
 2. Enable RAIT Documentation Configuration in Test Setup
 Call  the `ConfigureRait` extension method on the service provider in your test setup with `true` parameter:
 ```csharp
- [SetUp]
+[SetUp]
 public void Setup()
 {
     _application = new WebApplicationFactory<Program>()
