@@ -2,6 +2,9 @@
 
 RAIT (REST API Integration Testing) is an open-source library designed to simplify and streamline the process of testing REST APIs. By leveraging expression trees, RAIT allows you to make strongly typed action calls that are translated into HTTP requests. This ensures type safety and reduces the likelihood of errors in your tests.
 
+> [!IMPORTANT]
+> **`RAIT` operates via `HttpClient` and works seamlessly with `WebApplicationFactory< T >`.**
+
 ## Features:
 - **Strongly Typed Action Calls**: Use C# expression trees to define your API calls.
 - **Type Safety**: Compile-time checking of your API calls to ensure correctness.
