@@ -21,7 +21,7 @@ namespace RAIT.Core
         {
             var files = Directory.GetFiles(AppContext.BaseDirectory);
             var dlls = files.Where(n => n.EndsWith(".dll"));
-            var xmlDocs = files.Where(n => n.EndsWith(".xml") 
+            var xmlDocs = files.Where(n => n.EndsWith(".xml")
                                            && dlls.Contains(n.Replace(".xml", ".dll")));
 
             foreach (var xmlDocFilePath in xmlDocs)
@@ -191,7 +191,8 @@ namespace RAIT.Core
                              .Where(p => p.GetIndexParameters().Length == 0))
                 {
                     if (propertyInfo.GetCustomAttribute<RaitDocIgnoreAttribute>() != null) continue;
-
+                    if (parameter.Value == null)
+                        continue;
                     var value = propertyInfo.GetValue(parameter.Value);
                     if (value == null) continue;
 

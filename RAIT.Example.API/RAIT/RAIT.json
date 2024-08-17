@@ -1,5 +1,60 @@
 {
-  "PropertyExamples": {},
+  "PropertyExamples": {
+    "Microsoft.AspNetCore.Mvc.Core": {
+      "P:Microsoft.AspNetCore.Mvc.OkResult.StatusCode": {
+        "Type": "P:Microsoft.AspNetCore.Mvc.OkResult.StatusCode",
+        "Assembly": "Microsoft.AspNetCore.Mvc.Core",
+        "Value": "200"
+      }
+    },
+    "RAIT.Example.API": {
+      "P:RAIT.Example.API.Models.Ok.Success": {
+        "Type": "P:RAIT.Example.API.Models.Ok.Success",
+        "Assembly": "RAIT.Example.API",
+        "Value": "False"
+      },
+      "P:RAIT.Example.API.Models.EnumOk.EnumValue": {
+        "Type": "P:RAIT.Example.API.Models.EnumOk.EnumValue",
+        "Assembly": "RAIT.Example.API",
+        "Value": "Test1"
+      },
+      "P:RAIT.Example.API.Models.ChildResp.ChildProp": {
+        "Type": "P:RAIT.Example.API.Models.ChildResp.ChildProp",
+        "Assembly": "RAIT.Example.API",
+        "Value": "321"
+      },
+      "P:RAIT.Example.API.Models.ChildResp.BaseProp": {
+        "Type": "P:RAIT.Example.API.Models.ChildResp.BaseProp",
+        "Assembly": "RAIT.Example.API",
+        "Value": "123"
+      },
+      "P:RAIT.Example.API.Models.ModelWithNullValues.Id": {
+        "Type": "P:RAIT.Example.API.Models.ModelWithNullValues.Id",
+        "Assembly": "RAIT.Example.API",
+        "Value": "10"
+      },
+      "P:RAIT.Example.API.Models.ResponseModel.Id": {
+        "Type": "P:RAIT.Example.API.Models.ResponseModel.Id",
+        "Assembly": "RAIT.Example.API",
+        "Value": "10"
+      },
+      "P:RAIT.Example.API.Models.ArrayValueRequest.Array": {
+        "Type": "P:RAIT.Example.API.Models.ArrayValueRequest.Array",
+        "Assembly": "RAIT.Example.API",
+        "Value": "f9f95c2c-2d2d-4825-9152-a3d3f3d086e9,4cbf485b-6add-4a5d-8102-d286eb3c4f44"
+      },
+      "P:RAIT.Example.API.Models.DateTimeRequest.DateTime": {
+        "Type": "P:RAIT.Example.API.Models.DateTimeRequest.DateTime",
+        "Assembly": "RAIT.Example.API",
+        "Value": "8/17/2024 3:39:04 PM"
+      },
+      "P:RAIT.Example.API.Models.Model.Id": {
+        "Type": "P:RAIT.Example.API.Models.Model.Id",
+        "Assembly": "RAIT.Example.API",
+        "Value": "10"
+      }
+    }
+  },
   "Methods": {
     "RAIT.Example.API": {
       "M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel)": {

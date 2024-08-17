@@ -28,6 +28,31 @@
       <summary>
             Some comment
             </summary>
+      <example>321</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.Ok.Success">
+      <example>False</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.EnumOk.EnumValue">
+      <example>Test1</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.ChildResp.BaseProp">
+      <example>123</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.ModelWithNullValues.Id">
+      <example>10</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.ResponseModel.Id">
+      <example>10</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.ArrayValueRequest.Array">
+      <example>f9f95c2c-2d2d-4825-9152-a3d3f3d086e9,4cbf485b-6add-4a5d-8102-d286eb3c4f44</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.DateTimeRequest.DateTime">
+      <example>8/17/2024 3:39:04 PM</example>
+    </member>
+    <member name="P:RAIT.Example.API.Models.Model.Id">
+      <example>10</example>
     </member>
     <member name="M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel)">
       <summary>[Tested]</summary>
