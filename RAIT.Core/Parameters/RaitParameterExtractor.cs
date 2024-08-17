@@ -6,147 +6,208 @@ namespace RAIT.Core;
 
 internal static class RaitParameterExtractor
 {
-    internal static List<InputParameter> PrepareInputParameters<TInput, TOutput>(
-        Expression<Func<TInput, Task<TOutput>>> tree,
+    internal static List<InputParameter> ExtractParameters<TInput, TOutput>(
+        Expression<Func<TInput, Task<TOutput>>> expressionTree,
         MethodInfo method)
     {
-        var methodBody = tree.Body as MethodCallExpression;
-        return InputParameters(methodBody, method);
+        var methodCallExpression = (MethodCallExpression)expressionTree.Body;
+        return ExtractMethodParameters(methodCallExpression, method);
     }
 
-    internal static List<InputParameter> PrepareInputParameters<TInput>(Expression<Func<TInput, Task>> tree,
+    internal static List<InputParameter> ExtractParameters<TInput>(
+        Expression<Func<TInput, Task>> expressionTree,
         MethodInfo method)
     {
-        var methodBody = tree.Body as MethodCallExpression;
-        return InputParameters(methodBody, method);
+        var methodCallExpression = (MethodCallExpression)expressionTree.Body;
+        return ExtractMethodParameters(methodCallExpression, method);
     }
 
-    private static List<InputParameter> InputParameters(MethodCallExpression? methodBody, MethodInfo method)
+    private static List<InputParameter> ExtractMethodParameters(MethodCallExpression methodCallExpression,
+        MethodInfo method)
     {
-        var parameterInfos = method.GetParameters();
-        var arguments = methodBody!.Arguments;
-
         var parameters = new List<InputParameter>();
-        for (var index = 0; index < arguments.Count; index++)
+        var methodParameters = method.GetParameters();
+        var argumentExpressions = methodCallExpression.Arguments;
+
+        for (var i = 0; i < argumentExpressions.Count; i++)
         {
-            var arg = arguments[index];
-            var parameterInfo = parameterInfos[index];
-            switch (arg)
-            {
-                case MemberInitExpression:
-                    var func = Expression.Lambda<Func<object>>(arg).Compile();
-                    var o = func();
-                    parameters.AddRange(CreateParameter(parameterInfo, o));
-                    break;
-                case MemberExpression methodBodyArgument:
-                {
-                    var value = GetValue(methodBodyArgument);
-                    if (value == null)
-                        continue;
-                    parameters.AddRange(CreateParameter(parameterInfo, value));
-                    break;
-                }
-                case ConstantExpression constantExpression:
-                {
-                    var value = constantExpression.Value;
-                    if (value == null)
-                        continue;
-                    parameters.AddRange(CreateParameter(parameterInfo, value));
-                    break;
-                }
-            }
+            var argumentExpression = argumentExpressions[i];
+            var methodParameter = methodParameters[i];
+            parameters.AddRange(EvaluateArgumentExpression(methodParameter, argumentExpression));
         }
 
         return parameters;
     }
 
-    private static bool IsParameter(IEnumerable<CustomAttributeData> attributes)
+    private static IEnumerable<InputParameter> EvaluateArgumentExpression(ParameterInfo parameterInfo,
+        Expression arg)
     {
-        return attributes.Any(n =>
-            n.AttributeType == typeof(FromQueryAttribute) ||
-            n.AttributeType == typeof(FromFormAttribute) ||
-            n.AttributeType == typeof(FromRouteAttribute) ||
-            n.AttributeType == typeof(FromBodyAttribute));
-    }
-
-    private static bool IsValueParameter(Type type)
-    {
-        return type.IsValueType || type == typeof(string);
-    }
-
-    private static List<InputParameter> CreateParameter(ParameterInfo info, object? value)
-    {
-        var result = new List<InputParameter>();
-        var type = value?.GetType()!;
-        var isValueParameter = IsValueParameter(type);
-
-        if (!IsParameter(info.CustomAttributes) && !isValueParameter)
+        IEnumerable<InputParameter> result = arg switch
         {
-            if (value != null)
-            {
-                var fieldInfos = value.GetType().GetProperties();
-                foreach (var fieldInfo in fieldInfos)
-                {
-                    if (IsParameter(fieldInfo.CustomAttributes))
-                    {
-                        var isQuery =
-                            fieldInfo.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute));
-                        var o = fieldInfo.GetValue(value);
-                        if (o != null && isQuery && !IsValueParameter(o.GetType()) && !o.GetType().IsArray)
-                        {
-                            result.AddRange(o.GetType()
-                                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                                .Where(p => p.GetIndexParameters().Length == 0) // Ensure property is not an indexer
-                                .Select(p => new InputParameter
-                                {
-                                    Value = p.GetValue(o)?.ToString(),
-                                    Name = $"{fieldInfo.Name}.{p.Name}",
-                                    IsQuery = true,
-                                    Type = p.PropertyType
-                                }));
-                        }
-                        else
-                            result.Add(new InputParameter
-                            {
-                                Value = o,
-                                Name = fieldInfo.Name,
-                                IsQuery =
-                                    isQuery,
-                                IsForm = fieldInfo.CustomAttributes.Any(n =>
-                                    n.AttributeType == typeof(FromFormAttribute)),
-                                IsBody = fieldInfo.CustomAttributes.Any(n =>
-                                    n.AttributeType == typeof(FromBodyAttribute)),
-                                Type = fieldInfo.PropertyType
-                            });
-                    }
-                }
-            }
+            MemberInitExpression => ExtractParametersFromMemberInitExpression(parameterInfo, arg),
+            MemberExpression memberExpr => ExtractParametersFromMemberExpression(parameterInfo, memberExpr),
+            ConstantExpression constantExpr => ExtractParametersFromConstantExpression(parameterInfo, constantExpr),
+            _ => Enumerable.Empty<InputParameter>()
+        };
+
+        var argumentExpression = result.ToList();
+        return argumentExpression.Any(p => p.IsBody)
+            ? argumentExpression
+            : UpdateQueryParameters(parameterInfo, argumentExpression);
+    }
+
+    private static IEnumerable<InputParameter> ExtractParametersFromMemberInitExpression(
+        ParameterInfo parameterInfo, Expression arg)
+    {
+        var lambda = Expression.Lambda<Func<object>>(arg);
+        var compiledLambda = lambda.Compile();
+        var value = compiledLambda();
+
+        return CreateInputParametersFromValue(parameterInfo, value);
+    }
+
+    private static IEnumerable<InputParameter> ExtractParametersFromMemberExpression(ParameterInfo parameterInfo,
+        MemberExpression memberExpr)
+    {
+        var value = ExtractValueFromExpression(memberExpr);
+        return CreateInputParametersFromValue(parameterInfo, value);
+    }
+
+    private static IEnumerable<InputParameter> ExtractParametersFromConstantExpression(ParameterInfo parameterInfo,
+        ConstantExpression constantExpr)
+    {
+        var value = constantExpr.Value;
+        return value != null
+            ? CreateInputParametersFromValue(parameterInfo, value)
+            : Enumerable.Empty<InputParameter>();
+    }
+
+    private static object ExtractValueFromExpression(MemberExpression memberExpression)
+    {
+        var convertedExpression = Expression.Convert(memberExpression, typeof(object));
+        var getterLambda = Expression.Lambda<Func<object>>(convertedExpression);
+        var getter = getterLambda.Compile();
+        return getter();
+    }
+
+    private static List<InputParameter> CreateInputParametersFromValue(ParameterInfo parameterInfo, object? value)
+    {
+        var inputParameters = new List<InputParameter>();
+
+        if (value != null && IsComplexParameter(value) && !IsHttpParameter(parameterInfo.CustomAttributes) &&
+            value.GetType() != typeof(RaitFormFile))
+        {
+            inputParameters.AddRange(
+                from property in value.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                where property.GetIndexParameters().Length == 0
+                let propertyValue = property.GetValue(value)
+                from parameter in CreateParameterSetForProperty(property, propertyValue)
+                select parameter);
+        }
+        else
+        {
+            inputParameters.Add(CreateBasicInputParameter(parameterInfo, value));
         }
 
-        if (result.Any(n => n.IsBody))
-            return result;
-
-        result.Add(new InputParameter
-        {
-            Value = value,
-            Name = info.Name!,
-            IsQuery = info.CustomAttributes.Any(n => n.AttributeType == typeof(FromQueryAttribute)) ||
-                      isValueParameter,
-            IsForm = info.CustomAttributes.Any(n => n.AttributeType == typeof(FromFormAttribute)),
-            Type = type
-        });
-        return result;
+        return inputParameters;
     }
 
-    // ReSharper disable once ReturnTypeCanBeNotNullable
-    private static object? GetValue(MemberExpression member)
+    private static bool IsHttpParameter(IEnumerable<CustomAttributeData> customAttributes)
     {
-        var objectMember = Expression.Convert(member, typeof(object));
+        return customAttributes.Any(attr => attr.AttributeType == typeof(FromQueryAttribute) ||
+                                            attr.AttributeType == typeof(FromFormAttribute) ||
+                                            attr.AttributeType == typeof(FromRouteAttribute) ||
+                                            attr.AttributeType == typeof(FromBodyAttribute));
+    }
 
-        var getterLambda = Expression.Lambda<Func<object>>(objectMember);
+    private static bool IsSimpleType(Type type) => type.IsValueType || type == typeof(string);
 
-        var getter = getterLambda.Compile();
+    private static bool IsPotentialQueryParameter(IEnumerable<CustomAttributeData> customAttributes)
+    {
+        return customAttributes.Any(attr => attr.AttributeType == typeof(FromQueryAttribute));
+    }
 
-        return getter();
+    private static bool IsComplexParameter(object parameterValue)
+    {
+        var parameterType = parameterValue.GetType();
+        return !IsSimpleType(parameterType) && !parameterType.IsArray;
+    }
+
+    private static IEnumerable<InputParameter> CreateParameterSetForProperty(PropertyInfo property, object? value)
+    {
+        if (value != null)
+        {
+            var isQueryParameter = IsPotentialQueryParameter(property.CustomAttributes);
+            if (isQueryParameter && !IsSimpleType(value.GetType()))
+            {
+                return value.GetType()
+                    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    .Where(p => p.GetIndexParameters().Length == 0) // Ensure property is not an indexer
+                    .Select(p => new InputParameter
+                    {
+                        Value = p.GetValue(value)?.ToString(),
+                        Name = $"{property.Name}.{p.Name}",
+                        IsQuery = true,
+                        Type = p.PropertyType
+                    });
+            }
+
+            var isForm = property.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromFormAttribute));
+            var isBody = property.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromBodyAttribute));
+            return new List<InputParameter>
+            {
+                new()
+                {
+                    Value = value,
+                    Name = property.Name,
+                    IsQuery = isQueryParameter,
+                    IsForm = isForm,
+                    IsBody = isBody,
+                    Type = property.PropertyType
+                }
+            };
+        }
+
+        return Enumerable.Empty<InputParameter>();
+    }
+
+    private static InputParameter CreateBasicInputParameter(ParameterInfo parameterInfo, object? value)
+    {
+        var isSimple = IsSimpleType(parameterInfo.ParameterType);
+        var isQuery =
+            parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromQueryAttribute)) ||
+            isSimple;
+
+        return new InputParameter
+        {
+            Value = value,
+            Name = parameterInfo.Name!,
+            IsQuery = isQuery,
+            IsForm = parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromFormAttribute)),
+            Type = value?.GetType() ?? parameterInfo.ParameterType
+        };
+    }
+
+    private static IEnumerable<InputParameter> UpdateQueryParameters(ParameterInfo parameterInfo,
+        IEnumerable<InputParameter> parameters)
+    {
+        var updatedParameters = parameters.ToList();
+        if (updatedParameters.Any(param => param.IsBody))
+        {
+            return updatedParameters;
+        }
+
+        updatedParameters.Add(new InputParameter
+        {
+            Value = null,
+            Name = parameterInfo.Name!,
+            IsQuery =
+                parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromQueryAttribute)) ||
+                IsSimpleType(parameterInfo.ParameterType),
+            IsForm = parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromFormAttribute)),
+            Type = parameterInfo.ParameterType
+        });
+
+        return updatedParameters;
     }
 }

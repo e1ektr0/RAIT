@@ -156,6 +156,9 @@ internal static class RaitHttpRequester<TController> where TController : Control
     {
         foreach (var property in parameter.Type!.GetProperties())
         {
+            if(parameter.Value == null)
+                continue;
+           
             var value = property.GetValue(parameter.Value);
             switch (value)
             {

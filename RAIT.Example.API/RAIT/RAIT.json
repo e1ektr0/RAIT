@@ -176,6 +176,91 @@
         "Type": "M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery(System.Int64,RAIT.Example.API.Models.Model)",
         "Assembly": "RAIT.Example.API",
         "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel,RAIT.Example.API.Models.AttributeModel)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel,RAIT.Example.API.Models.AttributeModel)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitEmptyResponseController.Post(System.Int64,System.Int64)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitEmptyResponseController.Post(System.Int64,System.Int64)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestFileController.Post(System.String,Microsoft.AspNetCore.Http.IHeaderDictionary,System.Int64,System.String,System.String,Microsoft.AspNetCore.Http.IFormFile)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestFileController.Post(System.String,Microsoft.AspNetCore.Http.IHeaderDictionary,System.Int64,System.String,System.String,Microsoft.AspNetCore.Http.IFormFile)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model,System.String,Microsoft.AspNetCore.Http.IHeaderDictionary,System.Int64,System.String,System.String,Microsoft.AspNetCore.Http.IFormFile)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model,System.String,Microsoft.AspNetCore.Http.IHeaderDictionary,System.Int64,System.String,System.String,Microsoft.AspNetCore.Http.IFormFile)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitGetModelController.Ping(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitGetModelController.Ping(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitGetModelController.WrongModelType(System.Int64,System.Collections.Generic.List\u00601[System.Guid],RAIT.Example.API.Models.Model)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitGetModelController.WrongModelType(System.Int64,System.Collections.Generic.List\u00601[System.Guid],RAIT.Example.API.Models.Model)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestController.Post(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestController.Post(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitActionResultTestController.Post(System.Int32,System.Int32)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitActionResultTestController.Post(System.Int32,System.Int32)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestController.DeleteQuery(System.Int64,System.Int64)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestController.DeleteQuery(System.Int64,System.Int64)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestController.FormModelNull(RAIT.Example.API.Models.ModelWithNullValues,RAIT.Example.API.Models.ModelWithNullValues)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestController.FormModelNull(RAIT.Example.API.Models.ModelWithNullValues,RAIT.Example.API.Models.ModelWithNullValues)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitActionRoutingTestController.Get(System.Int32,System.Int32)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitActionRoutingTestController.Get(System.Int32,System.Int32)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitFilterTestController.GetReportsResult(System.String,System.String,System.String,System.String,System.String,System.String)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitFilterTestController.GetReportsResult(System.String,System.String,System.String,System.String,System.String,System.String)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestController.GetWithArray(RAIT.Example.API.Models.ArrayValueRequest,RAIT.Example.API.Models.ArrayValueRequest)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestController.GetWithArray(RAIT.Example.API.Models.ArrayValueRequest,RAIT.Example.API.Models.ArrayValueRequest)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestController.GetWithDate(RAIT.Example.API.Models.DateTimeRequest,RAIT.Example.API.Models.DateTimeRequest)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestController.GetWithDate(RAIT.Example.API.Models.DateTimeRequest,RAIT.Example.API.Models.DateTimeRequest)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestController.GetWithId(System.Int64,System.Int64)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestController.GetWithId(System.Int64,System.Int64)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestFileController.Post(Microsoft.AspNetCore.Http.IFormFile,Microsoft.AspNetCore.Http.IFormFile)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestFileController.Post(Microsoft.AspNetCore.Http.IFormFile,Microsoft.AspNetCore.Http.IFormFile)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
       }
     }
   }

@@ -125,5 +125,56 @@
     <member name="M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery(System.Int64,RAIT.Example.API.Models.Model)">
       <summary>[Tested]</summary>
     </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitAttributesController.Ping(RAIT.Example.API.Models.AttributeModel,RAIT.Example.API.Models.AttributeModel)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitEmptyResponseController.Post(System.Int64,System.Int64)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post(System.String,Microsoft.AspNetCore.Http.IHeaderDictionary,System.Int64,System.String,System.String,Microsoft.AspNetCore.Http.IFormFile)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post3(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model,System.String,Microsoft.AspNetCore.Http.IHeaderDictionary,System.Int64,System.String,System.String,Microsoft.AspNetCore.Http.IFormFile)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitGetModelController.Ping(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitGetModelController.WrongModelType(System.Int64,System.Collections.Generic.List`1[System.Guid],RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.Post(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitActionResultTestController.Post(System.Int32,System.Int32)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.DeleteQuery(System.Int64,System.Int64)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.FormModelNull(RAIT.Example.API.Models.ModelWithNullValues,RAIT.Example.API.Models.ModelWithNullValues)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitActionRoutingTestController.Get(System.Int32,System.Int32)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitFilterTestController.GetReportsResult(System.String,System.String,System.String,System.String,System.String,System.String)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithArray(RAIT.Example.API.Models.ArrayValueRequest,RAIT.Example.API.Models.ArrayValueRequest)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithDate(RAIT.Example.API.Models.DateTimeRequest,RAIT.Example.API.Models.DateTimeRequest)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetWithId(System.Int64,System.Int64)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.PutFromQuery(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestFileController.Post(Microsoft.AspNetCore.Http.IFormFile,Microsoft.AspNetCore.Http.IFormFile)">
+      <summary>[Tested]</summary>
+    </member>
   </members>
 </doc>

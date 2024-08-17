@@ -11,7 +11,7 @@ internal static class RequestPreparer<TController> where TController : Controlle
         var methodInfo = methodCallExpr!.Method;
         var method = typeof(TController).GetMethod(methodCallExpr.Method.Name)!;
 
-        var inputParameters = RaitParameterExtractor.PrepareInputParameters(expression, method);
+        var inputParameters = RaitParameterExtractor.ExtractParameters(expression, method);
         RaitDocumentationGenerator.Params<TController>(inputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, inputParameters);
 
@@ -25,7 +25,7 @@ internal static class RequestPreparer<TController> where TController : Controlle
         var methodInfo = methodCallExpr!.Method;
         var method = typeof(TController).GetMethod(methodCallExpr.Method.Name)!;
 
-        var inputParameters = RaitParameterExtractor.PrepareInputParameters(expression, method);
+        var inputParameters = RaitParameterExtractor.ExtractParameters(expression, method);
         RaitDocumentationGenerator.Params<TController>(inputParameters);
         RaitDocumentationGenerator.Method<TController>(methodInfo.Name, inputParameters);
 
