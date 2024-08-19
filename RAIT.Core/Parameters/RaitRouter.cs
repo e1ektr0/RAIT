@@ -21,6 +21,7 @@ namespace RAIT.Core
             var methodCall = expression.Body as MethodCallExpression;
             return GenerateRoute<TController>(inputParameters, methodCall);
         }
+
         internal static string PrepareRoute<TController>(
             Expression<Func<TController>> expression, List<InputParameter> inputParameters)
         {
@@ -153,7 +154,13 @@ namespace RAIT.Core
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     .Where(p => p.GetIndexParameters().Length == 0) // Ensure property is not an indexer
                     .Select(p =>
-                        $"{Uri.EscapeDataString(prop.Key)}.{p.Name}={Uri.EscapeDataString(p.GetValue(value)?.ToString()!)}")
+                    {
+                        var stringValue = p.GetValue(value)?.ToString();
+                        if (stringValue == null)
+                            return null;
+                        return $"{Uri.EscapeDataString(prop.Key)}.{p.Name}={Uri.EscapeDataString(stringValue)}";
+                    })
+                    .Where(n => n != null)
                     .ToList();
             }
 
