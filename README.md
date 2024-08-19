@@ -2,12 +2,16 @@
 
 RAIT (REST API Integration Testing) is an open-source library designed to simplify and streamline the process of testing REST APIs. By leveraging expression trees, RAIT allows you to make strongly typed action calls that are translated into HTTP requests. This ensures type safety and reduces the likelihood of errors in your tests.
 
+> [!IMPORTANT]
+> **`RAIT` operates via `HttpClient` and works seamlessly with `WebApplicationFactory< T >`.**
+
 ## Features:
 - **Strongly Typed Action Calls**: Use C# expression trees to define your API calls.
 - **Type Safety**: Compile-time checking of your API calls to ensure correctness.
 - **Ease of Use**: Simple and intuitive API for making HTTP requests.
 - **Enhanced Navigation**: Since method calls are strongly typed, your IDE can assist in navigating directly to the action from the test. This makes it easy to move between your tests and the corresponding actions.
 - **Test Coverage Visibility**: Your IDE will indicate that an action is covered by a test because the action will not be marked as unused. This helps you quickly understand which actions are tested and which are not.
+-  Possibility to move to the library gradually, without throwing away existing tests
 - **Experimental Feature**: Test to Examples Documentation: Automatically generate example values for Swagger documentation based on your test code. This feature extracts XML documentation and adds example values for models used in your tests.
 - **Experimental Feature**: Ardalis.ApiEndpoints (only for net8.0)
 
@@ -144,7 +148,7 @@ builder.Services.AddSwaggerGen(swaggerGenOptions =>
 2. Enable RAIT Documentation Configuration in Test Setup
 Call  the `ConfigureRait` extension method on the service provider in your test setup with `true` parameter:
 ```csharp
- [SetUp]
+[SetUp]
 public void Setup()
 {
     _application = new WebApplicationFactory<Program>()
