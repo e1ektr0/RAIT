@@ -65,9 +65,7 @@ public class SimpleEndpointsTests
             Test2 = "test test test"
         };
         var operationResponse = new OperationRequest<CompanyModel>(
-            companyModel, 1,false)
-        {
-        };
+            companyModel, 1,false);
         var actionResult = await _defaultClient.Rait<FromQueryEndpoint>()
             .CallR(n => n.HandleAsync(operationResponse, new CancellationToken()));
 

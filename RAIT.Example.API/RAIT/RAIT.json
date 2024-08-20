@@ -331,6 +331,11 @@
         "Type": "M:RAIT.Example.API.Controllers.RaitTestController.SyncPut(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)",
         "Assembly": "RAIT.Example.API",
         "Value": null
+      },
+      "M:RAIT.Example.API.Controllers.RaitTestController.DeleteQueryNamed(System.Int64,System.Int64)": {
+        "Type": "M:RAIT.Example.API.Controllers.RaitTestController.DeleteQueryNamed(System.Int64,System.Int64)",
+        "Assembly": "RAIT.Example.API",
+        "Value": null
       }
     }
   }

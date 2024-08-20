@@ -59,6 +59,16 @@ public class RaitTestController : ControllerBase
             throw new Exception("Wrong value");
         return new Ok();
     }
+    
+    [Route("delete_query_test_named")]
+    [HttpDelete]
+    public async Task<Ok> DeleteQueryNamed([FromQuery(Name = "name_id")] long id)
+    {
+        await Task.CompletedTask;
+        if (id != 10)
+            throw new Exception("Wrong value");
+        return new Ok();
+    }
 
     [Route("form_model_with-null_value")]
     [HttpPost]

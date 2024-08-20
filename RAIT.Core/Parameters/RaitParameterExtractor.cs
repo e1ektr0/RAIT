@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace RAIT.Core;
 
@@ -160,23 +161,29 @@ internal static class RaitParameterExtractor
             return value.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(p => p.GetIndexParameters().Length == 0) // Ensure property is not an indexer
-                .Select(p => new InputParameter
+                .Select(p =>
                 {
-                    Value = p.GetValue(value)?.ToString(),
-                    Name = $"{property.Name}.{p.Name}",
-                    IsQuery = true,
-                    Type = p.PropertyType
+                    var name = GetNameFromAttribute(p);
+
+                    return new InputParameter
+                    {
+                        Value = p.GetValue(value)?.ToString(),
+                        Name = $"{property.Name}.{name ?? p.Name}",
+                        IsQuery = true,
+                        Type = p.PropertyType
+                    };
                 });
         }
 
         var isForm = property.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromFormAttribute));
         var isBody = property.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromBodyAttribute));
+        var name = GetNameFromAttribute(property);
         return new List<InputParameter>
         {
             new()
             {
                 Value = value,
-                Name = property.Name,
+                Name = name ?? property.Name,
                 IsQuery = isQueryParameter,
                 IsForm = isForm,
                 IsBody = isBody,
@@ -191,15 +198,33 @@ internal static class RaitParameterExtractor
         var isQuery =
             parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromQueryAttribute)) ||
             isSimple;
-
+        var name = GetNameFromAttribute(parameterInfo);
         return new InputParameter
         {
             Value = value,
-            Name = parameterInfo.Name!,
+            Name = name ?? parameterInfo.Name!,
             IsQuery = isQuery,
             IsForm = parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromFormAttribute)),
             Type = value?.GetType() ?? parameterInfo.ParameterType
         };
+    }
+
+    private static string? GetNameFromAttribute(ParameterInfo parameterInfo)
+    {
+        var nameAttribute =
+            parameterInfo.CustomAttributes.FirstOrDefault(n =>
+                n.AttributeType.GetInterfaces().Contains(typeof(IModelNameProvider)));
+        var name = (string?)nameAttribute?.NamedArguments.FirstOrDefault(n => n.MemberName == "Name").TypedValue.Value;
+        return name;
+    }
+
+    private static string? GetNameFromAttribute(PropertyInfo parameterInfo)
+    {
+        var nameAttribute =
+            parameterInfo.CustomAttributes.FirstOrDefault(n =>
+                n.AttributeType.GetInterfaces().Contains(typeof(IModelNameProvider)));
+        var name = (string?)nameAttribute?.NamedArguments.FirstOrDefault(n => n.MemberName == "Name").TypedValue.Value;
+        return name;
     }
 
     private static IEnumerable<InputParameter> UpdateQueryParameters(ParameterInfo parameterInfo,
@@ -211,10 +236,11 @@ internal static class RaitParameterExtractor
             return updatedParameters;
         }
 
+        var name = GetNameFromAttribute(parameterInfo);
         updatedParameters.Add(new InputParameter
         {
             Value = null,
-            Name = parameterInfo.Name!,
+            Name = name ?? parameterInfo.Name!,
             IsQuery =
                 parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromQueryAttribute)) ||
                 IsSimpleType(parameterInfo.ParameterType),

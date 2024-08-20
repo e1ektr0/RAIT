@@ -64,6 +64,12 @@ public sealed class RaitTests
     }
 
     [Test]
+    public async Task DeleteQueryNamed_ValidId_PerformsDeleteOperation()
+    {
+        await _defaultClient.Rait<RaitTestController>().Call(n => n.DeleteQueryNamed(10));
+    }
+
+    [Test]
     public async Task Get_ActionRouting_ReturnsExpectedResult()
     {
         await _defaultClient.Rait<RaitActionRoutingTestController>().Call(n => n.Get(1));
