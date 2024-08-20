@@ -213,6 +213,11 @@
         "Type": "M:RAIT.Example.API.Endpoints.Endpoints.Simple.SimpleEndpoint.HandleAsync(System.Threading.CancellationToken)",
         "Assembly": "RAIT.Example.API.Endpoints",
         "Value": null
+      },
+      "M:RAIT.Example.API.Endpoints.Endpoints.Simple.PostEndpoint.HandleAsync(System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest,System.String,System.Threading.CancellationToken)": {
+        "Type": "M:RAIT.Example.API.Endpoints.Endpoints.Simple.PostEndpoint.HandleAsync(System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest,System.String,System.Threading.CancellationToken)",
+        "Assembly": "RAIT.Example.API.Endpoints",
+        "Value": null
       }
     }
   }

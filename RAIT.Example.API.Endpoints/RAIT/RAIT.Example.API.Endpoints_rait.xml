@@ -92,5 +92,8 @@
     <member name="M:RAIT.Example.API.Endpoints.Endpoints.Simple.SimpleEndpoint.HandleAsync(System.Threading.CancellationToken)">
       <summary>[Tested]</summary>
     </member>
+    <member name="M:RAIT.Example.API.Endpoints.Endpoints.Simple.PostEndpoint.HandleAsync(System.String,RAIT.Example.API.Endpoints.Endpoints.Simple.Models.AggregatedGetRequest,System.String,System.Threading.CancellationToken)">
+      <summary>[Tested]</summary>
+    </member>
   </members>
 </doc>

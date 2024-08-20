@@ -131,17 +131,19 @@ internal static class RaitParameterExtractor
 
     private static bool IsHttpParameter(IEnumerable<CustomAttributeData> customAttributes)
     {
-        return customAttributes.Any(attr => attr.AttributeType == typeof(FromQueryAttribute) ||
-                                            attr.AttributeType == typeof(FromFormAttribute) ||
-                                            attr.AttributeType == typeof(FromRouteAttribute) ||
-                                            attr.AttributeType == typeof(FromBodyAttribute));
+        return customAttributes.Any(attr =>
+            typeof(FromQueryAttribute).IsAssignableFrom(attr.AttributeType) ||
+            typeof(FromFormAttribute).IsAssignableFrom(attr.AttributeType) ||
+            typeof(FromRouteAttribute).IsAssignableFrom(attr.AttributeType) ||
+            typeof(FromBodyAttribute).IsAssignableFrom(attr.AttributeType));
     }
 
     private static bool IsSimpleType(Type type) => type.IsValueType || type == typeof(string);
 
     private static bool IsPotentialQueryParameter(IEnumerable<CustomAttributeData> customAttributes)
     {
-        return customAttributes.Any(attr => attr.AttributeType == typeof(FromQueryAttribute));
+        return customAttributes.Any(attr =>
+            typeof(FromQueryAttribute).IsAssignableFrom(attr.AttributeType));
     }
 
     private static bool IsComplexParameter(object parameterValue)
@@ -175,8 +177,10 @@ internal static class RaitParameterExtractor
                 });
         }
 
-        var isForm = property.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromFormAttribute));
-        var isBody = property.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromBodyAttribute));
+        var isForm = property.CustomAttributes
+            .Any(attr => typeof(FromFormAttribute).IsAssignableFrom(attr.AttributeType));
+        var isBody = property.CustomAttributes
+            .Any(attr => typeof(FromBodyAttribute).IsAssignableFrom(attr.AttributeType));
         var name = GetNameFromAttribute(property);
         return new List<InputParameter>
         {
@@ -196,7 +200,8 @@ internal static class RaitParameterExtractor
     {
         var isSimple = IsSimpleType(parameterInfo.ParameterType);
         var isQuery =
-            parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromQueryAttribute)) ||
+            parameterInfo.CustomAttributes.Any(attr =>
+                typeof(FromQueryAttribute).IsAssignableFrom(attr.AttributeType)) ||
             isSimple;
         var name = GetNameFromAttribute(parameterInfo);
         return new InputParameter
@@ -204,28 +209,46 @@ internal static class RaitParameterExtractor
             Value = value,
             Name = name ?? parameterInfo.Name!,
             IsQuery = isQuery,
-            IsForm = parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromFormAttribute)),
+            IsForm = parameterInfo.CustomAttributes.Any(attr =>
+                typeof(FromFormAttribute).IsAssignableFrom(attr.AttributeType)),
             Type = value?.GetType() ?? parameterInfo.ParameterType
         };
+    }
+    private static string? ExtractName(CustomAttributeData nameAttribute)
+    {
+        if (nameAttribute.NamedArguments.Any(n => n.MemberName == "Name"))
+        {
+            var customAttributeNamedArgument = nameAttribute.NamedArguments.First(n => n.MemberName == "Name");
+            return (string?)customAttributeNamedArgument.TypedValue.Value;
+        }
+
+        // Use reflection to instantiate the attribute and access its properties
+        var args = nameAttribute.ConstructorArguments.Select(arg => arg.Value).ToArray();
+        if (Activator.CreateInstance(nameAttribute.AttributeType, args) is IModelNameProvider attributeInstance)
+        {
+            return attributeInstance.Name;
+        }
+
+        return null;
+    }
+
+    private static CustomAttributeData? GetNameAttribute(IEnumerable<CustomAttributeData> customAttributes)
+    {
+        return customAttributes.FirstOrDefault(n => n.AttributeType.GetInterfaces().Contains(typeof(IModelNameProvider)));
     }
 
     private static string? GetNameFromAttribute(ParameterInfo parameterInfo)
     {
-        var nameAttribute =
-            parameterInfo.CustomAttributes.FirstOrDefault(n =>
-                n.AttributeType.GetInterfaces().Contains(typeof(IModelNameProvider)));
-        var name = (string?)nameAttribute?.NamedArguments.FirstOrDefault(n => n.MemberName == "Name").TypedValue.Value;
-        return name;
+        var nameAttribute = GetNameAttribute(parameterInfo.GetCustomAttributesData());
+        return nameAttribute != null ? ExtractName(nameAttribute) : null;
     }
 
-    private static string? GetNameFromAttribute(PropertyInfo parameterInfo)
+    private static string? GetNameFromAttribute(PropertyInfo propertyInfo)
     {
-        var nameAttribute =
-            parameterInfo.CustomAttributes.FirstOrDefault(n =>
-                n.AttributeType.GetInterfaces().Contains(typeof(IModelNameProvider)));
-        var name = (string?)nameAttribute?.NamedArguments.FirstOrDefault(n => n.MemberName == "Name").TypedValue.Value;
-        return name;
+        var nameAttribute = GetNameAttribute(propertyInfo.GetCustomAttributesData());
+        return nameAttribute != null ? ExtractName(nameAttribute) : null;
     }
+
 
     private static IEnumerable<InputParameter> UpdateQueryParameters(ParameterInfo parameterInfo,
         IEnumerable<InputParameter> parameters)
@@ -242,9 +265,11 @@ internal static class RaitParameterExtractor
             Value = null,
             Name = name ?? parameterInfo.Name!,
             IsQuery =
-                parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromQueryAttribute)) ||
+                parameterInfo.CustomAttributes.Any(attr =>
+                    typeof(FromQueryAttribute).IsAssignableFrom(attr.AttributeType)) ||
                 IsSimpleType(parameterInfo.ParameterType),
-            IsForm = parameterInfo.CustomAttributes.Any(attr => attr.AttributeType == typeof(FromFormAttribute)),
+            IsForm = parameterInfo.CustomAttributes.Any(attr =>
+                typeof(FromFormAttribute).IsAssignableFrom(attr.AttributeType)),
             Type = parameterInfo.ParameterType
         });
 

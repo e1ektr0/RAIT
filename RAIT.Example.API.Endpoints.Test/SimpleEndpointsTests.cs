@@ -85,7 +85,8 @@ public class SimpleEndpointsTests
                 ValueStr = "val",
                 ExternalAccountId = "ext",
                 Date = new DateOnly(2000, 1, 1)
-            }
+            },
+            Test = "yyy"
         };
         await _defaultClient.Rait<PostEndpoint>()
             .CallR(n => n.HandleAsync(req, new CancellationToken()));

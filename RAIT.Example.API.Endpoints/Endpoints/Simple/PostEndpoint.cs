@@ -17,7 +17,8 @@ public class PostEndpoint
             throw new Exception();
         if (request.Origin.Date.Year != 2000)
             throw new Exception();
-
+        if (request.Test != "yyy")
+            throw new Exception();
         await Task.CompletedTask;
         return Ok();
     }
