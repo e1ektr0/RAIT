@@ -49,6 +49,13 @@ public sealed class RaitTests
         var model = new Model { Id = 10 };
         await _defaultClient.Rait<RaitTestController>().Call(n => n.PutFromQuery(model));
     }
+    
+    [Test]
+    public async Task GetFromQuery_ValidGuidModel_PerformsGetOperation()
+    {
+        var model = new Model { Guid = Guid.NewGuid() };
+        await _defaultClient.Rait<RaitTestController>().Call(n => n.GetFromQuery(model));
+    }
 
     [Test]
     public void SyncPut_ValidModel_PerformsPutOperation()

@@ -30,6 +30,16 @@ public class RaitTestController : ControllerBase
             Id = 10
         };
     }
+    
+    [Route("get_query_guid_test")]
+    [HttpGet]
+    public async Task<Ok> GetFromQuery([FromQuery] Model model)
+    {
+        await Task.CompletedTask;
+        if (!model.Guid.HasValue)
+            throw new Exception("Wrong value");
+        return new Ok();
+    }
 
     [Route("put_query_test")]
     [HttpPut]

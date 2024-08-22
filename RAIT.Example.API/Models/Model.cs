@@ -15,6 +15,7 @@ public record AttributeModel(
 public class Model
 {
     public long Id { get; set; }
+    public Guid? Guid { get; set; }
     public List<Guid>? List { get; set; }
     public List<EnumExample>? EnumList { get; set; }
     public string? Domain { get; set; }

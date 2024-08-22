@@ -213,5 +213,8 @@
     <member name="M:RAIT.Example.API.Controllers.RaitTestController.DeleteQueryNamed(System.Int64,System.Int64)">
       <summary>[Tested]</summary>
     </member>
+    <member name="M:RAIT.Example.API.Controllers.RaitTestController.GetFromQuery(RAIT.Example.API.Models.Model,RAIT.Example.API.Models.Model)">
+      <summary>[Tested]</summary>
+    </member>
   </members>
 </doc>
