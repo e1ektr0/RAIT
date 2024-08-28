@@ -257,6 +257,8 @@ namespace RAIT.Core
         public static void Method<TController>(string methodInfoName, List<InputParameter> prepareInputParameters)
             where TController : ControllerBase
         {
+            if (!RaitDocumentationState.DocumentationGenerationEnabled) return;
+
             var type = typeof(TController);
             var memberKey = $"M:{type.FullName}.{methodInfoName}";
 
