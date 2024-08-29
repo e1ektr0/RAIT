@@ -30,7 +30,7 @@ public class RaitTestController : ControllerBase
             Id = 10
         };
     }
-    
+
     [Route("get_query_guid_test")]
     [HttpGet]
     public async Task<Ok> GetFromQuery([FromQuery] Model model)
@@ -50,7 +50,7 @@ public class RaitTestController : ControllerBase
             throw new Exception("Wrong value");
         return new Ok();
     }
-    
+
     [Route("sync_put")]
     [HttpPut]
     public Ok SyncPut([FromQuery] Model model)
@@ -69,7 +69,7 @@ public class RaitTestController : ControllerBase
             throw new Exception("Wrong value");
         return new Ok();
     }
-    
+
     [Route("delete_query_test_named")]
     [HttpDelete]
     public async Task<Ok> DeleteQueryNamed([FromQuery(Name = "name_id")] long id)
@@ -113,5 +113,13 @@ public class RaitTestController : ControllerBase
     {
         await Task.CompletedTask;
         return request;
+    }
+
+    [Route("route-body/{id}")]
+    [HttpPost]
+    public async Task<Ok> RouteBody([FromRoute] long id, [FromBody] Model request)
+    {
+        await Task.CompletedTask;
+        return new Ok();
     }
 }

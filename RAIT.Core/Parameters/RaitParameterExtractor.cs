@@ -66,11 +66,7 @@ internal static class RaitParameterExtractor
             ConstantExpression constantExpr => ExtractParametersFromConstantExpression(parameterInfo, constantExpr),
             _ => Enumerable.Empty<InputParameter>()
         };
-
-        var argumentExpression = result.ToList();
-        return argumentExpression.Any(p => p.IsBody)
-            ? argumentExpression
-            : UpdateQueryParameters(parameterInfo, argumentExpression);
+        return result;
     }
 
     private static IEnumerable<InputParameter> ExtractParametersFromMemberInitExpression(
@@ -247,32 +243,5 @@ internal static class RaitParameterExtractor
     {
         var nameAttribute = GetNameAttribute(propertyInfo.GetCustomAttributesData());
         return nameAttribute != null ? ExtractName(nameAttribute) : null;
-    }
-
-
-    private static IEnumerable<InputParameter> UpdateQueryParameters(ParameterInfo parameterInfo,
-        IEnumerable<InputParameter> parameters)
-    {
-        var updatedParameters = parameters.ToList();
-        if (updatedParameters.Any(param => param.IsBody))
-        {
-            return updatedParameters;
-        }
-
-        var name = GetNameFromAttribute(parameterInfo);
-        updatedParameters.Add(new InputParameter
-        {
-            Value = null,
-            Name = name ?? parameterInfo.Name!,
-            IsQuery =
-                parameterInfo.CustomAttributes.Any(attr =>
-                    typeof(FromQueryAttribute).IsAssignableFrom(attr.AttributeType)) ||
-                IsSimpleType(parameterInfo.ParameterType),
-            IsForm = parameterInfo.CustomAttributes.Any(attr =>
-                typeof(FromFormAttribute).IsAssignableFrom(attr.AttributeType)),
-            Type = parameterInfo.ParameterType
-        });
-
-        return updatedParameters;
     }
 }

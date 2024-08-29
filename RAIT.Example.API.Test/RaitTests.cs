@@ -156,4 +156,11 @@ public sealed class RaitTests
         var response = await _defaultClient.Rait<RaitTestController>().CallR(n => n.GetWithDate(request));
         Assert.That(response.DateTime, Is.EqualTo(request.DateTime));
     }
+    
+    [Test]
+    public async Task RouteBodyTest()
+    {
+        var request = new Model();
+        await _defaultClient.Rait<RaitTestController>().CallR(n => n.RouteBody(1, request));
+    }
 }
