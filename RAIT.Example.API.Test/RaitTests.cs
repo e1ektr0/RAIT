@@ -163,4 +163,18 @@ public sealed class RaitTests
         var request = new Model();
         await _defaultClient.Rait<RaitTestController>().CallR(n => n.RouteBody(1, request));
     }
+    
+    [Test]
+    public async Task RouteQueryTest()
+    {
+        var request = new Model
+        {
+            Id = 5,
+            Guid = Guid.NewGuid(),
+            Domain = "qwerty",
+            Bool = true,
+            Decimal = 15m
+        };
+        await _defaultClient.Rait<RaitTestController>().CallR(n => n.RouteQuery(1, request));
+    }
 }

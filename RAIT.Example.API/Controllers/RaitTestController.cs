@@ -115,11 +115,21 @@ public class RaitTestController : ControllerBase
         return request;
     }
 
-    [Route("route-body/{id}")]
+    [Route("route-body/{id:long}")]
     [HttpPost]
     public async Task<Ok> RouteBody([FromRoute] long id, [FromBody] Model request)
     {
         await Task.CompletedTask;
+        return new Ok();
+    }
+
+    [Route("route-query/{id:long}")]
+    [HttpPost]
+    public async Task<Ok> RouteQuery([FromRoute] long id, [FromQuery] Model request)
+    {
+        await Task.CompletedTask;
+        if (id == default || request.Id == default || request.Guid == Guid.Empty || request.Domain == default)
+            throw new Exception("Wrong value");
         return new Ok();
     }
 }

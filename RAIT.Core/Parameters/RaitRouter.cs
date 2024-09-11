@@ -148,7 +148,7 @@ namespace RAIT.Core
 
         private static List<string> ValueToString(object value, KeyValuePair<string, object?> prop)
         {
-            if (!value.GetType().IsPrimitive && value is not DateTime && value is not string && value is not Guid)
+            if (!value.GetType().IsPrimitive && value is not DateTime && value is not string && value is not Guid && value is not decimal)
             {
                 return value.GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
@@ -168,6 +168,8 @@ namespace RAIT.Core
                 return new List<string> { $"{Uri.EscapeDataString(prop.Key)}={dt:O}" };
             if (value is Guid guid)
                 return new List<string> { $"{Uri.EscapeDataString(prop.Key)}={guid}" };
+            if (value is decimal dec)
+                return new List<string> { $"{Uri.EscapeDataString(prop.Key)}={dec}" };
             return new List<string> { $"{Uri.EscapeDataString(prop.Key)}={Uri.EscapeDataString(value.ToString()!)}" };
         }
     }

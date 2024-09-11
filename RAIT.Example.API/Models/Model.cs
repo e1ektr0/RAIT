@@ -15,6 +15,8 @@ public record AttributeModel(
 public class Model
 {
     public long Id { get; set; }
+    public decimal Decimal { get; set; }
+    public bool Bool { get; set; }
     public Guid? Guid { get; set; }
     public List<Guid>? List { get; set; }
     public List<EnumExample>? EnumList { get; set; }
