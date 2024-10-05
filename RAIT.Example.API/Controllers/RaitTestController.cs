@@ -132,4 +132,12 @@ public class RaitTestController : ControllerBase
             throw new Exception("Wrong value");
         return new Ok();
     }
+    
+    [Route("get_with_giud")]
+    [HttpGet]
+    public async Task<Guid?> GetWithGuid([FromQuery] Guid? request)
+    {
+        await Task.CompletedTask;
+        return request;
+    }
 }

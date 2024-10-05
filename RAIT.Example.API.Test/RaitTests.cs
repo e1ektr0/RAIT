@@ -177,4 +177,20 @@ public sealed class RaitTests
         };
         await _defaultClient.Rait<RaitTestController>().CallR(n => n.RouteQuery(1, request));
     }
+    
+    [Test]
+    public async Task GetWithGuid()
+    {
+        var request = Guid.NewGuid();
+        var response = await _defaultClient.Rait<RaitTestController>().CallR(n => n.GetWithGuid(request));
+        Assert.That(response, Is.EqualTo(request));
+    }
+    
+    [Test]
+    public async Task GetWithGuid_NullValue()
+    {
+        var request = (Guid?)null;
+        var response = await _defaultClient.Rait<RaitTestController>().Call(n => n.GetWithGuid(request));
+        Assert.That(response, Is.EqualTo(request));
+    }
 }

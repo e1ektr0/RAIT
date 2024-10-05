@@ -64,6 +64,7 @@ internal static class RaitParameterExtractor
             MemberInitExpression => ExtractParametersFromMemberInitExpression(parameterInfo, arg),
             MemberExpression memberExpr => ExtractParametersFromMemberExpression(parameterInfo, memberExpr),
             ConstantExpression constantExpr => ExtractParametersFromConstantExpression(parameterInfo, constantExpr),
+            UnaryExpression unaryExpr => ExtractParametersFromUnaryExpression(parameterInfo, unaryExpr),
             _ => Enumerable.Empty<InputParameter>()
         };
         return result;
@@ -85,6 +86,13 @@ internal static class RaitParameterExtractor
         var value = ExtractValueFromExpression(memberExpr);
         return CreateInputParametersFromValue(parameterInfo, value);
     }
+    
+    private static IEnumerable<InputParameter> ExtractParametersFromUnaryExpression(ParameterInfo parameterInfo,
+        UnaryExpression unaryExpr)
+    {
+        var value = ExtractValueFromUnaryExpression(unaryExpr);
+        return CreateInputParametersFromValue(parameterInfo, value);
+    }
 
     private static IEnumerable<InputParameter> ExtractParametersFromConstantExpression(ParameterInfo parameterInfo,
         ConstantExpression constantExpr)
@@ -98,6 +106,14 @@ internal static class RaitParameterExtractor
     private static object ExtractValueFromExpression(MemberExpression memberExpression)
     {
         var convertedExpression = Expression.Convert(memberExpression, typeof(object));
+        var getterLambda = Expression.Lambda<Func<object>>(convertedExpression);
+        var getter = getterLambda.Compile();
+        return getter();
+    }
+    
+    private static object ExtractValueFromUnaryExpression(UnaryExpression unaryExpr)
+    {
+        var convertedExpression = Expression.Convert(unaryExpr, typeof(object));
         var getterLambda = Expression.Lambda<Func<object>>(convertedExpression);
         var getter = getterLambda.Compile();
         return getter();
