@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <PackageId>RAIT</PackageId>
         <Authors>E1ektr0</Authors>
-        <Version>1.6.15</Version>
+        <Version>1.6.16</Version>
         <ProjectUrl>https://github.com/e1ektr0/RAIT</ProjectUrl>
         <Copyright>MIT</Copyright>
         <PackageProjectUrl>https://github.com/e1ektr0/RAIT</PackageProjectUrl>
@@ -22,6 +22,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
+        <PackageReference Include="System.Text.Encodings.Web" Version="4.7.2" />
     </ItemGroup>
     <ItemGroup>
         <InternalsVisibleTo Include="RAIT.Example.API.Test" />
