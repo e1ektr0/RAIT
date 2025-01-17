@@ -32,7 +32,7 @@ First, you need to define your API controller with the actions you want to test.
 public class RaitTestController
 {
    [HttpPost]
-   public async Task<IActionResult> Post([FromBody] YourModel model)
+   public async Task<ReponseModel> Post([FromBody] YourModel model)
    {
        // Your action logic here
    }
