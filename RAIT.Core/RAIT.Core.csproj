@@ -27,10 +27,7 @@
     </ItemGroup>
     <ItemGroup>
         <InternalsVisibleTo Include="RAIT.Example.API.Test" />
+        <None Include="../README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
-    <ItemGroup>
-      <None Update="README.md">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
+   
 </Project>
