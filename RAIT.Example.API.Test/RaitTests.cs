@@ -44,6 +44,14 @@ public sealed class RaitTests
     }
 
     [Test]
+    public async Task PostWithoutResponse_ValidModel()
+    {
+        var model = new Model { Id = 10 };
+        await _defaultClient.Rait<RaitTestController>().CallR(n => n.PostWithoutResponse(model));
+
+    }
+
+    [Test]
     public async Task PutFromQuery_ValidModel_PerformsPutOperation()
     {
         var model = new Model { Id = 10 };
@@ -190,7 +198,10 @@ public sealed class RaitTests
     public async Task GetWithGuid_NullValue()
     {
         var request = (Guid?)null;
-        var response = await _defaultClient.Rait<RaitTestController>().Call(n => n.GetWithGuid(request));
+        var response = await _defaultClient.Rait<RaitTestController>()
+            .Call(n => n.GetWithGuid(request));
         Assert.That(response, Is.EqualTo(request));
     }
+    
+    
 }

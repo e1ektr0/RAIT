@@ -92,6 +92,7 @@ internal static class RaitHttpRequester<TController> where TController : Control
             var type when type == typeof(long) => long.Parse(responseContent),
             var type when type == typeof(decimal) => decimal.Parse(responseContent),
             var type when type == typeof(double) => double.Parse(responseContent),
+            var type when type == typeof(Task) => Task.CompletedTask,
             _ => await DeserializeResponse(responseType, httpResponseMessage)
         };
     }

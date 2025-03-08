@@ -13,7 +13,7 @@ public class PostEndpoint
     {
         if (request.ExternalAccountId == null)
             throw new Exception();
-        if (request.Origin.ValueStr == null)
+        if (request.Origin.ValueStr != "https://google.com")
             throw new Exception();
         if (request.Origin.Date.Year != 2000)
             throw new Exception();

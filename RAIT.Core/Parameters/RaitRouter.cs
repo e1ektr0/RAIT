@@ -49,11 +49,15 @@ namespace RAIT.Core
 
             var route = BuildRoute(controllerType, routeAttributes, inputParameters);
             route += "/";
-            route += BuildRoute(methodInfo, methodAttributes, inputParameters);
+            var buildRoute = BuildRoute(methodInfo, methodAttributes, inputParameters);
+            if (buildRoute.StartsWith("/"))
+                route = buildRoute;
+            else
+                route += buildRoute;
             route = route.Replace("[action]", methodInfo.Name);
 
             if (!inputParameters.Any(p => p.IsQuery && p is { Used: false, Value: not null }))
-                return OverrideRoutPrepare(route);
+                return route;
 
             var values = inputParameters
                 .Where(p => p is { IsQuery: true, Used: false, Value: not null })
@@ -64,17 +68,7 @@ namespace RAIT.Core
                 }).ToList();
             route += "?" + string.Join("&", values);
 
-            return OverrideRoutPrepare(route);
-        }
-
-        private static string OverrideRoutPrepare(string route)
-        {
-            if (!route.Contains("//"))
-                return route;
-
-            var lastIndexOf = route.LastIndexOf("//", StringComparison.Ordinal);
-            var overrideRoutPrepare = route.Substring(lastIndexOf + 1);
-            return overrideRoutPrepare;
+            return route;
         }
 
         private static string BuildRoute(MemberInfo memberInfo, IList<CustomAttributeData> attributes,
@@ -148,7 +142,8 @@ namespace RAIT.Core
 
         private static List<string> ValueToString(object value, KeyValuePair<string, object?> prop)
         {
-            if (!value.GetType().IsPrimitive && value is not DateTime && value is not string && value is not Guid && value is not decimal)
+            if (!value.GetType().IsPrimitive && value is not DateTime && value is not string && value is not Guid &&
+                value is not decimal)
             {
                 return value.GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)

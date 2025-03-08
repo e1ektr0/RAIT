@@ -34,7 +34,7 @@ public class SimpleEndpointsTests
     public async Task SimpleCall()
     {
         await _defaultClient.Rait<SimpleEndpoint>()
-            .CallR(n => n.HandleAsync(new CancellationToken()));
+            .CallR(n => n.HandleAsync(CancellationToken.None));
     }
 
     [Test]
@@ -43,18 +43,17 @@ public class SimpleEndpointsTests
         var actionResult = await _defaultClient.Rait<GetEndpoint>()
             .CallR(n => n.HandleAsync(new AggregatedGetRequest
             {
-                ValueStr = "val",
+                ValueStr = "https://google.com",
                 ExternalAccountId = "ext",
                 Model = new FromInternalModel
                 {
                     Test = "test"
                 }
-            }, new CancellationToken()));
+            }, CancellationToken.None));
 
-        Assert.That(actionResult.Value!.ValueStr, Is.EqualTo("val"));
+        Assert.That(actionResult.Value!.ValueStr, Is.EqualTo("https://google.com"));
         Assert.That(actionResult.Value.ExternalAccountId, Is.EqualTo("ext"));
     }
-
 
     [Test]
     public async Task FromQueryCall()
@@ -82,7 +81,7 @@ public class SimpleEndpointsTests
             ExternalAccountId = "ddd",
             Origin = new AggregatedGetRequest
             {
-                ValueStr = "val",
+                ValueStr = "https://google.com",
                 ExternalAccountId = "ext",
                 Date = new DateOnly(2000, 1, 1)
             },

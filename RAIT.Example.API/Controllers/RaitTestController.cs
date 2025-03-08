@@ -30,6 +30,16 @@ public class RaitTestController : ControllerBase
             Id = 10
         };
     }
+    
+    
+    [Route("post_withoutresp_body_test")]
+    [HttpPost]
+    public async Task PostWithoutResponse([FromBody] Model model)
+    {
+        await Task.CompletedTask;
+        if (model.Id != 10)
+            throw new Exception("Wrong value");
+    }
 
     [Route("get_query_guid_test")]
     [HttpGet]
