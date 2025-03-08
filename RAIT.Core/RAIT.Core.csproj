@@ -6,12 +6,13 @@
         <Nullable>enable</Nullable>
         <PackageId>RAIT</PackageId>
         <Authors>E1ektr0</Authors>
-        <Version>1.6.17</Version>
+        <Version>1.6.18</Version>
         <ProjectUrl>https://github.com/e1ektr0/RAIT</ProjectUrl>
         <Copyright>MIT</Copyright>
         <PackageProjectUrl>https://github.com/e1ektr0/RAIT</PackageProjectUrl>
         <RepositoryUrl>https://github.com/e1ektr0/RAIT</RepositoryUrl>
         <RepositoryType>Github</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
     <PropertyGroup>
         <IsPackable>True</IsPackable>
@@ -26,5 +27,10 @@
     </ItemGroup>
     <ItemGroup>
         <InternalsVisibleTo Include="RAIT.Example.API.Test" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="README.md">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 </Project>
