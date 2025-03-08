@@ -4,26 +4,36 @@ on: [ push ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
         dotnet-version: [ '8.0.x' ]
-
     steps:
       - uses: actions/checkout@v3
+
+      # Setup .NET 8.0 SDK for building and packing
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+
+      # If your tests target .NET 6.0, set it up as well
+      - name: Setup .NET Core SDK 6.0.x for tests
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
+
       - name: Install dependencies
         run: dotnet restore
+
       - name: Build
         run: dotnet build --configuration Release --no-restore
+
       - name: Test
         run: dotnet test --no-restore --verbosity normal
 
       - name: Pack
         run: dotnet pack --no-build --configuration Release
+
       - name: PushNuget
         run: dotnet nuget push **/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.PUBLISH_TO_NUGET_ORG }} --skip-duplicate
