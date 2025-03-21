@@ -12,115 +12,131 @@ public class RaitHttpClientWrapper<TController> where TController : ControllerBa
         _client = client;
     }
 
-    public async Task<TOutput?> Call<TOutput, TOut>(Expression<Func<TController, Task<TOut>>> expression)
+    public async Task<TOutput?> Call<TOutput, TOut>(Expression<Func<TController, Task<TOut>>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
         where TOutput : TOut
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         var result = await RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client,
-            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters);
+            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters, option);
         return result;
     }
 
-    public TOutput? Call<TOutput, TOut>(Expression<Func<TController, TOut>> expression)
+    public TOutput? Call<TOutput, TOut>(Expression<Func<TController, TOut>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
         where TOutput : TOut
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         var result = RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client,
-            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters).Result;
+                requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters, option)
+            .Result;
         return result;
     }
 
-    public async Task<TOutput?> Call<TOutput>(Expression<Func<TController, Task<TOutput>>> expression)
+    public async Task<TOutput?> Call<TOutput>(Expression<Func<TController, Task<TOutput>>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         var result = await RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client,
-            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters);
+            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters, option);
         return result;
     }
 
-    public TOutput? Call<TOutput>(Expression<Func<TController, TOutput>> expression)
+    public TOutput? Call<TOutput>(Expression<Func<TController, TOutput>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         var result = RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client,
-            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters).Result;
+            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters, option).Result;
         return result;
     }
 
-    public async Task<TOutput> CallR<TOutput, TOut>(Expression<Func<TController, Task<TOut>>> expression)
+    public async Task<TOutput> CallR<TOutput, TOut>(Expression<Func<TController, Task<TOut>>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
         where TOutput : TOut
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         var result = await RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client,
-            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters);
+            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters, option);
         return result ?? throw new ArgumentNullException();
     }
 
-    public TOutput CallR<TOutput, TOut>(Expression<Func<TController, TOut>> expression)
+    public TOutput CallR<TOutput, TOut>(Expression<Func<TController, TOut>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
         where TOutput : TOut
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         var result = RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client,
-                requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters)
+                requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters, option)
             .Result;
         return result ?? throw new ArgumentNullException();
     }
 
-    public async Task<TOutput> CallR<TOutput>(Expression<Func<TController, Task<TOutput>>> expression)
+    public async Task<TOutput> CallR<TOutput>(Expression<Func<TController, Task<TOutput>>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         var result = await RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client,
-            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters);
+            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters, option);
         return result ?? throw new ArgumentNullException();
     }
 
-    public TOutput CallR<TOutput>(Expression<Func<TController, TOutput>> expression)
+    public TOutput CallR<TOutput>(Expression<Func<TController, TOutput>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         var result = RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client,
-            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters).Result;
+            requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters, option).Result;
         return result ?? throw new ArgumentNullException();
     }
 
-    public async Task Call(Expression<Func<TController, Task>> expression)
+    public async Task Call(Expression<Func<TController, Task>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         await RaitHttpRequester<TController>.HttpRequest<EmptyResponse>(_client, requestDetails.CustomAttributes,
-            requestDetails.Route, requestDetails.InputParameters);
+            requestDetails.Route, requestDetails.InputParameters, option);
     }
 
 
-    public async Task Call(Expression<Func<TController>> expression)
+    public async Task Call(Expression<Func<TController>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         await RaitHttpRequester<TController>.HttpRequest<EmptyResponse>(_client, requestDetails.CustomAttributes,
-            requestDetails.Route, requestDetails.InputParameters);
+            requestDetails.Route, requestDetails.InputParameters, option);
     }
 
-    public async Task<HttpResponseMessage> CallH<TOut>(Expression<Func<TController, Task<TOut>>> expression)
+    public async Task<HttpResponseMessage> CallH<TOut>(Expression<Func<TController, Task<TOut>>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         return await RaitHttpRequester<TController>.HttpRequest(_client, requestDetails.CustomAttributes,
-            requestDetails.Route, requestDetails.InputParameters);
+            requestDetails.Route, requestDetails.InputParameters, option);
     }
 
-    public HttpResponseMessage CallH<TOut>(Expression<Func<TController, TOut>> expression)
+    public HttpResponseMessage CallH<TOut>(Expression<Func<TController, TOut>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         return RaitHttpRequester<TController>.HttpRequest(_client, requestDetails.CustomAttributes,
-            requestDetails.Route, requestDetails.InputParameters).Result;
+            requestDetails.Route, requestDetails.InputParameters, option).Result;
     }
 
-    public async Task<HttpResponseMessage> CallH(Expression<Func<TController, Task>> expression)
+    public async Task<HttpResponseMessage> CallH(Expression<Func<TController, Task>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         return await RaitHttpRequester<TController>.HttpRequest(_client, requestDetails.CustomAttributes,
-            requestDetails.Route, requestDetails.InputParameters);
+            requestDetails.Route, requestDetails.InputParameters, option);
     }
 
-    public HttpResponseMessage CallH(Expression<Func<TController>> expression)
+    public HttpResponseMessage CallH(Expression<Func<TController>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
     {
         var requestDetails = RequestPreparer<TController>.PrepareRequest(expression);
         return RaitHttpRequester<TController>.HttpRequest(_client, requestDetails.CustomAttributes,
-            requestDetails.Route, requestDetails.InputParameters).Result;
+            requestDetails.Route, requestDetails.InputParameters, option)
+            .Result;
     }
 }

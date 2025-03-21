@@ -11,10 +11,11 @@ internal static class RaitHttpRequester<TController> where TController : Control
 {
     internal static async Task<TOutput?> HttpRequest<TOutput>(HttpClient httpClient,
         IEnumerable<CustomAttributeData> attributes, string route,
-        List<InputParameter> prepareInputParameters)
+        List<InputParameter> prepareInputParameters, HttpCompletionOption option)
     {
         var memberInfo = typeof(TOutput);
-        var result = await ExecuteHttpRequest(httpClient, attributes, route, prepareInputParameters, memberInfo);
+        var result =
+            await ExecuteHttpRequest(httpClient, attributes, route, prepareInputParameters, memberInfo, option);
         var output = (TOutput?)result;
         DocumentResult(result);
         return output;
@@ -22,17 +23,18 @@ internal static class RaitHttpRequester<TController> where TController : Control
 
     internal static async Task<HttpResponseMessage> HttpRequest(HttpClient httpClient,
         IEnumerable<CustomAttributeData> attributes, string route,
-        List<InputParameter> prepareInputParameters)
+        List<InputParameter> prepareInputParameters, HttpCompletionOption option)
     {
-        return await ExecuteHttpRequestInternal(httpClient, attributes, route, prepareInputParameters);
+        return await ExecuteHttpRequestInternal(httpClient, attributes, route, prepareInputParameters, option);
     }
 
     private static async Task<object?> ExecuteHttpRequest(HttpClient httpClient,
         IEnumerable<CustomAttributeData> attributes, string route,
-        List<InputParameter> prepareInputParameters, Type memberInfo)
+        List<InputParameter> prepareInputParameters, Type memberInfo, HttpCompletionOption option)
     {
         var customAttributeData = GetHttpMethodAttribute(attributes);
-        var httpResponseMessage = await SendHttpRequest(httpClient, customAttributeData, route, prepareInputParameters);
+        var httpResponseMessage =
+            await SendHttpRequest(httpClient, customAttributeData, route, prepareInputParameters, option);
 
         await HandleError(httpResponseMessage);
         SetCookies(httpClient, httpResponseMessage);
@@ -42,10 +44,10 @@ internal static class RaitHttpRequester<TController> where TController : Control
 
     private static async Task<HttpResponseMessage> ExecuteHttpRequestInternal(HttpClient httpClient,
         IEnumerable<CustomAttributeData> attributes, string route,
-        List<InputParameter> prepareInputParameters)
+        List<InputParameter> prepareInputParameters, HttpCompletionOption option)
     {
         var customAttributeData = GetHttpMethodAttribute(attributes);
-        return await SendHttpRequest(httpClient, customAttributeData, route, prepareInputParameters);
+        return await SendHttpRequest(httpClient, customAttributeData, route, prepareInputParameters, option);
     }
 
     private static CustomAttributeData GetHttpMethodAttribute(IEnumerable<CustomAttributeData> attributes)
@@ -59,22 +61,35 @@ internal static class RaitHttpRequester<TController> where TController : Control
 
     private static async Task<HttpResponseMessage> SendHttpRequest(HttpClient httpClient,
         CustomAttributeData customAttributeData, string route,
-        List<InputParameter> prepareInputParameters)
+        List<InputParameter> prepareInputParameters, HttpCompletionOption option)
     {
-        var httpResponseMessage = customAttributeData.AttributeType switch
+        // Prepare the request content only if the attribute isn't HttpGet or HttpDelete.
+        HttpContent? prepareRequestContent = null;
+        if (customAttributeData.AttributeType != typeof(HttpGetAttribute) &&
+            customAttributeData.AttributeType != typeof(HttpDeleteAttribute))
         {
-            var type when type == typeof(HttpGetAttribute) => await httpClient.GetAsync(route),
-            var type when type == typeof(HttpPostAttribute) => await httpClient.PostAsync(route,
-                PrepareRequestContent(prepareInputParameters)),
-            var type when type == typeof(HttpPutAttribute) => await httpClient.PutAsync(route,
-                PrepareRequestContent(prepareInputParameters)),
-            var type when type == typeof(HttpPatchAttribute) => await httpClient.PatchAsync(route,
-                PrepareRequestContent(prepareInputParameters)),
-            var type when type == typeof(HttpDeleteAttribute) => await httpClient.DeleteAsync(route),
+            prepareRequestContent = PrepareRequestContent(prepareInputParameters);
+        }
+
+        // Map the attribute type to an HTTP method.
+        var method = customAttributeData.AttributeType switch
+        {
+            { } t when t == typeof(HttpGetAttribute) => HttpMethod.Get,
+            { } t when t == typeof(HttpPostAttribute) => HttpMethod.Post,
+            { } t when t == typeof(HttpPutAttribute) => HttpMethod.Put,
+            { } t when t == typeof(HttpPatchAttribute) => new HttpMethod("PATCH"),
+            { } t when t == typeof(HttpDeleteAttribute) => HttpMethod.Delete,
             _ => throw new Exception("Rait: Http web attribute not found.")
         };
 
-        return httpResponseMessage;
+        // Create the HttpRequestMessage.
+        var request = new HttpRequestMessage(method, route)
+        {
+            Content = (method != HttpMethod.Get && method != HttpMethod.Delete) ? prepareRequestContent : null
+        };
+
+        // Send the request using SendAsync.
+        return await httpClient.SendAsync(request, option);
     }
 
     private static async Task<object?> ProcessResponse(Type responseType, HttpResponseMessage httpResponseMessage)
@@ -157,9 +172,9 @@ internal static class RaitHttpRequester<TController> where TController : Control
     {
         foreach (var property in parameter.Type!.GetProperties())
         {
-            if(parameter.Value == null)
+            if (parameter.Value == null)
                 continue;
-           
+
             var value = property.GetValue(parameter.Value);
             switch (value)
             {
