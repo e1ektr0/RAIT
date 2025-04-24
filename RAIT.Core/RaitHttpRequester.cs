@@ -170,29 +170,36 @@ internal static class RaitHttpRequester<TController> where TController : Control
 
     private static void AddClassPropertiesToFormData(MultipartFormDataContent formData, InputParameter parameter)
     {
-        foreach (var property in parameter.Type!.GetProperties())
+        if (parameter.Type == typeof(string) && parameter.Value is not null)
         {
-            if (parameter.Value == null)
-                continue;
-
-            var value = property.GetValue(parameter.Value);
-            switch (value)
+            formData.Add(new StringContent(parameter.Value.ToString()!), $"{parameter.Name}");
+        }
+        else
+        {
+            foreach (var property in parameter.Type!.GetProperties())
             {
-                case null:
+                if (parameter.Value == null)
                     continue;
-                case IEnumerable<Guid> listVal:
-                {
-                    var index = 0;
-                    foreach (var v in listVal)
-                    {
-                        formData.Add(new StringContent(v.ToString()), $"{parameter.Name}.{property.Name}[{index++}]");
-                    }
 
-                    break;
+                var value = property.GetValue(parameter.Value);
+                switch (value)
+                {
+                    case null:
+                        continue;
+                    case IEnumerable<Guid> listVal:
+                    {
+                        var index = 0;
+                        foreach (var v in listVal)
+                        {
+                            formData.Add(new StringContent(v.ToString()), $"{parameter.Name}.{property.Name}[{index++}]");
+                        }
+
+                        break;
+                    }
+                    default:
+                        formData.Add(new StringContent(value.ToString()!), $"{parameter.Name}.{property.Name}");
+                        break;
                 }
-                default:
-                    formData.Add(new StringContent(value.ToString()!), $"{parameter.Name}.{property.Name}");
-                    break;
             }
         }
     }
