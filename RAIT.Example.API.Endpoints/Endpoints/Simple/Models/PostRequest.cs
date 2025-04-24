@@ -15,8 +15,7 @@ public class PostRequest
 
     [FromBody]
     public required AggregatedGetRequest Origin { get; set; }
-    
-    
+
     [Alias("Field")]
     public string? Test { get; set; }
 }

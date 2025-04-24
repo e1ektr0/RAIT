@@ -90,4 +90,16 @@ public class SimpleEndpointsTests
         await _defaultClient.Rait<PostEndpoint>()
             .CallR(n => n.HandleAsync(req, new CancellationToken()));
     }
+
+    [Test]
+    public async Task PostFromFormEndpointCall()
+    {
+        var req = new PostFromFormRequest
+        {
+            Param1 = "param1",
+            Param2 = "param2"
+        };
+        await _defaultClient.Rait<PostFromFormEndpoint>()
+            .CallR(n => n.HandleAsync(req, new CancellationToken()));
+    }
 }
