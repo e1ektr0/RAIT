@@ -11,6 +11,9 @@ public class AggregatedGetRequest
     public required string ValueStr { get; set; }
     [FromQuery] public FromInternalModel? Model { get; set; }
     public DateOnly Date { get; set; }
+    
+    [FromHeader(Name = nameof(HeaderTest))]
+    public string? HeaderTest { get; set; }
 }
 
 public class FromInternalModel

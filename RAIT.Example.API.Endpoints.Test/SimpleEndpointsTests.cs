@@ -48,7 +48,8 @@ public class SimpleEndpointsTests
                 Model = new FromInternalModel
                 {
                     Test = "test"
-                }
+                },
+                HeaderTest = "header"
             }, CancellationToken.None));
 
         Assert.That(actionResult.Value!.ValueStr, Is.EqualTo("https://google.com"));

@@ -146,6 +146,7 @@ internal static class RaitParameterExtractor
         return customAttributes.Any(attr =>
             typeof(FromQueryAttribute).IsAssignableFrom(attr.AttributeType) ||
             typeof(FromFormAttribute).IsAssignableFrom(attr.AttributeType) ||
+            typeof(FromHeaderAttribute).IsAssignableFrom(attr.AttributeType) ||
             typeof(FromRouteAttribute).IsAssignableFrom(attr.AttributeType) ||
             typeof(FromBodyAttribute).IsAssignableFrom(attr.AttributeType));
     }
@@ -193,6 +194,8 @@ internal static class RaitParameterExtractor
             .Any(attr => typeof(FromFormAttribute).IsAssignableFrom(attr.AttributeType));
         var isBody = property.CustomAttributes
             .Any(attr => typeof(FromBodyAttribute).IsAssignableFrom(attr.AttributeType));
+        var isHeader = property.CustomAttributes
+            .Any(attr => typeof(FromHeaderAttribute).IsAssignableFrom(attr.AttributeType));
         var name = GetNameFromAttribute(property);
         return new List<InputParameter>
         {
@@ -203,6 +206,7 @@ internal static class RaitParameterExtractor
                 IsQuery = isQueryParameter,
                 IsForm = isForm,
                 IsBody = isBody,
+                IsHeader = isHeader,
                 Type = property.PropertyType
             }
         };
@@ -223,7 +227,9 @@ internal static class RaitParameterExtractor
             IsQuery = isQuery,
             IsForm = parameterInfo.CustomAttributes.Any(attr =>
                 typeof(FromFormAttribute).IsAssignableFrom(attr.AttributeType)),
-            Type = value?.GetType() ?? parameterInfo.ParameterType
+            Type = value?.GetType() ?? parameterInfo.ParameterType,
+            IsHeader = parameterInfo.CustomAttributes.Any(attr =>
+                typeof(FromHeaderAttribute).IsAssignableFrom(attr.AttributeType)),
         };
     }
     private static string? ExtractName(CustomAttributeData nameAttribute)

@@ -59,7 +59,7 @@ internal static class RaitHttpRequester<TController> where TController : Control
         return customAttributeData;
     }
 
-    private static async Task<HttpResponseMessage> SendHttpRequest(HttpClient httpClient,
+   private static async Task<HttpResponseMessage> SendHttpRequest(HttpClient httpClient,
         CustomAttributeData customAttributeData, string route,
         List<InputParameter> prepareInputParameters, HttpCompletionOption option)
     {
@@ -85,8 +85,18 @@ internal static class RaitHttpRequester<TController> where TController : Control
         // Create the HttpRequestMessage.
         var request = new HttpRequestMessage(method, route)
         {
-            Content = (method != HttpMethod.Get && method != HttpMethod.Delete) ? prepareRequestContent : null
+            Content = method != HttpMethod.Get && method != HttpMethod.Delete ? prepareRequestContent : null,
         };
+
+        // Add headers to the request from the input parameters.
+        foreach (var parameter in prepareInputParameters)
+        {
+            if (parameter is { IsHeader: true, Value: not null })
+            {
+                // Use TryAddWithoutValidation to prevent exceptions with invalid header formats.
+                request.Headers.TryAddWithoutValidation(parameter.Name, parameter.Value.ToString());
+            }
+        }
 
         // Send the request using SendAsync.
         return await httpClient.SendAsync(request, option);
