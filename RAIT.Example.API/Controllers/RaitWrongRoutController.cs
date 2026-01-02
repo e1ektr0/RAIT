@@ -15,3 +15,4 @@ public class RaitWrongRoutController : ControllerBase
         return new EnumOk { EnumValue = TestEnum.Test1 };
     }
 }
+
