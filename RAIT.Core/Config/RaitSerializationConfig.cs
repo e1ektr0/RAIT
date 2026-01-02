@@ -13,6 +13,7 @@ internal class SerializationConfigurationManager
     private readonly IOptions<JsonOptions> _systemTextJsonOptions;
     private readonly IOptions<MvcNewtonsoftJsonOptions> _newtonsoftJsonOptions;
 
+
     public SerializationConfigurationManager(
         IActionResultExecutor<JsonResult> jsonResultExecutor,
         IOptions<JsonOptions> systemTextJsonOptions,
@@ -23,15 +24,24 @@ internal class SerializationConfigurationManager
         _newtonsoftJsonOptions = newtonsoftJsonOptions;
     }
 
+
     internal void Configure()
     {
         if (_jsonResultExecutor.GetType().Name.Contains("Newtonsoft"))
         {
             RaitSerializationConfig.UseNewtonsoft(_newtonsoftJsonOptions.Value.SerializerSettings);
+            RaitSerializationConfig.DateTimeOffsetToQuery = dto =>
+                Newtonsoft.Json.JsonConvert.SerializeObject(dto, _newtonsoftJsonOptions.Value.SerializerSettings).Trim('"');
+            RaitSerializationConfig.DateTimeToQuery = dt =>
+                Newtonsoft.Json.JsonConvert.SerializeObject(dt, _newtonsoftJsonOptions.Value.SerializerSettings).Trim('"');
         }
         else
         {
             RaitSerializationConfig.SerializationOptions = _systemTextJsonOptions.Value.JsonSerializerOptions;
+            RaitSerializationConfig.DateTimeOffsetToQuery = dto =>
+                System.Text.Json.JsonSerializer.Serialize(dto, _systemTextJsonOptions.Value.JsonSerializerOptions).Trim('"');
+            RaitSerializationConfig.DateTimeToQuery = dt =>
+                System.Text.Json.JsonSerializer.Serialize(dt, _systemTextJsonOptions.Value.JsonSerializerOptions).Trim('"');
         }
     }
 }
@@ -43,6 +53,11 @@ internal static class RaitSerializationConfig
     internal static Func<HttpContent, Type, Task<object?>>? DeserializeFunction { get; set; }
     internal static Func<object?, HttpContent>? SerializeFunction { get; set; }
 
+    public static Func<DateTimeOffset, string> DateTimeOffsetToQuery { get; internal set; } =
+        dto => dto.ToString("O");
+    public static Func<DateTime, string> DateTimeToQuery { get; internal set; } =
+        dt => dt.ToString("O");
+    
     internal static void UseNewtonsoft(JsonSerializerSettings serializerSettings)
     {
         SerializerSettings = serializerSettings;

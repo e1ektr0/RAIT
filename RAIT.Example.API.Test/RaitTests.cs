@@ -48,7 +48,6 @@ public sealed class RaitTests
     {
         var model = new Model { Id = 10 };
         await _defaultClient.Rait<RaitTestController>().CallR(n => n.PostWithoutResponse(model));
-
     }
 
     [Test]
@@ -57,7 +56,7 @@ public sealed class RaitTests
         var model = new Model { Id = 10 };
         await _defaultClient.Rait<RaitTestController>().Call(n => n.PutFromQuery(model));
     }
-    
+
     [Test]
     public async Task GetFromQuery_ValidGuidModel_PerformsGetOperation()
     {
@@ -164,14 +163,25 @@ public sealed class RaitTests
         var response = await _defaultClient.Rait<RaitTestController>().CallR(n => n.GetWithDate(request));
         Assert.That(response.DateTime, Is.EqualTo(request.DateTime));
     }
-    
+
+    [Test]
+    public async Task DateTimeOffsetInQuery_NoError()
+    {
+        await _defaultClient.Rait<DateTimeOffsetTestController>().CallR(n => n.Create(DateTimeOffset.UtcNow));
+    }
+    [Test]
+    public async Task DateTimeInQuery_NoError()
+    {
+        await _defaultClient.Rait<DateTimeTestController>().CallR(n => n.Create(DateTime.UtcNow));
+    }
+
     [Test]
     public async Task RouteBodyTest()
     {
         var request = new Model();
         await _defaultClient.Rait<RaitTestController>().CallR(n => n.RouteBody(1, request));
     }
-    
+
     [Test]
     public async Task RouteQueryTest()
     {
@@ -185,7 +195,7 @@ public sealed class RaitTests
         };
         await _defaultClient.Rait<RaitTestController>().CallR(n => n.RouteQuery(1, request));
     }
-    
+
     [Test]
     public async Task GetWithGuid()
     {
@@ -193,7 +203,7 @@ public sealed class RaitTests
         var response = await _defaultClient.Rait<RaitTestController>().CallR(n => n.GetWithGuid(request));
         Assert.That(response, Is.EqualTo(request));
     }
-    
+
     [Test]
     public async Task GetWithGuid_NullValue()
     {
@@ -202,6 +212,4 @@ public sealed class RaitTests
             .Call(n => n.GetWithGuid(request));
         Assert.That(response, Is.EqualTo(request));
     }
-    
-    
 }

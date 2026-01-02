@@ -110,10 +110,21 @@ namespace RAIT.Core
 
         private static string PrepareValueToQuery(InputParameter inputParameter, string name)
         {
+            if (inputParameter.Value is DateTimeOffset dto)
+            {
+                var dtoString = RaitSerializationConfig.DateTimeOffsetToQuery(dto);
+                return $"{name}={Uri.EscapeDataString(dtoString)}";
+            }
+
+            if (inputParameter.Value is DateTime dt)
+                return $"{name}={Uri.EscapeDataString(RaitSerializationConfig.DateTimeToQuery(dt))}";
+
             if (inputParameter.Value is string value)
                 return $"{name}={value}";
             if (inputParameter.Value!.GetType().IsValueType)
                 return $"{name}={inputParameter.Value}";
+            
+
 
             return ToQueryString(inputParameter.Value);
         }
