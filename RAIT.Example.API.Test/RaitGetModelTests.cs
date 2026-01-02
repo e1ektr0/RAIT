@@ -33,16 +33,13 @@ public sealed class RaitGetModelTests
         var request = new Model
         {
             Id = 1,
-            List = new List<Guid>
-            {
+            List =
+            [
                 newGuid,
                 guid
-            },
+            ],
             Domain = "google.com",
-            EnumList = new List<EnumExample>
-            {
-                EnumExample.One, EnumExample.Three
-            }
+            EnumList = [EnumExample.One, EnumExample.Three]
         };
         var response = await _defaultClient.Rait<RaitGetModelController>()
             .CallR(n => n.Ping(new Model
@@ -73,11 +70,11 @@ public sealed class RaitGetModelTests
         var request = new Model
         {
             Id = 1,
-            List = new List<Guid>
-            {
+            List =
+            [
                 Guid.NewGuid(),
                 Guid.NewGuid()
-            }
+            ]
         };
         Assert.ThrowsAsync<RaitHttpException>(async () =>
         {
@@ -86,3 +83,5 @@ public sealed class RaitGetModelTests
         });
     }
 }
+
+

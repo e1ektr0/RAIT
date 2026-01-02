@@ -4,6 +4,7 @@ namespace RAIT.Core;
 
 public static class ServiceCollectionExtensions
 {
+    // ReSharper disable once UnusedMethodReturnValue.Global
     public static IServiceCollection AddRait(this IServiceCollection services)
     {
         services.AddSingleton<SerializationConfigurationManager>();
