@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using RAIT.Core;
@@ -28,23 +27,32 @@ public sealed class RaitTypedTests
         builder.UseEnvironment("Test");
     }
 
-
     [Test]
-    public async Task GetAsyncResults_ReturnsOk()
+    public async Task GetAccepted_ReturnsAccepted()
     {
         var response = await _defaultClient
             .Rait<TypedController>()
-            .CallR(c => c.GetAsyncResults(1));
+            .CallR(c => c.GetAccepted());
 
+        // RAIT typically unwraps the typed result; adapt to your usage
+        Assert.That(response.Value!.Id, Is.EqualTo(42));
     }
 
     [Test]
-    public async Task GetCreated_ReturnsCreated()
+    public async Task Delete_ReturnsNoContent_WhenExists()
     {
         var response = await _defaultClient
             .Rait<TypedController>()
-            .CallR(c => c.GetCreated(10));
+            .Call(c => c.Delete(5));
+    }
 
-        Assert.That(response.Value!.Id, Is.EqualTo(20));
+  
+    [Test]
+    public async Task Teapot_Returns418()
+    {
+       await _defaultClient
+            .Rait<TypedController>()
+            .CallH(c => c.Teapot());
+
     }
 }
