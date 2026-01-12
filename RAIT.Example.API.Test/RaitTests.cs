@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -169,6 +170,8 @@ public sealed class RaitTests
     {
         await _defaultClient.Rait<DateTimeOffsetTestController>().CallR(n => n.Create(DateTimeOffset.UtcNow));
     }
+    
+    
     [Test]
     public async Task DateTimeInQuery_NoError()
     {
@@ -211,5 +214,33 @@ public sealed class RaitTests
         var response = await _defaultClient.Rait<RaitTestController>()
             .Call(n => n.GetWithGuid(request));
         Assert.That(response, Is.EqualTo(request));
+    }
+    
+    [Test]
+    public async Task DateOnly_query_parameters_are_serialized_invariantly()
+    {
+        var originalCulture = CultureInfo.CurrentCulture;
+        var originalUi      = CultureInfo.CurrentUICulture;
+
+        // Simulate client running under a dd/MM/yyyy culture
+        CultureInfo.CurrentCulture   = new CultureInfo("en-GB");
+        CultureInfo.CurrentUICulture = new CultureInfo("en-GB");
+
+        try
+        {
+            var expectedFrom = new DateOnly(2026, 1, 5); // 5 Jan 2026
+            var expectedTo   = new DateOnly(2026, 1, 6); // 6 Jan 2026
+
+            var result = await _defaultClient.Rait<DateOnlyTestController>()
+                .CallR(c => c.Get(expectedFrom, expectedTo));
+
+            Assert.That(result.Value!.From, Is.EqualTo(expectedFrom));
+            Assert.That(result.Value.To, Is.EqualTo(expectedTo));
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture   = originalCulture;
+            CultureInfo.CurrentUICulture = originalUi;
+        }
     }
 }

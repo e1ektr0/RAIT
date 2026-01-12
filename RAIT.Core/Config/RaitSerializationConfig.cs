@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
@@ -57,6 +58,8 @@ internal static class RaitSerializationConfig
         dto => dto.ToString("O");
     public static Func<DateTime, string> DateTimeToQuery { get; internal set; } =
         dt => dt.ToString("O");
+    public static Func<DateOnly, string> DateOnlyToQuery { get; internal set; } =
+        d => d.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
     
     internal static void UseNewtonsoft(JsonSerializerSettings serializerSettings)
     {

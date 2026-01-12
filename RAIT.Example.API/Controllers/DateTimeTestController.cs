@@ -4,12 +4,12 @@ namespace RAIT.Example.API.Controllers;
 
 [ApiController]
 [Route("[controller]/[action]")]
-public class DateTimeOffsetTestController : ControllerBase
+public class DateTimeTestController : ControllerBase
 {
 
     [HttpGet]
     public async Task<IActionResult> Create(
-        [FromQuery] DateTimeOffset focusDate)
+        [FromQuery] DateTime focusDate)
     {
         await Task.CompletedTask;
         return Ok();

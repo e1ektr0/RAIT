@@ -115,7 +115,10 @@ namespace RAIT.Core
                 var dtoString = RaitSerializationConfig.DateTimeOffsetToQuery(dto);
                 return $"{name}={Uri.EscapeDataString(dtoString)}";
             }
-
+            
+            if (inputParameter.Value is DateOnly d)
+                return $"{name}={Uri.EscapeDataString(RaitSerializationConfig.DateOnlyToQuery(d))}";
+            
             if (inputParameter.Value is DateTime dt)
                 return $"{name}={Uri.EscapeDataString(RaitSerializationConfig.DateTimeToQuery(dt))}";
 
