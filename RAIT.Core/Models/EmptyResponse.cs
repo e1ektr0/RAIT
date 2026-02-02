@@ -1,5 +1,3 @@
 ﻿namespace RAIT.Core;
 
-public class EmptyResponse
-{
-}
+public class EmptyResponse;

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet test:*)",
+      "Bash(dotnet build:*)",
+      "Bash(git mv:*)",
+      "Bash(del \"C:\\\\Users\\\\E1ekt\\\\RiderProjects\\\\RAIT\\\\RAIT.Example.API.Test\\\\RaitInternalModelAttributesTests.cs\")"
+    ]
+  }
+}

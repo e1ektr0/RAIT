@@ -7,58 +7,49 @@ namespace RAIT.Example.API.Controllers;
 [Route("[controller]")]
 public class RaitTestController : ControllerBase
 {
-    [Route("get_rout_parameter_test/{id}")]
+    [Route("route_parameter/{id}")]
     [HttpGet]
-    public async Task<Ok> GetWithId([FromRoute] long id)
+    public Task<Ok> GetWithId([FromRoute] long id)
     {
-        await Task.CompletedTask;
         if (id != 10)
             throw new Exception("Wrong value");
-        return new Ok();
+        return Task.FromResult(new Ok());
     }
 
-
-    [Route("post_body_test")]
+    [Route("post_body")]
     [HttpPost]
-    public async Task<ResponseModel> Post([FromBody] Model model)
+    public Task<ResponseModel> Post([FromBody] Model model)
     {
-        await Task.CompletedTask;
         if (model.Id != 10)
             throw new Exception("Wrong value");
-        return new ResponseModel
-        {
-            Id = 10
-        };
-    }
-    
-    
-    [Route("post_withoutresp_body_test")]
-    [HttpPost]
-    public async Task PostWithoutResponse([FromBody] Model model)
-    {
-        await Task.CompletedTask;
-        if (model.Id != 10)
-            throw new Exception("Wrong value");
+        return Task.FromResult(new ResponseModel { Id = 10 });
     }
 
-    [Route("get_query_guid_test")]
+    [Route("post_without_response")]
+    [HttpPost]
+    public Task PostWithoutResponse([FromBody] Model model)
+    {
+        if (model.Id != 10)
+            throw new Exception("Wrong value");
+        return Task.CompletedTask;
+    }
+
+    [Route("query_guid")]
     [HttpGet]
-    public async Task<Ok> GetFromQuery([FromQuery] Model model)
+    public Task<Ok> GetFromQuery([FromQuery] Model model)
     {
-        await Task.CompletedTask;
         if (!model.Guid.HasValue)
             throw new Exception("Wrong value");
-        return new Ok();
+        return Task.FromResult(new Ok());
     }
 
-    [Route("put_query_test")]
+    [Route("put_query")]
     [HttpPut]
-    public async Task<Ok> PutFromQuery([FromQuery] Model model)
+    public Task<Ok> PutFromQuery([FromQuery] Model model)
     {
-        await Task.CompletedTask;
         if (model.Id != 10)
             throw new Exception("Wrong value");
-        return new Ok();
+        return Task.FromResult(new Ok());
     }
 
     [Route("sync_put")]
@@ -70,84 +61,72 @@ public class RaitTestController : ControllerBase
         return new Ok();
     }
 
-    [Route("delete_query_test")]
+    [Route("delete_query")]
     [HttpDelete]
-    public async Task<Ok> DeleteQuery([FromQuery] long id)
+    public Task<Ok> DeleteQuery([FromQuery] long id)
     {
-        await Task.CompletedTask;
         if (id != 10)
             throw new Exception("Wrong value");
-        return new Ok();
+        return Task.FromResult(new Ok());
     }
 
-    [Route("delete_query_test_named")]
+    [Route("delete_query_named")]
     [HttpDelete]
-    public async Task<Ok> DeleteQueryNamed([FromQuery(Name = "name_id")] long id)
+    public Task<Ok> DeleteQueryNamed([FromQuery(Name = "name_id")] long id)
     {
-        await Task.CompletedTask;
         if (id != 10)
             throw new Exception("Wrong value");
-        return new Ok();
+        return Task.FromResult(new Ok());
     }
 
-    [Route("form_model_with-null_value")]
+    [Route("form_model_null")]
     [HttpPost]
-    public async Task<ResponseModel> FormModelNull([FromForm] ModelWithNullValues model)
+    public Task<ResponseModel> FormModelNull([FromForm] ModelWithNullValues model)
     {
-        await Task.CompletedTask;
-        return new ResponseModel
-        {
-            Id = model.Id
-        };
+        return Task.FromResult(new ResponseModel { Id = model.Id });
     }
 
     [Route("")]
     [HttpGet]
-    public async Task<Ok> Get()
+    public Task<Ok> Get()
     {
-        await Task.CompletedTask;
-        return new Ok();
+        return Task.FromResult(new Ok());
     }
 
-    [Route("get_with_array")]
+    [Route("with_array")]
     [HttpGet]
-    public async Task<ArrayValueRequest> GetWithArray([FromQuery] ArrayValueRequest request)
+    public Task<ArrayValueRequest> GetWithArray([FromQuery] ArrayValueRequest request)
     {
-        await Task.CompletedTask;
-        return request;
+        return Task.FromResult(request);
     }
 
-    [Route("get_with_date")]
+    [Route("with_date")]
     [HttpGet]
-    public async Task<DateTimeRequest> GetWithDate([FromQuery] DateTimeRequest request)
+    public Task<DateTimeRequest> GetWithDate([FromQuery] DateTimeRequest request)
     {
-        await Task.CompletedTask;
-        return request;
+        return Task.FromResult(request);
     }
 
-    [Route("route-body/{id:long}")]
+    [Route("route_body/{id:long}")]
     [HttpPost]
-    public async Task<Ok> RouteBody([FromRoute] long id, [FromBody] Model request)
+    public Task<Ok> RouteBody([FromRoute] long id, [FromBody] Model request)
     {
-        await Task.CompletedTask;
-        return new Ok();
+        return Task.FromResult(new Ok());
     }
 
-    [Route("route-query/{id:long}")]
+    [Route("route_query/{id:long}")]
     [HttpPost]
-    public async Task<Ok> RouteQuery([FromRoute] long id, [FromQuery] Model request)
+    public Task<Ok> RouteQuery([FromRoute] long id, [FromQuery] Model request)
     {
-        await Task.CompletedTask;
-        if (id == default || request.Id == default || request.Guid == Guid.Empty || request.Domain == default)
+        if (id == 0 || request.Id == 0 || request.Guid == Guid.Empty || request.Domain == null)
             throw new Exception("Wrong value");
-        return new Ok();
+        return Task.FromResult(new Ok());
     }
-    
-    [Route("get_with_giud")]
+
+    [Route("with_guid")]
     [HttpGet]
-    public async Task<Guid?> GetWithGuid([FromQuery] Guid? request)
+    public Task<Guid?> GetWithGuid([FromQuery] Guid? request)
     {
-        await Task.CompletedTask;
-        return request;
+        return Task.FromResult(request);
     }
 }

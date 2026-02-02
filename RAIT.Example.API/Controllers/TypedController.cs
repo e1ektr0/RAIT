@@ -33,6 +33,7 @@ public class TypedController : ControllerBase
     public async Task<Accepted<WeatherForecast>> GetAccepted()
     {
         var wf = new WeatherForecast { Id = 42 };
+        await Task.CompletedTask;
         // A location can be a relative or absolute URI
         return TypedResults.Accepted("/api/weather/42", wf);
     }
@@ -42,6 +43,7 @@ public class TypedController : ControllerBase
     public async Task<Results<NoContent, NotFound>> Delete(int id)
     {
         var exists = id > 0; // example check
+        await Task.CompletedTask;
         return exists ? TypedResults.NoContent() : TypedResults.NotFound();
     }
 
@@ -49,6 +51,7 @@ public class TypedController : ControllerBase
     [HttpPost("CreateBadRequest")]
     public async Task<BadRequest<string>> CreateBadRequest()
     {
+        await Task.CompletedTask;
         return TypedResults.BadRequest("Invalid payload or business rule violation");
     }
 
@@ -56,6 +59,7 @@ public class TypedController : ControllerBase
     [HttpPost("CreateConflict")]
     public async Task<Conflict<string>> CreateConflict()
     {
+        await Task.CompletedTask;
         return TypedResults.Conflict("A conflicting resource already exists.");
     }
 
@@ -63,6 +67,7 @@ public class TypedController : ControllerBase
     [HttpGet("GetUnauthorized")]
     public async Task<UnauthorizedHttpResult> GetUnauthorized()
     {
+        await Task.CompletedTask;
         return TypedResults.Unauthorized();
     }
 
@@ -70,13 +75,15 @@ public class TypedController : ControllerBase
     [HttpPost("Validate")]
     public async Task<UnprocessableEntity<string>> Validate()
     {
+        await Task.CompletedTask;
         return TypedResults.UnprocessableEntity("Data failed validation.");
     }
 
     // 7) Generic StatusCode
     [HttpGet("Teapot")]
-    public async Task<StatusCodeHttpResult >Teapot()
+    public async Task<StatusCodeHttpResult> Teapot()
     {
+        await Task.CompletedTask;
         return TypedResults.StatusCode(StatusCodes.Status418ImATeapot);
     }
 
@@ -84,6 +91,7 @@ public class TypedController : ControllerBase
     [HttpGet("GetProblem")]
     public async Task<ProblemHttpResult> GetProblem()
     {
+        await Task.CompletedTask;
         return TypedResults.Problem("An unexpected error occurred.");
     }
 
@@ -92,6 +100,7 @@ public class TypedController : ControllerBase
     public async Task<JsonHttpResult<WeatherForecast>> GetJson()
     {
         var wf = new WeatherForecast { Id = 99 };
+        await Task.CompletedTask;
         return TypedResults.Json(wf);
     }
 }

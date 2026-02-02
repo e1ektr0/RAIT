@@ -62,11 +62,11 @@ public class YourTestClass : IClassFixture<WebApplicationFactory<Startup>>
 Use the `Rait` extension method to make a strongly typed API call. The following code demonstrates how to call the `Post` action of the `RaitTestController`:
 
 ```csharp
-var responseModel = await _httpClient.Rait<RaitTestController>().Call(n => n.Post(model));
+var responseModel = await _httpClient.Rait<RaitTestController>().CallAsync(n => n.Post(model));
 ```
 - `_httpClient`: An instance of `HttpClient`.
 - `Rait<RaitTestController>()`: Specifies the controller you want to test.
-- `Call(n => n.Post(model))`: Defines the action you want to call and passes the necessary parameters.
+- `CallAsync(n => n.Post(model))`: Defines the action you want to call and passes the necessary parameters.
 
 ### Example
 Here is a complete example demonstrating how to use RAIT in a test:
@@ -94,7 +94,7 @@ public class RaitTests : IClassFixture<WebApplicationFactory<Startup>>
             // Initialize your model properties here
         };
 
-        var responseModel = await _httpClient.Rait<RaitTestController>().Call(n => n.Post(model));
+        var responseModel = await _httpClient.Rait<RaitTestController>().CallAsync(n => n.Post(model));
 
         // Assert the response
         Assert.NotNull(responseModel);
