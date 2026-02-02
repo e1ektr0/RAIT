@@ -1,30 +1,12 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using RAIT.Core;
 using RAIT.Example.API.Controllers;
 using RAIT.Example.API.Models;
+using RAIT.Example.API.Test.Infrastructure;
 
 namespace RAIT.Example.API.Test;
 
-public sealed class RaitGetModelTests
+public sealed class RaitGetModelTests : RaitTestBase
 {
-    private WebApplicationFactory<Program> _application = null!;
-    private HttpClient _defaultClient = null!;
-
-    [SetUp]
-    public void Setup()
-    {
-        _application = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(PrepareEnv);
-
-        _defaultClient = _application.CreateDefaultClient();
-    }
-
-    private void PrepareEnv(IWebHostBuilder builder)
-    {
-        builder.UseEnvironment("Test");
-    }
-
     [Test]
     public async Task Ping_ValidModel_ReturnsExpectedResponse()
     {
@@ -33,28 +15,18 @@ public sealed class RaitGetModelTests
         var request = new Model
         {
             Id = 1,
-            List =
-            [
-                newGuid,
-                guid
-            ],
+            List = [newGuid, guid],
             Domain = "google.com",
             EnumList = [EnumExample.One, EnumExample.Three]
         };
-        var response = await _defaultClient.Rait<RaitGetModelController>()
+
+        var response = await Client.Rait<RaitGetModelController>()
             .CallR(n => n.Ping(new Model
             {
                 Id = 1,
-                List = new List<Guid>
-                {
-                    newGuid,
-                    guid
-                },
+                List = new List<Guid> { newGuid, guid },
                 Domain = "google.com",
-                EnumList = new List<EnumExample>
-                {
-                    EnumExample.One, EnumExample.Three
-                }
+                EnumList = new List<EnumExample> { EnumExample.One, EnumExample.Three }
             }));
 
         Assert.That(response.Id, Is.EqualTo(request.Id));
@@ -70,18 +42,13 @@ public sealed class RaitGetModelTests
         var request = new Model
         {
             Id = 1,
-            List =
-            [
-                Guid.NewGuid(),
-                Guid.NewGuid()
-            ]
+            List = [Guid.NewGuid(), Guid.NewGuid()]
         };
+
         Assert.ThrowsAsync<RaitHttpException>(async () =>
         {
-            await _defaultClient.Rait<RaitGetModelController>()
+            await Client.Rait<RaitGetModelController>()
                 .CallR(n => n.WrongModelType(request));
         });
     }
 }
-
-
