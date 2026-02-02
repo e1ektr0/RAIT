@@ -12,7 +12,7 @@ public sealed class RaitJsonAttributeTests : RaitTestBase
     {
         var model = new AttributeModel("test");
         var attributeResponseModel = await Client.Rait<RaitAttributesController>()
-            .CallR(n => n.Ping(model));
+            .CallRequiredAsync(n => n.Ping(model));
 
         Assert.That(attributeResponseModel.Domain, Is.EqualTo(model.Id));
     }
@@ -22,7 +22,7 @@ public sealed class RaitJsonAttributeTests : RaitTestBase
     {
         var model = new AttributeModel("test");
         var httpResponseMessage = await Client.Rait<RaitAttributesController>()
-            .CallH(n => n.Ping(model));
+            .CallHttpAsync(n => n.Ping(model));
 
         httpResponseMessage.EnsureSuccessStatusCode();
     }

@@ -11,7 +11,7 @@ public sealed class RaitFileUploadTests : RaitTestBase
     public async Task Post_FileModel_ReturnsExpectedResult()
     {
         using var model = new RaitFormFile("example.txt", "image/png");
-        var responseModel = await Client.Rait<RaitTestFileController>().Call(n => n.Post(model));
+        var responseModel = await Client.Rait<RaitTestFileController>().CallAsync(n => n.Post(model));
 
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
@@ -21,7 +21,7 @@ public sealed class RaitFileUploadTests : RaitTestBase
     {
         using var file = new RaitFormFile("example.txt", "image/png");
         var model = new Model { Id = 10, List = [Guid.NewGuid()] };
-        var responseModel = await Client.Rait<RaitTestFileController>().Call(n => n.Post3(model, file));
+        var responseModel = await Client.Rait<RaitTestFileController>().CallAsync(n => n.Post3(model, file));
 
         Assert.That(responseModel!.Id, Is.EqualTo(model.Id));
     }
@@ -30,7 +30,7 @@ public sealed class RaitFileUploadTests : RaitTestBase
     public async Task Post_FileWithContent_ReturnsExpectedResult()
     {
         using var model = new RaitFormFile("example.txt", "image/png", await File.ReadAllBytesAsync("example2.txt"));
-        var responseModel = await Client.Rait<RaitTestFileController>().Call(n => n.Post(model));
+        var responseModel = await Client.Rait<RaitTestFileController>().CallAsync(n => n.Post(model));
 
         Assert.That(responseModel!.Id, Is.EqualTo(11));
     }

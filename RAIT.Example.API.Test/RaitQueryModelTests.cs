@@ -21,7 +21,7 @@ public sealed class RaitQueryModelTests : RaitTestBase
         };
 
         var response = await Client.Rait<RaitGetModelController>()
-            .CallR(n => n.Ping(new Model
+            .CallRequiredAsync(n => n.Ping(new Model
             {
                 Id = 1,
                 List = new List<Guid> { newGuid, guid },
@@ -48,7 +48,7 @@ public sealed class RaitQueryModelTests : RaitTestBase
         Assert.ThrowsAsync<RaitHttpException>(async () =>
         {
             await Client.Rait<RaitGetModelController>()
-                .CallR(n => n.WrongModelType(request));
+                .CallRequiredAsync(n => n.WrongModelType(request));
         });
     }
 }

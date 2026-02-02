@@ -80,15 +80,15 @@ Formatting patterns observed:
 
 - Use exceptions for invalid states; `RaitHttpException` is thrown on non-success HTTP responses.
 - Prefer guard clauses for early exits (e.g., null checks before use).
-- When a non-null response is required, throw `ArgumentNullException` as in `CallR`.
+- When a non-null response is required, throw `ArgumentNullException` as in `CallRequired`/`CallRequiredAsync` (`CallR` alias).
 - Avoid swallowing exceptions; tests assert exceptions explicitly with `Assert.ThrowsAsync`.
 
 ## API and Architecture Notes
 
 - `RaitHttpClientWrapper<TController>` is the entry point via `HttpClient.Rait<T>()`.
-  - `Call()` returns deserialized response (nullable).
-  - `CallR()` returns response with null check.
-  - `CallH()` returns raw `HttpResponseMessage`.
+  - `Call()` / `CallAsync()` return deserialized response (nullable).
+  - `CallRequired()` / `CallRequiredAsync()` return response with null check (`CallR` alias).
+  - `CallHttp()` / `CallHttpAsync()` return raw `HttpResponseMessage` (`CallH` alias).
 - `RequestPreparer<TController>` parses expression trees to extract method info and params.
 - `RaitRouter` and related classes build routes and query strings.
 - `RaitParameterExtractor` distinguishes `[FromQuery]`, `[FromBody]`, `[FromForm]`, `[FromHeader]`.

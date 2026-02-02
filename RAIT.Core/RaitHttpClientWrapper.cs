@@ -12,8 +12,6 @@ public class RaitHttpClientWrapper<TController> where TController : ControllerBa
         _client = client;
     }
 
-    #region Call - Async with Task<T> return, nullable output
-
     public async Task<TOutput?> Call<TOutput, TOut>(Expression<Func<TController, Task<TOut>>> expression,
         HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
         where TOutput : TOut
@@ -31,9 +29,18 @@ public class RaitHttpClientWrapper<TController> where TController : ControllerBa
             requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters, option);
     }
 
-    #endregion
+    public Task<TOutput?> CallAsync<TOutput, TOut>(Expression<Func<TController, Task<TOut>>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+        where TOutput : TOut
+    {
+        return Call<TOutput, TOut>(expression, option);
+    }
 
-    #region Call - Sync return, nullable output
+    public Task<TOutput?> CallAsync<TOutput>(Expression<Func<TController, Task<TOutput>>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+    {
+        return Call(expression, option);
+    }
 
     public TOutput? Call<TOutput, TOut>(Expression<Func<TController, TOut>> expression,
         HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
@@ -51,10 +58,6 @@ public class RaitHttpClientWrapper<TController> where TController : ControllerBa
         return RaitHttpRequester<TController>.HttpRequest<TOutput?>(_client,
             requestDetails.CustomAttributes, requestDetails.Route, requestDetails.InputParameters, option).Result;
     }
-
-    #endregion
-
-    #region CallR - Async with Task<T> return, non-null output
 
     public async Task<TOutput> CallR<TOutput, TOut>(Expression<Func<TController, Task<TOut>>> expression,
         HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
@@ -75,9 +78,18 @@ public class RaitHttpClientWrapper<TController> where TController : ControllerBa
         return result ?? throw new ArgumentNullException();
     }
 
-    #endregion
+    public Task<TOutput> CallRequiredAsync<TOutput, TOut>(Expression<Func<TController, Task<TOut>>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+        where TOutput : TOut
+    {
+        return CallR<TOutput, TOut>(expression, option);
+    }
 
-    #region CallR - Sync return, non-null output
+    public Task<TOutput> CallRequiredAsync<TOutput>(Expression<Func<TController, Task<TOutput>>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+    {
+        return CallR(expression, option);
+    }
 
     public TOutput CallR<TOutput, TOut>(Expression<Func<TController, TOut>> expression,
         HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
@@ -98,9 +110,18 @@ public class RaitHttpClientWrapper<TController> where TController : ControllerBa
         return result ?? throw new ArgumentNullException();
     }
 
-    #endregion
+    public TOutput CallRequired<TOutput, TOut>(Expression<Func<TController, TOut>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+        where TOutput : TOut
+    {
+        return CallR<TOutput, TOut>(expression, option);
+    }
 
-    #region Call - Void returns
+    public TOutput CallRequired<TOutput>(Expression<Func<TController, TOutput>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+    {
+        return CallR(expression, option);
+    }
 
     public async Task Call(Expression<Func<TController, Task>> expression,
         HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
@@ -118,9 +139,17 @@ public class RaitHttpClientWrapper<TController> where TController : ControllerBa
             requestDetails.Route, requestDetails.InputParameters, option);
     }
 
-    #endregion
+    public Task CallAsync(Expression<Func<TController, Task>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+    {
+        return Call(expression, option);
+    }
 
-    #region CallH - Returns raw HttpResponseMessage
+    public Task CallAsync(Expression<Func<TController>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+    {
+        return Call(expression, option);
+    }
 
     public async Task<HttpResponseMessage> CallH<TOut>(Expression<Func<TController, Task<TOut>>> expression,
         HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
@@ -154,5 +183,28 @@ public class RaitHttpClientWrapper<TController> where TController : ControllerBa
             requestDetails.Route, requestDetails.InputParameters, option).Result;
     }
 
-    #endregion
+    public Task<HttpResponseMessage> CallHttpAsync<TOut>(Expression<Func<TController, Task<TOut>>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+    {
+        return CallH(expression, option);
+    }
+
+    public HttpResponseMessage CallHttp<TOut>(Expression<Func<TController, TOut>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+    {
+        return CallH(expression, option);
+    }
+
+    public Task<HttpResponseMessage> CallHttpAsync(Expression<Func<TController, Task>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+    {
+        return CallH(expression, option);
+    }
+
+    public HttpResponseMessage CallHttp(Expression<Func<TController>> expression,
+        HttpCompletionOption option = HttpCompletionOption.ResponseContentRead)
+    {
+        return CallH(expression, option);
+    }
+
 }

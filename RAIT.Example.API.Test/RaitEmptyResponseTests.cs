@@ -9,6 +9,6 @@ public sealed class RaitEmptyResponseTests : RaitTestBase
     [Test]
     public async Task Post_ValidId_ReturnsEmptyResponse()
     {
-        await Client.Rait<RaitEmptyResponseController>().Call(n => n.Post(10));
+        await Client.Rait<RaitEmptyResponseController>().CallAsync(n => n.Post(10));
     }
 }

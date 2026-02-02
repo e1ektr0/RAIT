@@ -11,14 +11,14 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
     [Test]
     public async Task GetWithId_ValidId_ReturnsExpectedResult()
     {
-        await Client.Rait<RaitTestController>().Call(n => n.GetWithId(10));
+        await Client.Rait<RaitTestController>().CallAsync(n => n.GetWithId(10));
     }
 
     [Test]
     public async Task Post_ValidModel_ReturnsExpectedResult()
     {
         var model = new Model { Id = 10 };
-        var responseModel = await Client.Rait<RaitTestController>().Call(n => n.Post(model));
+        var responseModel = await Client.Rait<RaitTestController>().CallAsync(n => n.Post(model));
 
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
@@ -27,21 +27,21 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
     public async Task PostWithoutResponse_ValidModel()
     {
         var model = new Model { Id = 10 };
-        await Client.Rait<RaitTestController>().CallR(n => n.PostWithoutResponse(model));
+        await Client.Rait<RaitTestController>().CallAsync(n => n.PostWithoutResponse(model));
     }
 
     [Test]
     public async Task PutFromQuery_ValidModel_PerformsPutOperation()
     {
         var model = new Model { Id = 10 };
-        await Client.Rait<RaitTestController>().Call(n => n.PutFromQuery(model));
+        await Client.Rait<RaitTestController>().CallAsync(n => n.PutFromQuery(model));
     }
 
     [Test]
     public async Task GetFromQuery_ValidGuidModel_PerformsGetOperation()
     {
         var model = new Model { Guid = Guid.NewGuid() };
-        await Client.Rait<RaitTestController>().Call(n => n.GetFromQuery(model));
+        await Client.Rait<RaitTestController>().CallAsync(n => n.GetFromQuery(model));
     }
 
     [Test]
@@ -54,25 +54,25 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
     [Test]
     public async Task DeleteQuery_ValidId_PerformsDeleteOperation()
     {
-        await Client.Rait<RaitTestController>().Call(n => n.DeleteQuery(10));
+        await Client.Rait<RaitTestController>().CallAsync(n => n.DeleteQuery(10));
     }
 
     [Test]
     public async Task DeleteQueryNamed_ValidId_PerformsDeleteOperation()
     {
-        await Client.Rait<RaitTestController>().Call(n => n.DeleteQueryNamed(10));
+        await Client.Rait<RaitTestController>().CallAsync(n => n.DeleteQueryNamed(10));
     }
 
     [Test]
     public async Task Get_ActionRouting_ReturnsExpectedResult()
     {
-        await Client.Rait<RaitActionRoutingTestController>().Call(n => n.Get(1));
+        await Client.Rait<RaitActionRoutingTestController>().CallAsync(n => n.Get(1));
     }
 
     [Test]
     public async Task GetReportsResult_ValidFilters_ReturnsSuccess()
     {
-        var call = await Client.Rait<RaitFilterTestController>().CallR(n =>
+        var call = await Client.Rait<RaitFilterTestController>().CallRequiredAsync(n =>
             n.GetReportsResult("fff", "qqq", "sss"));
         Assert.That(call.Success, Is.True);
     }
@@ -80,25 +80,25 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
     [Test]
     public async Task NullableEndpoints_CallsEndpoints_SuccessfulExecution()
     {
-        await Client.Rait<RaitNullableTestController>().Call(n => n.Get());
-        await Client.Rait<RaitNullableTestController>().Call(n => n.Post());
+        await Client.Rait<RaitNullableTestController>().CallAsync(n => n.Get());
+        await Client.Rait<RaitNullableTestController>().CallAsync(n => n.Post());
     }
 
     [Test]
     public async Task ActionResultEndpoints_CallsEndpoints_ReturnsExpectedResults()
     {
-        await Client.Rait<RaitActionResultTestController>().Call(n => n.Get());
+        await Client.Rait<RaitActionResultTestController>().CallAsync(n => n.Get());
 
         Assert.ThrowsAsync<RaitHttpException>(async () =>
-            await Client.Rait<RaitActionResultTestController>().Call(n => n.Get401StatusCode()));
+            await Client.Rait<RaitActionResultTestController>().CallAsync(n => n.Get401StatusCode()));
 
-        await Client.Rait<RaitActionResultTestController>().Call(n => n.Post(1));
+        await Client.Rait<RaitActionResultTestController>().CallAsync(n => n.Post(1));
     }
 
     [Test]
     public async Task Get_EnumResponse_ReturnsExpectedResult()
     {
-        var response = await Client.Rait<RaitEnumTestController>().Call(n => n.Get());
+        var response = await Client.Rait<RaitEnumTestController>().CallAsync(n => n.Get());
         Assert.That(response, Is.Not.Null);
     }
 
@@ -106,7 +106,7 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
     public async Task FormModelNull_ValidModel_ReturnsExpectedResult()
     {
         var model = new ModelWithNullValues { Id = 10 };
-        var responseModel = await Client.Rait<RaitTestController>().Call(n => n.FormModelNull(model));
+        var responseModel = await Client.Rait<RaitTestController>().CallAsync(n => n.FormModelNull(model));
         Assert.That(responseModel!.Id, Is.EqualTo(model.Id));
     }
 
@@ -114,14 +114,14 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
     public async Task GetChildResp_DerivedResponse_ReturnsExpectedResult()
     {
         var response = await Client.Rait<RaitDerivedResponseController>()
-            .Call<ChildResp, BaseResp>(n => n.GetChildResp());
+            .CallAsync<ChildResp, BaseResp>(n => n.GetChildResp());
         Assert.That(response, Is.Not.Null);
     }
 
     [Test]
     public async Task Get_ResponseWithoutDeserialization_SuccessfulExecution()
     {
-        var response = await Client.Rait<RaitTestController>().CallH(n => n.Get());
+        var response = await Client.Rait<RaitTestController>().CallHttpAsync(n => n.Get());
         response.EnsureSuccessStatusCode();
     }
 
@@ -132,7 +132,7 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
         {
             Array = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() }
         };
-        var response = await Client.Rait<RaitTestController>().CallR(n => n.GetWithArray(request));
+        var response = await Client.Rait<RaitTestController>().CallRequiredAsync(n => n.GetWithArray(request));
         Assert.That(response.Array, Is.Not.Empty);
     }
 
@@ -140,27 +140,27 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
     public async Task GetWithDate_ValidDate_ReturnsExpectedResult()
     {
         var request = new DateTimeRequest { DateTime = DateTime.UtcNow };
-        var response = await Client.Rait<RaitTestController>().CallR(n => n.GetWithDate(request));
+        var response = await Client.Rait<RaitTestController>().CallRequiredAsync(n => n.GetWithDate(request));
         Assert.That(response.DateTime, Is.EqualTo(request.DateTime));
     }
 
     [Test]
     public async Task DateTimeOffsetInQuery_NoError()
     {
-        await Client.Rait<DateTimeTypesController>().CallR(n => n.GetDateTimeOffset(DateTimeOffset.UtcNow));
+        await Client.Rait<DateTimeTypesController>().CallRequiredAsync(n => n.GetDateTimeOffset(DateTimeOffset.UtcNow));
     }
 
     [Test]
     public async Task DateTimeInQuery_NoError()
     {
-        await Client.Rait<DateTimeTypesController>().CallR(n => n.GetDateTime(DateTime.UtcNow));
+        await Client.Rait<DateTimeTypesController>().CallRequiredAsync(n => n.GetDateTime(DateTime.UtcNow));
     }
 
     [Test]
     public async Task RouteBodyTest()
     {
         var request = new Model();
-        await Client.Rait<RaitTestController>().CallR(n => n.RouteBody(1, request));
+        await Client.Rait<RaitTestController>().CallRequiredAsync(n => n.RouteBody(1, request));
     }
 
     [Test]
@@ -174,14 +174,14 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
             Bool = true,
             Decimal = 15m
         };
-        await Client.Rait<RaitTestController>().CallR(n => n.RouteQuery(1, request));
+        await Client.Rait<RaitTestController>().CallRequiredAsync(n => n.RouteQuery(1, request));
     }
 
     [Test]
     public async Task GetWithGuid()
     {
         var request = Guid.NewGuid();
-        var response = await Client.Rait<RaitTestController>().CallR(n => n.GetWithGuid(request));
+        var response = await Client.Rait<RaitTestController>().CallRequiredAsync(n => n.GetWithGuid(request));
         Assert.That(response, Is.EqualTo(request));
     }
 
@@ -190,7 +190,7 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
     {
         var request = (Guid?)null;
         var response = await Client.Rait<RaitTestController>()
-            .Call(n => n.GetWithGuid(request));
+            .CallAsync(n => n.GetWithGuid(request));
         Assert.That(response, Is.EqualTo(request));
     }
 
@@ -210,7 +210,7 @@ public sealed class RaitCoreTests : RaitConfiguredTestBase
             var expectedTo = new DateOnly(2026, 1, 6); // 6 Jan 2026
 
             var result = await Client.Rait<DateTimeTypesController>()
-                .CallR(c => c.GetDateOnly(expectedFrom, expectedTo));
+                .CallRequiredAsync(c => c.GetDateOnly(expectedFrom, expectedTo));
 
             Assert.That(result.Value!.From, Is.EqualTo(expectedFrom));
             Assert.That(result.Value.To, Is.EqualTo(expectedTo));

@@ -9,6 +9,6 @@ public sealed class RaitRouteTests : RaitTestBase
     [Test]
     public async Task Get_AbsoluteRoute_ReturnsExpectedResult()
     {
-        await Client.Rait<RaitWrongRouteController>().Call(n => n.Get());
+        await Client.Rait<RaitWrongRouteController>().CallAsync(n => n.Get());
     }
 }

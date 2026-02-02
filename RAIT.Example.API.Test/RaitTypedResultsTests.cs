@@ -12,7 +12,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var response = await Client
             .Rait<TypedController>()
-            .CallH(c => c.GetAsyncResults(1));
+            .CallHttpAsync(c => c.GetAsyncResults(1));
 
         response.EnsureSuccessStatusCode();
     }
@@ -22,7 +22,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var response = await Client
             .Rait<TypedController>()
-            .CallH(c => c.GetCreated(1));
+            .CallHttpAsync(c => c.GetCreated(1));
 
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
     }
@@ -32,7 +32,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var response = await Client
             .Rait<TypedController>()
-            .CallR(c => c.GetAccepted());
+            .CallRequiredAsync(c => c.GetAccepted());
 
         Assert.That(response.Value!.Id, Is.EqualTo(42));
     }
@@ -42,7 +42,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         await Client
             .Rait<TypedController>()
-            .Call(c => c.Delete(5));
+            .CallAsync(c => c.Delete(5));
     }
 
     [Test]
@@ -50,7 +50,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var response = await Client
             .Rait<TypedController>()
-            .CallH(c => c.CreateBadRequest());
+            .CallHttpAsync(c => c.CreateBadRequest());
 
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
     }
@@ -60,7 +60,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var response = await Client
             .Rait<TypedController>()
-            .CallH(c => c.CreateConflict());
+            .CallHttpAsync(c => c.CreateConflict());
 
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Conflict));
     }
@@ -70,7 +70,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var response = await Client
             .Rait<TypedController>()
-            .CallH(c => c.GetUnauthorized());
+            .CallHttpAsync(c => c.GetUnauthorized());
 
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
     }
@@ -80,7 +80,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var response = await Client
             .Rait<TypedController>()
-            .CallH(c => c.Validate());
+            .CallHttpAsync(c => c.Validate());
 
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.UnprocessableEntity));
     }
@@ -90,7 +90,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var response = await Client
             .Rait<TypedController>()
-            .CallH(c => c.Teapot());
+            .CallHttpAsync(c => c.Teapot());
 
         Assert.That((int)response.StatusCode, Is.EqualTo(418));
     }
@@ -100,7 +100,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var response = await Client
             .Rait<TypedController>()
-            .CallH(c => c.GetProblem());
+            .CallHttpAsync(c => c.GetProblem());
 
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.InternalServerError));
     }
@@ -110,7 +110,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var response = await Client
             .Rait<TypedController>()
-            .CallH(c => c.GetJson());
+            .CallHttpAsync(c => c.GetJson());
 
         response.EnsureSuccessStatusCode();
     }
@@ -120,7 +120,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var result = await Client
             .Rait<TypedController>()
-            .Call(c => c.GetJson());
+            .CallAsync(c => c.GetJson());
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result!.Value!.Id, Is.EqualTo(99));
@@ -131,7 +131,7 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     {
         var result = await Client
             .Rait<TypedController>()
-            .CallR(c => c.GetJson());
+            .CallRequiredAsync(c => c.GetJson());
 
         Assert.That(result.Value!.Id, Is.EqualTo(99));
     }

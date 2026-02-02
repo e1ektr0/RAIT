@@ -13,14 +13,14 @@ public sealed class SimpleEndpointsTests : EndpointsTestBase
     public async Task SimpleCall()
     {
         await Client.Rait<SimpleEndpoint>()
-            .CallR(n => n.HandleAsync(CancellationToken.None));
+            .CallRequiredAsync(n => n.HandleAsync(CancellationToken.None));
     }
 
     [Test]
     public async Task GetEndpointCall()
     {
         var actionResult = await Client.Rait<GetEndpoint>()
-            .CallR(n => n.HandleAsync(new AggregatedGetRequest
+            .CallRequiredAsync(n => n.HandleAsync(new AggregatedGetRequest
             {
                 ValueStr = "https://google.com",
                 ExternalAccountId = "ext",
@@ -42,7 +42,7 @@ public sealed class SimpleEndpointsTests : EndpointsTestBase
         };
         var operationResponse = new OperationRequest<CompanyModel>(companyModel, 1, false);
         var actionResult = await Client.Rait<FromQueryEndpoint>()
-            .CallR(n => n.HandleAsync(operationResponse, new CancellationToken()));
+            .CallRequiredAsync(n => n.HandleAsync(operationResponse, new CancellationToken()));
 
         Assert.That(actionResult.Value!.ValueStr, Is.EqualTo("val"));
         Assert.That(actionResult.Value.ExternalAccountId, Is.EqualTo("ext"));
@@ -64,7 +64,7 @@ public sealed class SimpleEndpointsTests : EndpointsTestBase
         };
 
         await Client.Rait<PostEndpoint>()
-            .CallR(n => n.HandleAsync(req, new CancellationToken()));
+            .CallRequiredAsync(n => n.HandleAsync(req, new CancellationToken()));
     }
 
     [Test]
@@ -77,6 +77,6 @@ public sealed class SimpleEndpointsTests : EndpointsTestBase
         };
 
         await Client.Rait<PostFromFormEndpoint>()
-            .CallR(n => n.HandleAsync(req, new CancellationToken()));
+            .CallRequiredAsync(n => n.HandleAsync(req, new CancellationToken()));
     }
 }

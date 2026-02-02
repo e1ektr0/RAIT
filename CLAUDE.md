@@ -35,9 +35,9 @@ dotnet pack --no-build --configuration Release
 The library works by intercepting C# lambda expressions and translating them to HTTP requests:
 
 1. **RaitHttpClientWrapper<TController>** - Main entry point via `HttpClient.Rait<T>()` extension
-   - `Call()` - Returns deserialized response
-   - `CallR()` - Returns response without null checking
-   - `CallH()` - Returns raw HttpResponseMessage
+   - `Call()` / `CallAsync()` - Returns deserialized response
+   - `CallRequired()` / `CallRequiredAsync()` - Returns response with null check (`CallR` alias)
+   - `CallHttp()` / `CallHttpAsync()` - Returns raw HttpResponseMessage (`CallH` alias)
 
 2. **RequestPreparer<TController>** - Parses lambda expressions, extracts method info and parameters
 

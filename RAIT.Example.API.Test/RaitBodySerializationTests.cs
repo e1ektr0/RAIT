@@ -17,7 +17,7 @@ public sealed class RaitBodySerializationTests : RaitTestBase
             ExtraField = "extra"
         };
 
-        var responseModel = await Client.Rait<RaitTestController>().Call(n => n.Post(model));
+        var responseModel = await Client.Rait<RaitTestController>().CallAsync(n => n.Post(model));
 
         Assert.That(responseModel!.Id, Is.EqualTo(10));
     }
