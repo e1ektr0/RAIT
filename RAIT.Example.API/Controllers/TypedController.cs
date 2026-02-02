@@ -81,7 +81,7 @@ public class TypedController : ControllerBase
 
     // 7) Generic StatusCode
     [HttpGet("Teapot")]
-    public async Task<StatusCodeHttpResult >Teapot()
+    public async Task<StatusCodeHttpResult> Teapot()
     {
         await Task.CompletedTask;
         return TypedResults.StatusCode(StatusCodes.Status418ImATeapot);

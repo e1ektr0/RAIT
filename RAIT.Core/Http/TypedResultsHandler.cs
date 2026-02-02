@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace RAIT.Core;
+namespace RAIT.Core.Http;
 
 /// <summary>
 /// Handles creation and mapping of ASP.NET Core typed HTTP results (Ok&lt;T&gt;, Created&lt;T&gt;, etc.)
@@ -18,7 +18,8 @@ internal static class TypedResultsHandler
         { typeof(BadRequest<>), HttpStatusCode.BadRequest },
         { typeof(Conflict<>), HttpStatusCode.Conflict },
         { typeof(UnprocessableEntity<>), (HttpStatusCode)422 },
-        { typeof(NotFound<>), HttpStatusCode.NotFound }
+        { typeof(NotFound<>), HttpStatusCode.NotFound },
+        { typeof(JsonHttpResult<>), HttpStatusCode.OK }
     };
 
     private static readonly Dictionary<Type, HttpStatusCode> NonGenericStatusCodes = new()
@@ -101,7 +102,7 @@ internal static class TypedResultsHandler
         return NonGenericStatusCodes.TryGetValue(t, out var nonGenericStatus) ? nonGenericStatus : null;
     }
 
-    internal static bool IsGenericTypeDefinition(Type t, Type openGeneric)
+    private static bool IsGenericTypeDefinition(Type t, Type openGeneric)
     {
         return t.IsGenericType && t.GetGenericTypeDefinition() == openGeneric;
     }
@@ -121,31 +122,34 @@ internal static class TypedResultsHandler
             var value = await DeserializeBodyWithFallback(response, innerType, deserialize);
 
             if (def == typeof(Ok<>))
-                return InvokeTypedResultsGeneric("Ok", innerType, new[] { value });
+                return InvokeTypedResultsGeneric("Ok", innerType, [value]);
 
             if (def == typeof(Created<>))
             {
                 var location = GetLocationHeader(response) ?? "/";
-                return InvokeTypedResultsGeneric("Created", innerType, new object[] { location, value! });
+                return InvokeTypedResultsGeneric("Created", innerType, [location, value!]);
             }
 
             if (def == typeof(Accepted<>))
             {
                 var location = GetLocationHeader(response) ?? "/";
-                return InvokeTypedResultsGeneric("Accepted", innerType, new object[] { location, value! });
+                return InvokeTypedResultsGeneric("Accepted", innerType, [location, value!]);
             }
 
             if (def == typeof(NotFound<>))
-                return InvokeTypedResultsGeneric("NotFound", innerType, new[] { value });
+                return InvokeTypedResultsGeneric("NotFound", innerType, [value]);
 
             if (def == typeof(BadRequest<>))
-                return InvokeTypedResultsGeneric("BadRequest", innerType, new[] { value });
+                return InvokeTypedResultsGeneric("BadRequest", innerType, [value]);
 
             if (def == typeof(Conflict<>))
-                return InvokeTypedResultsGeneric("Conflict", innerType, new[] { value });
+                return InvokeTypedResultsGeneric("Conflict", innerType, [value]);
 
             if (def == typeof(UnprocessableEntity<>))
-                return InvokeTypedResultsGeneric("UnprocessableEntity", innerType, new[] { value });
+                return InvokeTypedResultsGeneric("UnprocessableEntity", innerType, [value]);
+
+            if (def == typeof(JsonHttpResult<>))
+                return InvokeTypedResultsGeneric("Json", innerType, [value, null, null, null]);
         }
 
         // Non-generic types
@@ -173,7 +177,7 @@ internal static class TypedResultsHandler
         if (resultType == typeof(Accepted) || status == HttpStatusCode.Accepted)
         {
             var location = GetLocationHeader(response) ?? "/";
-            return InvokeTypedResults("Accepted", Type.EmptyTypes, new object[] { location });
+            return InvokeTypedResults("Accepted", Type.EmptyTypes, [location]);
         }
 
         throw new NotSupportedException(
@@ -272,14 +276,14 @@ internal static class TypedResultsHandler
                 continue;
             }
 
-            if (!pType.IsAssignableFrom(arg.GetType()))
+            if (!pType.IsInstanceOfType(arg))
                 return false;
         }
 
         return true;
     }
 
-    internal static object ConvertToResultsUnion(Type unionType, object innerInstance)
+    private static object ConvertToResultsUnion(Type unionType, object innerInstance)
     {
         var op = unionType
             .GetMethods(BindingFlags.Public | BindingFlags.Static)
@@ -287,7 +291,7 @@ internal static class TypedResultsHandler
                 m.Name == "op_Implicit" &&
                 m.ReturnType == unionType &&
                 m.GetParameters().Length == 1 &&
-                m.GetParameters()[0].ParameterType.IsAssignableFrom(innerInstance.GetType()));
+                m.GetParameters()[0].ParameterType.IsInstanceOfType(innerInstance));
 
         if (op == null)
         {
@@ -297,7 +301,7 @@ internal static class TypedResultsHandler
                     m.Name == "op_Implicit" &&
                     m.ReturnType == unionType &&
                     m.GetParameters().Length == 1 &&
-                    m.GetParameters()[0].ParameterType.IsAssignableFrom(innerInstance.GetType()));
+                    m.GetParameters()[0].ParameterType.IsInstanceOfType(innerInstance));
 
             if (op2 == null)
             {
@@ -305,9 +309,9 @@ internal static class TypedResultsHandler
                     $"RAIT: Could not find implicit conversion from {innerInstance.GetType()} to {unionType}.");
             }
 
-            return op2.Invoke(null, new[] { innerInstance })!;
+            return op2.Invoke(null, [innerInstance])!;
         }
 
-        return op.Invoke(null, new[] { innerInstance })!;
+        return op.Invoke(null, [innerInstance])!;
     }
 }

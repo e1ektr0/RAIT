@@ -2,10 +2,7 @@
 
 namespace RAIT.Core;
 
-public class RaitDocIgnoreAttribute : Attribute
-{
-    
-}
+public class RaitDocIgnoreAttribute : Attribute;
 public class RaitFormFile : IFormFile, IDisposable
 {
     private Stream? _openReadStream;

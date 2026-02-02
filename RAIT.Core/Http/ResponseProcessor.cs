@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RAIT.Core;
+namespace RAIT.Core.Http;
 
 /// <summary>
 /// Processes HTTP responses and deserializes them into the requested types.

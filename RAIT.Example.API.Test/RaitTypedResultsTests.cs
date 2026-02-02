@@ -114,4 +114,25 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
 
         response.EnsureSuccessStatusCode();
     }
+
+    [Test]
+    public async Task GetJson_ReturnsJsonResult_WithCall()
+    {
+        var result = await Client
+            .Rait<TypedController>()
+            .Call(c => c.GetJson());
+
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result!.Value!.Id, Is.EqualTo(99));
+    }
+
+    [Test]
+    public async Task GetJson_ReturnsJsonResult_WithCallR()
+    {
+        var result = await Client
+            .Rait<TypedController>()
+            .CallR(c => c.GetJson());
+
+        Assert.That(result.Value!.Id, Is.EqualTo(99));
+    }
 }
