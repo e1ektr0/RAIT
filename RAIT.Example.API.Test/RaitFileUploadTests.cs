@@ -5,7 +5,7 @@ using RAIT.Example.API.Test.Infrastructure;
 
 namespace RAIT.Example.API.Test;
 
-public sealed class RaitFileTests : RaitTestBase
+public sealed class RaitFileUploadTests : RaitTestBase
 {
     [Test]
     public async Task Post_FileModel_ReturnsExpectedResult()

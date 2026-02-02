@@ -6,7 +6,7 @@ using RAIT.Example.API.Test.Infrastructure;
 
 namespace RAIT.Example.API.Test;
 
-public sealed class RaitTests : RaitConfiguredTestBase
+public sealed class RaitCoreTests : RaitConfiguredTestBase
 {
     [Test]
     public async Task GetWithId_ValidId_ReturnsExpectedResult()

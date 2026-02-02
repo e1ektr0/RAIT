@@ -5,7 +5,7 @@ using RAIT.Example.API.Test.Infrastructure;
 
 namespace RAIT.Example.API.Test;
 
-public sealed class RaitNewModelTests : RaitTestBase
+public sealed class RaitBodySerializationTests : RaitTestBase
 {
     [Test]
     public async Task Post_ValidModel_ReturnsExpectedResult()

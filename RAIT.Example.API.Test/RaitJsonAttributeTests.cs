@@ -5,7 +5,7 @@ using RAIT.Example.API.Test.Infrastructure;
 
 namespace RAIT.Example.API.Test;
 
-public sealed class RaitAttributeTests : RaitTestBase
+public sealed class RaitJsonAttributeTests : RaitTestBase
 {
     [Test]
     public async Task Ping_ValidAttributeModel_ReturnsExpectedResponse()

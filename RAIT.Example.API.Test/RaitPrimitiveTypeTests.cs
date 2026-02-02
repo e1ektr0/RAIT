@@ -4,7 +4,7 @@ using RAIT.Example.API.Test.Infrastructure;
 
 namespace RAIT.Example.API.Test;
 
-public sealed class RaitPrimitiveTests : RaitTestBase
+public sealed class RaitPrimitiveTypeTests : RaitTestBase
 {
     [Test]
     public async Task GetInt_WhenCalled_ReturnsInteger()
