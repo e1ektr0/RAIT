@@ -1,6 +1,6 @@
 using System.Net.Http.Json;
 
-namespace RAIT.Core;
+namespace RAIT.Core.Http;
 
 /// <summary>
 /// Builds HTTP content for requests, including multipart form data and JSON content.

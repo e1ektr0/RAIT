@@ -147,13 +147,13 @@ public sealed class RaitTests : RaitConfiguredTestBase
     [Test]
     public async Task DateTimeOffsetInQuery_NoError()
     {
-        await Client.Rait<DateTimeOffsetTestController>().CallR(n => n.Create(DateTimeOffset.UtcNow));
+        await Client.Rait<DateTimeTypesController>().CallR(n => n.GetDateTimeOffset(DateTimeOffset.UtcNow));
     }
 
     [Test]
     public async Task DateTimeInQuery_NoError()
     {
-        await Client.Rait<DateTimeTestController>().CallR(n => n.Create(DateTime.UtcNow));
+        await Client.Rait<DateTimeTypesController>().CallR(n => n.GetDateTime(DateTime.UtcNow));
     }
 
     [Test]
@@ -209,8 +209,8 @@ public sealed class RaitTests : RaitConfiguredTestBase
             var expectedFrom = new DateOnly(2026, 1, 5); // 5 Jan 2026
             var expectedTo = new DateOnly(2026, 1, 6); // 6 Jan 2026
 
-            var result = await Client.Rait<DateOnlyTestController>()
-                .CallR(c => c.Get(expectedFrom, expectedTo));
+            var result = await Client.Rait<DateTimeTypesController>()
+                .CallR(c => c.GetDateOnly(expectedFrom, expectedTo));
 
             Assert.That(result.Value!.From, Is.EqualTo(expectedFrom));
             Assert.That(result.Value.To, Is.EqualTo(expectedTo));

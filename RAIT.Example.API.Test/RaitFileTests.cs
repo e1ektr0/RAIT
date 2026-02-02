@@ -20,7 +20,7 @@ public sealed class RaitFileTests : RaitTestBase
     public async Task Post3_ModelAndFile_ReturnsExpectedResult()
     {
         using var file = new RaitFormFile("example.txt", "image/png");
-        var model = new Model { Id = 10, List = new List<Guid> { Guid.NewGuid() } };
+        var model = new Model { Id = 10, List = [Guid.NewGuid()] };
         var responseModel = await Client.Rait<RaitTestFileController>().Call(n => n.Post3(model, file));
 
         Assert.That(responseModel!.Id, Is.EqualTo(model.Id));

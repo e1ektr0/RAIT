@@ -7,11 +7,11 @@ namespace RAIT.Example.API.Controllers;
 public class RaitEmptyResponseController : ControllerBase
 {
     [HttpPost]
-    [Route("get_rout_parameter_test/{id}")]
-    public async Task Post([FromRoute] long id)
+    [Route("route_parameter_test/{id}")]
+    public Task Post([FromRoute] long id)
     {
-        await Task.CompletedTask;
         if (id != 10)
             throw new Exception("Wrong value");
+        return Task.CompletedTask;
     }
 }

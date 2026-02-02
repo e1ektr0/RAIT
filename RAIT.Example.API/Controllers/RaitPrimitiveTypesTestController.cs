@@ -6,43 +6,38 @@ namespace RAIT.Example.API.Controllers;
 [Route("[controller]")]
 public class RaitPrimitiveTypesTestController : ControllerBase
 {
-    [Route("get_rout_parameter_test/get_guid")]
+    [Route("primitives/guid")]
     [HttpGet]
-    public async Task<Guid> GetGuid()
+    public Task<Guid> GetGuid()
     {
-        await Task.CompletedTask;
-        return Guid.Parse("6ec3e17e-c51c-43f0-b5d0-02889912a78c");
+        return Task.FromResult(Guid.Parse("6ec3e17e-c51c-43f0-b5d0-02889912a78c"));
     }
-    
-    [Route("get_rout_parameter_test/get_int")]
+
+    [Route("primitives/int")]
     [HttpGet]
-    public async Task<int> GetInt()
+    public Task<int> GetInt()
     {
-        await Task.CompletedTask;
-        return 1;
+        return Task.FromResult(1);
     }
-    
-    [Route("get_rout_parameter_test/get_string")]
+
+    [Route("primitives/string")]
     [HttpGet]
-    public async Task<string> GetString()
+    public Task<string> GetString()
     {
-        await Task.CompletedTask;
-        return "test";
+        return Task.FromResult("test");
     }
-    
-    [Route("get_rout_parameter_test/get_bool")]
+
+    [Route("primitives/bool")]
     [HttpGet]
-    public async Task<bool> GetBool()
+    public Task<bool> GetBool()
     {
-        await Task.CompletedTask;
-        return true;
+        return Task.FromResult(true);
     }
-    
-    [Route("get_rout_parameter_test/get_object")]
+
+    [Route("primitives/object")]
     [HttpGet]
-    public async Task<object> GetObject()
+    public Task<object> GetObject()
     {
-        await Task.CompletedTask;
-        return "test";
+        return Task.FromResult<object>("test");
     }
 }
