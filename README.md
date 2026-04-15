@@ -103,6 +103,37 @@ public class RaitTests : IClassFixture<WebApplicationFactory<Startup>>
 }
 ```
 
+### Typed Results And Non-Success Responses
+Starting with RAIT 4.0.0, `CallAsync(...)` and `CallRequiredAsync(...)` return ASP.NET Core typed HTTP results directly, even when the response status is not successful.
+
+```csharp
+var response = await client
+    .Rait<SomeController>()
+    .CallAsync(c => c.SomeGet());
+
+Assert.That(response, Is.Not.Null);
+Assert.That(response!.Result, Is.TypeOf<NotFound>());
+```
+
+This applies to typed results such as `NotFound`, `BadRequest<T>`, `Conflict<T>`, `ProblemHttpResult`, `StatusCodeHttpResult`, and `Results<...>` unions. Plain DTO responses and `IActionResult` responses still throw `RaitHttpException` on non-success statuses.
+
+If you need the legacy behavior for typed results, configure RAIT to throw instead:
+
+```csharp
+builder.ConfigureTestServices(services =>
+    services.AddRait(options =>
+        options.TypedResultFailureBehavior = RaitTypedResultFailureBehavior.ThrowRaitHttpException));
+
+application.Services.ConfigureRait();
+```
+
+If you are not using DI-backed RAIT configuration, you can switch the global behavior directly:
+
+```csharp
+RaitGlobalConfiguration.TypedResultFailureBehavior =
+    RaitTypedResultFailureBehavior.ThrowRaitHttpException;
+```
+
 ### **Serialization Settings**
 By default, RAIT uses `System.Text.Json` for serialization and deserialization of HTTP request and response bodies. If your server uses custom `SerializerSettings` or you prefer to use `Newtonsoft.Json`, you need to register RAIT in the dependency injection (DI) container and configure it accordingly.
 

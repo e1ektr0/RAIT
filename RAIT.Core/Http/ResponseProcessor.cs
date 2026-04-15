@@ -11,6 +11,16 @@ internal static class ResponseProcessor
 {
     internal static async Task<object?> ProcessResponse(Type responseType, HttpResponseMessage httpResponseMessage)
     {
+        if (TypedResultsHandler.IsTypedHttpResultType(responseType) ||
+            TypedResultsHandler.IsResultsUnionType(responseType))
+        {
+            var deserialize = RaitSerializationConfig.DeserializeFunction ??
+                              ((content, type) =>
+                                  content.ReadFromJsonAsync(type, RaitSerializationConfig.SerializationOptions));
+
+            return await TypedResultsHandler.CreateTypedHttpResult(responseType, httpResponseMessage, deserialize);
+        }
+
         if (httpResponseMessage.StatusCode == HttpStatusCode.NoContent)
             return null;
 
@@ -93,13 +103,6 @@ internal static class ResponseProcessor
         if (responseType == typeof(ActionResult) || responseType == typeof(IActionResult))
         {
             return new OkResult();
-        }
-
-        // Handle ASP.NET Core typed HTTP results and "Results<...>" unions
-        if (TypedResultsHandler.IsTypedHttpResultType(responseType) ||
-            TypedResultsHandler.IsResultsUnionType(responseType))
-        {
-            return await TypedResultsHandler.CreateTypedHttpResult(responseType, httpResponseMessage, deserialize);
         }
 
         // Fallback: deserialize directly into the requested type

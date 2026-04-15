@@ -1,4 +1,3 @@
-using System.Net;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -43,7 +42,7 @@ internal static class RaitHttpRequester<TController> where TController : Control
         var customAttributeData = GetHttpMethodAttribute(attributes);
         var httpResponseMessage = await SendHttpRequest(httpClient, customAttributeData, route, prepareInputParameters, option);
 
-        await HandleError(httpResponseMessage);
+        await HandleError(httpResponseMessage, memberInfo);
         SetCookies(httpClient, httpResponseMessage);
 
         return await ResponseProcessor.ProcessResponse(memberInfo, httpResponseMessage);
@@ -95,9 +94,9 @@ internal static class RaitHttpRequester<TController> where TController : Control
         }
     }
 
-    private static async Task HandleError(HttpResponseMessage httpResponseMessage)
+    private static async Task HandleError(HttpResponseMessage httpResponseMessage, Type responseType)
     {
-        if (!httpResponseMessage.IsSuccessStatusCode)
+        if (!httpResponseMessage.IsSuccessStatusCode && RaitResponseBehavior.ShouldThrowForNonSuccess(responseType))
         {
             var errorContent = await httpResponseMessage.Content.ReadAsStringAsync();
             throw new RaitHttpException(errorContent, httpResponseMessage.StatusCode);

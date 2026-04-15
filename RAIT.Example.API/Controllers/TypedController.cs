@@ -13,7 +13,29 @@ public class TypedController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<Results<Ok<WeatherForecast>, NotFound<string>>> GetAsyncResults(int id)
     {
+        if (id <= 0)
+        {
+            await Task.CompletedTask;
+            return TypedResults.NotFound($"Weather forecast '{id}' was not found.");
+        }
+
         var created = new WeatherForecast { Id = 20 };
+        await Task.CompletedTask;
+        return TypedResults.Ok(created);
+    }
+
+    [HttpGet("GetAsyncResultsWithoutBody/{id:int}")]
+    [ProducesResponseType(typeof(WeatherForecast), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<Results<Ok<WeatherForecast>, NotFound>> GetAsyncResultsWithoutBody(int id)
+    {
+        if (id <= 0)
+        {
+            await Task.CompletedTask;
+            return TypedResults.NotFound();
+        }
+
+        var created = new WeatherForecast { Id = 21 };
         await Task.CompletedTask;
         return TypedResults.Ok(created);
     }

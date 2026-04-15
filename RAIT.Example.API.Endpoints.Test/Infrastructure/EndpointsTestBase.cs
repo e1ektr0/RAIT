@@ -16,6 +16,7 @@ public abstract class EndpointsTestBase
     [SetUp]
     public virtual void Setup()
     {
+        RaitGlobalConfiguration.TypedResultFailureBehavior = RaitTypedResultFailureBehavior.ReturnTypedResult;
         _application = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(ConfigureWebHost);
         Client = _application.CreateDefaultClient();
@@ -25,6 +26,7 @@ public abstract class EndpointsTestBase
     [TearDown]
     public virtual void TearDown()
     {
+        RaitGlobalConfiguration.TypedResultFailureBehavior = RaitTypedResultFailureBehavior.ReturnTypedResult;
         Client.Dispose();
         _application.Dispose();
     }

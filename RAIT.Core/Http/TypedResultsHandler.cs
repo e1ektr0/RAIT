@@ -2,6 +2,7 @@ using System.Net;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RAIT.Core.Http;
 
@@ -169,7 +170,19 @@ internal static class TypedResultsHandler
             return InvokeTypedResults("UnprocessableEntity", Type.EmptyTypes, Array.Empty<object>());
 
         if (resultType == typeof(ProblemHttpResult))
-            return InvokeTypedResults("Problem", Type.EmptyTypes, Array.Empty<object>());
+        {
+            var details = await DeserializeBodyWithFallback(response, typeof(ProblemDetails), deserialize) as ProblemDetails;
+            var problemArgs = new object?[]
+            {
+                details?.Detail,
+                details?.Instance,
+                details?.Status ?? (int)status,
+                details?.Title,
+                details?.Type,
+                details?.Extensions
+            };
+            return InvokeTypedResults("Problem", Type.EmptyTypes, problemArgs);
+        }
 
         if (resultType == typeof(NoContent) || status == HttpStatusCode.NoContent)
             return InvokeTypedResults("NoContent", Type.EmptyTypes, Array.Empty<object>());
@@ -179,6 +192,9 @@ internal static class TypedResultsHandler
             var location = GetLocationHeader(response) ?? "/";
             return InvokeTypedResults("Accepted", Type.EmptyTypes, [location]);
         }
+
+        if (resultType == typeof(StatusCodeHttpResult))
+            return InvokeTypedResults("StatusCode", Type.EmptyTypes, [(int)status]);
 
         throw new NotSupportedException(
             $"RAIT: Typed HTTP result '{resultType}' for status {(int)status} {status} is not yet supported.");
@@ -236,7 +252,7 @@ internal static class TypedResultsHandler
             $"RAIT: Could not find TypedResults.{methodName}<{genericArg.Name}> overload for provided arguments.");
     }
 
-    private static object InvokeTypedResults(string methodName, Type[] genericArgs, object[] args)
+    private static object InvokeTypedResults(string methodName, Type[] genericArgs, object?[] args)
     {
         var candidates = typeof(TypedResults)
             .GetMethods(BindingFlags.Public | BindingFlags.Static)
