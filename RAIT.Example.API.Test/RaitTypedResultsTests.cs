@@ -37,6 +37,22 @@ public sealed class RaitTypedResultsTests : RaitConfiguredTestBase
     }
 
     [Test]
+    public async Task GetAsyncResultsValidationProblem_ReturnsValidationProblem()
+    {
+        var response = await Client
+            .Rait<TypedController>()
+            .CallAsync(c => c.GetAsyncResultsValidationProblem(0));
+
+        Assert.That(response, Is.Not.Null);
+        Assert.That(response!.Result, Is.TypeOf<ValidationProblem>());
+
+        var validationProblem = (ValidationProblem)response.Result;
+        Assert.That(validationProblem.ProblemDetails.Status, Is.EqualTo(StatusCodes.Status400BadRequest));
+        Assert.That(validationProblem.ProblemDetails.Errors, Contains.Key("id"));
+        Assert.That(validationProblem.ProblemDetails.Errors["id"], Is.EqualTo(new[] { "Id must be greater than zero." }));
+    }
+
+    [Test]
     public async Task GetAsyncResultsWithoutBody_ReturnsNotFound()
     {
         var response = await Client

@@ -24,6 +24,25 @@ public class TypedController : ControllerBase
         return TypedResults.Ok(created);
     }
 
+    [HttpGet("GetAsyncResultsValidationProblem/{id:int}")]
+    [ProducesResponseType(typeof(WeatherForecast), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<Results<Ok<WeatherForecast>, ValidationProblem>> GetAsyncResultsValidationProblem(int id)
+    {
+        if (id <= 0)
+        {
+            await Task.CompletedTask;
+            return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+            {
+                [nameof(id)] = ["Id must be greater than zero."]
+            });
+        }
+
+        var created = new WeatherForecast { Id = 22 };
+        await Task.CompletedTask;
+        return TypedResults.Ok(created);
+    }
+
     [HttpGet("GetAsyncResultsWithoutBody/{id:int}")]
     [ProducesResponseType(typeof(WeatherForecast), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

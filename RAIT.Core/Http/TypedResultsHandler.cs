@@ -31,6 +31,7 @@ internal static class TypedResultsHandler
         { typeof(Conflict), HttpStatusCode.Conflict },
         { typeof(UnauthorizedHttpResult), HttpStatusCode.Unauthorized },
         { typeof(UnprocessableEntity), (HttpStatusCode)422 },
+        { typeof(ValidationProblem), HttpStatusCode.BadRequest },
         { typeof(ProblemHttpResult), HttpStatusCode.InternalServerError },
         { typeof(Accepted), HttpStatusCode.Accepted }
     };
@@ -156,6 +157,21 @@ internal static class TypedResultsHandler
         // Non-generic types
         if (resultType == typeof(NotFound) || status == HttpStatusCode.NotFound)
             return InvokeTypedResults("NotFound", Type.EmptyTypes, Array.Empty<object>());
+
+        if (resultType == typeof(ValidationProblem))
+        {
+            var details = await DeserializeBodyWithFallback(response, typeof(HttpValidationProblemDetails), deserialize) as HttpValidationProblemDetails;
+            var validationProblemArgs = new object?[]
+            {
+                details?.Errors ?? new Dictionary<string, string[]>(),
+                details?.Detail,
+                details?.Instance,
+                details?.Title,
+                details?.Type,
+                details?.Extensions
+            };
+            return InvokeTypedResults("ValidationProblem", Type.EmptyTypes, validationProblemArgs);
+        }
 
         if (resultType == typeof(BadRequest) || status == HttpStatusCode.BadRequest)
             return InvokeTypedResults("BadRequest", Type.EmptyTypes, Array.Empty<object>());
